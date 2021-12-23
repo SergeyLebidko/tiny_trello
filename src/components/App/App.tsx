@@ -2,12 +2,11 @@ import React from 'react';
 import './App.scss';
 
 function App() {
-  return (
-    <div>
-      Tiny Trello
-        Magic!
-    </div>
-  );
+    return (
+        <div>
+            <h1>Tiny Trello</h1>
+        </div>
+    );
 }
 
 export default App;
