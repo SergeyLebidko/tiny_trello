@@ -4,7 +4,8 @@ import './Main.scss';
 const Main: React.FC = () => {
     return (
         <div>
-            Это главная страница
+            <h1>Tiny Trello</h1>
+            <h3>Это главная страница</h3>
         </div>
     );
 }

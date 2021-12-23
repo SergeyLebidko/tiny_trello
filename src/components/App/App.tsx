@@ -8,15 +8,12 @@ import './App.scss';
 
 function App() {
     return (
-        <div>
-            <h1>Tiny Trello</h1>
-            <Routes>
-                <Route path="/" element={<Main/>}/>
-                <Route path="/board_list" element={<BoardList/>}/>
-                <Route path="/board/:id" element={<Board/>}/>
-                <Route path="*" element={<NoMatch/>}/>
-            </Routes>
-        </div>
+        <Routes>
+            <Route path="/" element={<Main/>}/>
+            <Route path="/board_list" element={<BoardList/>}/>
+            <Route path="/board/:id" element={<Board/>}/>
+            <Route path="*" element={<NoMatch/>}/>
+        </Routes>
     );
 }
 
