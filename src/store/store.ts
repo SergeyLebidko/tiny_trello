@@ -5,7 +5,7 @@ import thunk from 'redux-thunk';
 import {User} from './user/types';
 import {userReducer} from './user/reducer';
 
-type RootState = {
+export type RootState = {
     user: User | null
 }
 
