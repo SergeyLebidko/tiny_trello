@@ -1,6 +1,8 @@
 import {RemoveUserAction, SetUserAction, User, UserActions} from './types';
 
 export function userReducer(state: User | null = null, action: SetUserAction | RemoveUserAction): User | null {
+    console.log(action);
+
     switch (action.type) {
         case UserActions.SetUser: {
             return action.payload;

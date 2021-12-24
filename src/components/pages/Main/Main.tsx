@@ -7,6 +7,7 @@ import {getUser} from '../../../store/selectors';
 import {User} from '../../../store/user/types';
 import {RootState} from '../../../store/store';
 import './Main.scss';
+import {Link} from "react-router-dom";
 
 enum ModalMode {
     NoModal,
@@ -31,10 +32,15 @@ const Main: React.FC = () => {
             {modalMode === ModalMode.RegisterModal && <Register closeHandler={closeModal}/>}
             {modalMode === ModalMode.LoginModal && <Login closeHandler={closeModal}/>}
             {modalMode === ModalMode.LogoutModal && <Logout closeHandler={closeModal}/>}
+
             <h1>Tiny Trello (Главная страница)</h1>
-            {user && <h3>Добро пожалость на Tiny Trello, {user.firstName} {user.lastName}!</h3>}
+
             {user ?
-                <button onClick={showLogout}>Выход</button>
+                <>
+                    <h3>Добро пожалость на Tiny Trello, {user.firstName} {user.lastName}!</h3>
+                    <button onClick={showLogout}>Выход</button>
+                    <Link to="board_list">Мои рабочие пространства (доски)</Link>
+                </>
                 :
                 <>
                     <button onClick={showRegister}>Регистрация</button>
