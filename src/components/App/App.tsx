@@ -8,6 +8,7 @@ import NoMatch from '../pages/NoMatch/NoMatch';
 import {User} from '../../store/user/types';
 import {RootState} from '../../store/store';
 import {getUser} from '../../store/selectors';
+import {ROUTE_PREFIX} from '../../constants/settings';
 import './App.scss';
 
 function App() {
@@ -15,12 +16,12 @@ function App() {
 
     return (
         <Routes>
-            <Route path="/tiny_trello" element={<Main/>}/>
+            <Route path={`/${ROUTE_PREFIX}`} element={<Main/>}/>
             {/* Пути к списку досок и отдельным доскам доступны только для залогинившихся пользователей */}
             {user &&
             <>
-                <Route path="/tiny_trello/board_list" element={<BoardList/>}/>
-                <Route path="/tiny_trello/board/:id" element={<Board/>}/>
+                <Route path={`/${ROUTE_PREFIX}/board_list`} element={<BoardList/>}/>
+                <Route path={`/${ROUTE_PREFIX}/board/:id`} element={<Board/>}/>
             </>
             }
             <Route path="*" element={<NoMatch/>}/>
