@@ -3,7 +3,7 @@ import {createRandomString} from '../../../utils/common';
 import {useModalError} from '../../../utils/hooks';
 import './Login.scss';
 import {useDispatch} from "react-redux";
-import {checkUserAction, setUserAction} from "../../../store/user/actions";
+import {checkUserAction} from "../../../store/user/actions";
 
 type LoginProps = {
     closeHandler: () => void

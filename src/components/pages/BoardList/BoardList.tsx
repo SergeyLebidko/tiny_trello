@@ -1,8 +1,5 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-// import {useSelector} from 'react-redux';
-// import {RootState} from '../../../store/store';
-// import {User} from '../../../store/user/types';
 import {useTypedSelector} from '../../../store/selectors';
 import {ROUTE_PREFIX} from '../../../constants/settings';
 import './BoardList.scss';

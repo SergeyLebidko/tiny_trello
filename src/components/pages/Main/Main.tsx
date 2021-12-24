@@ -2,10 +2,6 @@ import React, {useEffect, useState} from 'react';
 import Register from '../../modals/Register/Register';
 import Login from '../../modals/Login/Login';
 import Logout from '../../modals/Logout/Logout';
-// import {useSelector} from 'react-redux';
-// import {getUser} from '../../../store/selectors';
-// import {User} from '../../../store/user/types';
-// import {RootState} from '../../../store/store';
 import './Main.scss';
 import {Link} from "react-router-dom";
 import {useTypedSelector} from "../../../store/selectors";
@@ -36,7 +32,7 @@ const Main: React.FC = () => {
 
             <h1>Tiny Trello (Главная страница)</h1>
 
-            {loggedUser?
+            {(loggedUser !== null)?
                 <>
                     <h3>Добро пожалость на Tiny Trello, {users[loggedUser].firstName} {users[loggedUser].lastName}!</h3>
                     <button onClick={showLogout}>Выход</button>
