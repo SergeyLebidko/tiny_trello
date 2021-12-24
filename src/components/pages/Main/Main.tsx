@@ -5,8 +5,8 @@ import Logout from '../../modals/Logout/Logout';
 import {useSelector} from 'react-redux';
 import {getUser} from '../../../store/selectors';
 import {User} from '../../../store/user/types';
+import {RootState} from '../../../store/store';
 import './Main.scss';
-import {RootState} from "../../../store/store";
 
 enum ModalMode {
     NoModal,
@@ -24,9 +24,11 @@ const Main: React.FC = () => {
     const showLogin = (): void => setModalMode(ModalMode.LoginModal);
     const showLogout = (): void => setModalMode(ModalMode.LogoutModal);
 
+    const closeModal = (): void => setModalMode(ModalMode.NoModal);
+
     return (
         <div className="main">
-            {modalMode === ModalMode.RegisterModal && <Register/>}
+            {modalMode === ModalMode.RegisterModal && <Register closeHandler={closeModal}/>}
             {modalMode === ModalMode.LoginModal && <Login/>}
             {modalMode === ModalMode.LogoutModal && <Logout/>}
             <h1>Tiny Trello (Главная страница)</h1>

@@ -6,14 +6,11 @@ const randomChar = (sequence: string): string => sequence[Math.floor(Math.random
 export function createRandomString(size = 8, hasNoDigits = true): string {
     const result = [];
     for (let index = 0; index < size; index++) {
-        if (result.length === 0) {
-            if (hasNoDigits) {
-                result.push(randomChar(LETTERS));
-                continue;
-            }
-            result.push(randomChar(ALL_LETTERS));
+        if (hasNoDigits) {
+            result.push(randomChar(LETTERS));
+            continue;
         }
+        result.push(randomChar(ALL_LETTERS));
     }
-
     return result.join('');
 }
