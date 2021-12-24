@@ -1,5 +1,5 @@
 import {Dispatch} from 'redux';
-import {RemoveUserAction, SetUserAction, CheckUserAction, User, UserActions} from './types';
+import {SetUserAction, CheckUserAction, User, UserActions, LogoutUserAction} from './types';
 
 export const setUserAction = (user: User) => (dispatch: Dispatch<SetUserAction>) => {
     dispatch({
@@ -8,9 +8,9 @@ export const setUserAction = (user: User) => (dispatch: Dispatch<SetUserAction>)
     });
 }
 
-export const removeUserAction = () => (dispatch: Dispatch<RemoveUserAction>) => {
+export const logoutUserAction = () => (dispatch: Dispatch<LogoutUserAction>) => {
     dispatch({
-        type: UserActions.RemoveUser
+        type: UserActions.LogoutUser
     });
 }
 

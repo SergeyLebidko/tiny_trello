@@ -49,9 +49,9 @@ export function userReducer(state= initialState, action: UserAction): IState {
         // case UserActions.SetUser: {
         //     return action.payload;
         // }
-        // case UserActions.RemoveUser: {
-        //     return null;
-        // }
+        case UserActions.LogoutUser: {
+            return {...state, loggedUser: 0};
+        }
         case UserActions.CheckUser: {
             return {...state, loggedUser: ValidateUser(state.users, action.payload.login, action.payload.password)}
         }

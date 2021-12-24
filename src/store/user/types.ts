@@ -8,7 +8,7 @@ export type User = {
 
 export enum UserActions {
     SetUser = 'set_user',
-    RemoveUser = 'remove_user',
+    LogoutUser = 'logout_user',
     CheckUser = 'check_user',
 }
 
@@ -17,8 +17,8 @@ export type SetUserAction = {
     payload: User
 }
 
-export type RemoveUserAction = {
-    type: UserActions.RemoveUser
+export type LogoutUserAction = {
+    type: UserActions.LogoutUser
 }
 
 export type CheckUserAction = {
@@ -26,4 +26,4 @@ export type CheckUserAction = {
     payload: {login : string, password : string, }
 }
 
-export type UserAction = SetUserAction | RemoveUserAction | CheckUserAction;
+export type UserAction = SetUserAction | LogoutUserAction | CheckUserAction;
