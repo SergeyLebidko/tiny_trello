@@ -3,7 +3,7 @@ import {createRandomString} from '../../../utils/common';
 import {ALL_LETTERS, DIGITS, PASSWORD_MIN_LEN} from '../../../constants/settings';
 import './Register.scss';
 
-export type RegisterProps = {
+type RegisterProps = {
     closeHandler: () => void
 }
 
@@ -87,6 +87,7 @@ const Register: React.FC<RegisterProps> = ({closeHandler}) => {
     return (
         <div className="register">
             <div className="register__content">
+                <h1>Введите данные для регистрации</h1>
                 {error && <p>{error}</p>}
                 <ul>
                     <li>

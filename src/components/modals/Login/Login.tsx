@@ -1,11 +1,19 @@
 import React from 'react';
 import './Login.scss';
 
-const Login: React.FC = () => {
+type LoginProps = {
+    closeHandler: () => void
+}
+
+const Login: React.FC<LoginProps> = ({closeHandler}) => {
     return (
         <div className="login">
             <div className="login__content">
-                Здесь будет форма логина
+                <h1>Введите учетные данные</h1>
+                <div>
+                    <button onClick={closeHandler}>Отмена</button>
+                    <button>Войти</button>
+                </div>
             </div>
         </div>
     );

@@ -29,8 +29,8 @@ const Main: React.FC = () => {
     return (
         <div className="main">
             {modalMode === ModalMode.RegisterModal && <Register closeHandler={closeModal}/>}
-            {modalMode === ModalMode.LoginModal && <Login/>}
-            {modalMode === ModalMode.LogoutModal && <Logout/>}
+            {modalMode === ModalMode.LoginModal && <Login closeHandler={closeModal}/>}
+            {modalMode === ModalMode.LogoutModal && <Logout closeHandler={closeModal}/>}
             <h1>Tiny Trello (Главная страница)</h1>
             {user ?
                 <button onClick={showLogout}>Выход</button>

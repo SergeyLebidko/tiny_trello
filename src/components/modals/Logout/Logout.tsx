@@ -1,11 +1,19 @@
 import React from 'react';
 import './Logout.scss';
 
-const Logout: React.FC = () => {
+type LogoutProps = {
+    closeHandler: () => void
+}
+
+const Logout: React.FC<LogoutProps> = ({closeHandler}) => {
     return (
         <div className="logout">
             <div className="logout__content">
-                Здесь будет диалоговое окно с подтверждением выхода
+                <h1>Вы действительно хотите выйти?</h1>
+                <div>
+                    <button onClick={closeHandler}>Отмена</button>
+                    <button>Выйти</button>
+                </div>
             </div>
         </div>
     );
