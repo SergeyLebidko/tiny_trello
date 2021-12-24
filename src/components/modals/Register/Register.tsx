@@ -1,6 +1,7 @@
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useRef, useState} from 'react';
 import {createRandomString} from '../../../utils/common';
 import {ALL_LETTERS, DIGITS, PASSWORD_MIN_LEN} from '../../../constants/settings';
+import {useModalError} from '../../../utils/hooks';
 import './Register.scss';
 
 type RegisterProps = {
@@ -10,8 +11,7 @@ type RegisterProps = {
 const Register: React.FC<RegisterProps> = ({closeHandler}) => {
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
-    const [error, setError] = useState<string | null>(null);
-    const errorTimer: { current: NodeJS.Timeout | undefined } = useRef();
+    const [error, setErrorText] = useModalError();
 
     const loginRef = useRef<HTMLInputElement>(null);
     const firstNameRef = useRef<HTMLInputElement>(null);
@@ -24,18 +24,6 @@ const Register: React.FC<RegisterProps> = ({closeHandler}) => {
     const lastNameId = createRandomString();
     const password1Id = createRandomString();
     const password2Id = createRandomString();
-
-    // Предотвращаем возможное изменение состояния компонента по таймеру, после того как компонент размонтирован
-    useEffect(() => {
-        return () => {
-            if (typeof errorTimer.current !== 'undefined') clearTimeout(errorTimer.current);
-        }
-    }, []);
-
-    const setErrorText = (text: string): void => {
-        setError(text);
-        errorTimer.current = setTimeout(() => setError(null), 4000);
-    }
 
     const showPasswordHandler = (): void => setShowPassword(oldValue => !oldValue);
 

@@ -10,6 +10,14 @@ const Login: React.FC<LoginProps> = ({closeHandler}) => {
         <div className="login">
             <div className="login__content">
                 <h1>Введите учетные данные</h1>
+                <ul>
+                    <li>
+                        
+                    </li>
+                    <li>
+
+                    </li>
+                </ul>
                 <div>
                     <button onClick={closeHandler}>Отмена</button>
                     <button>Войти</button>
