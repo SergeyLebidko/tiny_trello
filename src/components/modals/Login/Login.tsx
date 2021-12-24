@@ -2,12 +2,16 @@ import React, {useRef, useState} from 'react';
 import {createRandomString} from '../../../utils/common';
 import {useModalError} from '../../../utils/hooks';
 import './Login.scss';
+import {useDispatch} from "react-redux";
+import {setUserAction} from "../../../store/user/actions";
 
 type LoginProps = {
     closeHandler: () => void
 }
 
 const Login: React.FC<LoginProps> = ({closeHandler}) => {
+    const dispatch = useDispatch();
+
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const [error, setErrorText] = useModalError();
@@ -31,7 +35,15 @@ const Login: React.FC<LoginProps> = ({closeHandler}) => {
             return;
         }
 
-        // TODO Вставить код запроса к "серверу" и добавления пользователя в хранилище redux
+        //TODO Вставить код запроса к "серверу" и добавления пользователя в хранилище redux
+        // Сейчас - фиктивный код добавлени пользователя, чтобы проверить работу роутов
+        dispatch(setUserAction({
+            firstName: 'Вася',
+            lastName: 'Пупкин'
+        }));
+
+        // После выполнения входа - закрываем модалку
+        closeHandler();
     }
 
     return (

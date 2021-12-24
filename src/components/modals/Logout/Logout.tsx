@@ -1,4 +1,6 @@
 import React from 'react';
+import {useDispatch} from 'react-redux';
+import {removeUserAction} from '../../../store/user/actions';
 import './Logout.scss';
 
 type LogoutProps = {
@@ -6,10 +8,11 @@ type LogoutProps = {
 }
 
 const Logout: React.FC<LogoutProps> = ({closeHandler}) => {
+    const dispatch = useDispatch();
 
     const exitHandler = (): void => {
-        // TODO Вставить код удаления пользователя из хранилища redux при выходе из системы
-    }
+        dispatch(removeUserAction());
+    };
 
     return (
         <div className="logout">
