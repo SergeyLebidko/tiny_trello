@@ -1,18 +1,18 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {useSelector} from 'react-redux';
-import {RootState} from '../../../store/store';
-import {User} from '../../../store/user/types';
-import {getUser} from '../../../store/selectors';
+// import {useSelector} from 'react-redux';
+// import {RootState} from '../../../store/store';
+// import {User} from '../../../store/user/types';
+import {useTypedSelector} from '../../../store/selectors';
 import {ROUTE_PREFIX} from '../../../constants/settings';
 import './BoardList.scss';
 
 const BoardList: React.FC = () => {
-    const user = useSelector<RootState, User | null>(getUser);
+    const {users} = useTypedSelector(state => state.user)
 
     return (
         <div>
-            <h1>Здесь будет список досок пользователя {user && <>{user.firstName} {user.lastName}</>}</h1>
+            <h1>Здесь будет список досок пользователя {users && <>{users[0].firstName} {users[0].lastName}</>}</h1>
 
             {/* Ссылки на несколько досок чисто для примера */}
             <ul>
