@@ -8,7 +8,7 @@ type LogoutProps = {
 const Logout: React.FC<LogoutProps> = ({closeHandler}) => {
 
     const exitHandler = (): void => {
-        // TODO Вставить код удаления пользователя из хранилища redux
+        // TODO Вставить код удаления пользователя из хранилища redux при выходе из системы
     }
 
     return (
