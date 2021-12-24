@@ -15,12 +15,12 @@ function App() {
 
     return (
         <Routes>
-            <Route path="/" element={<Main/>}/>
+            <Route path="/tiny_trello" element={<Main/>}/>
             {/* Пути к списку досок и отдельным доскам доступны только для залогинившихся пользователей */}
             {user &&
             <>
-                <Route path="/board_list" element={<BoardList/>}/>
-                <Route path="/board/:id" element={<Board/>}/>
+                <Route path="/tiny_trello/board_list" element={<BoardList/>}/>
+                <Route path="/tiny_trello/board/:id" element={<Board/>}/>
             </>
             }
             <Route path="*" element={<NoMatch/>}/>

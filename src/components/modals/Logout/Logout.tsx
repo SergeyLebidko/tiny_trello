@@ -12,6 +12,9 @@ const Logout: React.FC<LogoutProps> = ({closeHandler}) => {
 
     const exitHandler = (): void => {
         dispatch(removeUserAction());
+
+        // После выполнения выхода - закрываем модалку
+        closeHandler();
     };
 
     return (
