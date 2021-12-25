@@ -8,8 +8,8 @@ export enum DataKeys {
     LoggedUser = 'LOGGED_USER',
     Users = 'USERS',
     Boards = 'BOARDS',
-    Cards = 'Cards',
-    Tasks = 'Tasks'
+    Cards = 'CARDS',
+    Tasks = 'TASKS'
 }
 
 // Класс реализует бэкенд на основе localStorage

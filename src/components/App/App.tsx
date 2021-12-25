@@ -6,10 +6,10 @@ import Board from '../pages/Board/Board';
 import NoMatch from '../pages/NoMatch/NoMatch';
 import {ROUTE_PREFIX} from '../../constants/settings';
 import {useTypedSelector} from '../../store/selectors';
+import {DataKeys} from '../../backend/backend';
+import {User, UserActionTypes} from '../../store/user/types';
+import {useDispatch} from 'react-redux';
 import './App.scss';
-import {DataKeys} from "../../backend/backend";
-import {User, UserActionTypes} from "../../store/user/types";
-import {useDispatch} from "react-redux";
 
 function App() {
     const dispatch = useDispatch();
