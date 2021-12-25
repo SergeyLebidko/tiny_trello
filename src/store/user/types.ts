@@ -6,18 +6,19 @@ export type User = {
     lastName: string
 }
 
-export enum UserActions {
-    LogoutUser = 'LOGOUT_USER',
-    CheckUser = 'CHECK_USER',
+export enum UserActionTypes {
+    SetUser = 'SET_USER',
+    RemoveUser = 'REMOVE_USER',
 }
 
-export type LogoutUserAction = {
-    type: UserActions.LogoutUser
+export type SetUserAction = {
+    type: UserActionTypes.SetUser,
+    payload: User
 }
 
-export type CheckUserAction = {
-    type: UserActions.CheckUser,
-    payload: {login : string, password : string, }
+export type RemoveUserAction = {
+    type: UserActionTypes.RemoveUser
 }
+
 //Объединяем все типы экшенов для простоты вставки
-export type UserAction =  LogoutUserAction | CheckUserAction;
+export type UserAction =  SetUserAction | RemoveUserAction;
