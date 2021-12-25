@@ -1,17 +1,25 @@
 import {Dispatch} from 'redux';
-import {CheckUserAction, UserActions, LogoutUserAction} from './types';
+import {RemoveUserAction, SetUserAction, UserActionTypes} from './types';
+import {isError} from '../../utils/common';
+import backend from '../../backend/backend';
 
-
-export const logoutUserAction = () => (dispatch: Dispatch<LogoutUserAction>) => {
-    dispatch({
-        type: UserActions.LogoutUser
-    });
+export const loginUserAction = (login: string, password: string) => (dispatch: Dispatch<SetUserAction>): string | null => {
+    try {
+        const user = backend.loginUser(login, password);
+        dispatch({
+            type: UserActionTypes.SetUser,
+            payload: user
+        });
+    } catch (error) {
+        if (isError(error)) return error.message;
+    }
+    return null;
 }
 
-export const checkUserAction = (login : string,password : string) => (dispatch: Dispatch<CheckUserAction>) => {
+export const logoutUserAction = () => (dispatch: Dispatch<RemoveUserAction>) => {
+    backend.logoutUser();
     dispatch({
-        type: UserActions.CheckUser,
-        payload: {login,password}
+        type: UserActionTypes.RemoveUser
     });
 }
 

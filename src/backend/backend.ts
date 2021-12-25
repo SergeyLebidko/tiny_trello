@@ -5,6 +5,7 @@ import {Card} from '../store/card/types';
 import {Task} from '../store/task/types';
 
 enum DataKeys {
+    LoggedUser = 'LOGGED_USER',
     Users = 'USERS',
     Boards = 'BOARDS',
     Cards = 'Cards',
@@ -22,6 +23,7 @@ class Backend {
         const cardsRaw = localStorage.getItem(DataKeys.Cards);
         const tasksRaw = localStorage.getItem(DataKeys.Tasks);
         if (!usersRaw || !boardsRaw || !cardsRaw || !tasksRaw) {
+            localStorage.removeItem(DataKeys.LoggedUser);
             localStorage.setItem(DataKeys.Users, JSON.stringify(USERS_PRESET));
             localStorage.setItem(DataKeys.Boards, JSON.stringify(BOARDS_PRESET));
             localStorage.setItem(DataKeys.Cards, JSON.stringify(CARDS_PRESET));
@@ -40,7 +42,7 @@ class Backend {
         return result;
     }
 
-    // Метод регистрирует нового пользователя и сразу же возвращает его
+    // Метод регистрирует нового пользователя, выполняет логин, и сразу же возвращает его
     registerUser(userData: User): User {
         const users: Array<User> = JSON.parse(localStorage.getItem(DataKeys.Users) || '[]');
         if (users.some(user => user.login === userData.login)) {
@@ -52,6 +54,7 @@ class Backend {
         }
         users.push(createdUser);
         localStorage.setItem(DataKeys.Users, JSON.stringify(users));
+        localStorage.setItem(DataKeys.LoggedUser, JSON.stringify(createdUser));
         return createdUser;
     }
 
@@ -59,8 +62,16 @@ class Backend {
     loginUser(login: string, password: string): User {
         const users: Array<User> = JSON.parse(localStorage.getItem(DataKeys.Users) || '[]');
         const user = users.find(user => user.login === login && user.password === password);
-        if (user) return user;
+        if (user) {
+            localStorage.setItem(DataKeys.LoggedUser, JSON.stringify(user));
+            return user;
+        }
         throw new Error('Пользователь с такими логином и паролем не найден');
+    }
+
+    // Метод выполняет logout: убирает из localStorage данные по выполнившему вход пользователю
+    logoutUser(): void {
+        localStorage.removeItem(DataKeys.LoggedUser)
     }
 }
 
