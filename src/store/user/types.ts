@@ -11,7 +11,6 @@ export enum UserActions {
     CheckUser = 'check_user',
 }
 
-
 export type LogoutUserAction = {
     type: UserActions.LogoutUser
 }

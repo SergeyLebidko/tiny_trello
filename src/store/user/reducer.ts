@@ -3,7 +3,7 @@ import {UserAction, User, UserActions} from './types';
 
 interface IState {
     users: User[] | [],
-    loggedUser: number | null,
+    loggedUser: number,
 }
 
 // Начальное состояние
@@ -24,20 +24,19 @@ const initialState : IState = {
             password: '123',
         },
     ],
-    loggedUser: null,
+    loggedUser: 0,
 };
 
 
-function ValidateUser(users: User[], login: string, password: string ) : number | null {
+function ValidateUser(users: User[], login: string, password: string ) : number {
 
     const index : number = users.findIndex((user) => user.login === login && user.password === password)
 
     if (index === -1) {
-        localStorage.setItem('activeUser', `null`);
-        return null;
+        return 0;
     }
-    localStorage.setItem('activeUser', `${index}`);
-    return index;
+
+    return users[index].id;
 }
 
 
@@ -46,7 +45,7 @@ export function userReducer(state= initialState, action: UserAction): IState {
 
     switch (action.type) {
         case UserActions.LogoutUser: {
-            return {...state, loggedUser: null};
+            return {...state, loggedUser: 0};
         }
         case UserActions.CheckUser: {
             return {...state, loggedUser: ValidateUser(state.users, action.payload.login, action.payload.password)}

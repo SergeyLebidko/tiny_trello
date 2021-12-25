@@ -4,7 +4,7 @@ import Login from '../../modals/Login/Login';
 import Logout from '../../modals/Logout/Logout';
 import './Main.scss';
 import {Link} from "react-router-dom";
-import {useTypedSelector} from "../../../store/selectors";
+import {getUserIndex, useTypedSelector} from "../../../store/selectors";
 
 enum ModalMode {
     NoModal,
@@ -32,9 +32,13 @@ const Main: React.FC = () => {
 
             <h1>Tiny Trello (Главная страница)</h1>
 
-            {(loggedUser !== null)?
+            {loggedUser ?
                 <>
-                    <h3>Добро пожалость на Tiny Trello, {users[loggedUser].firstName} {users[loggedUser].lastName}!</h3>
+                    <h3>Добро пожалость на Tiny Trello,
+                        {users[getUserIndex(users,loggedUser)].firstName}
+                        {users[getUserIndex(users,loggedUser)].lastName}!
+                    </h3>
+
                     <button onClick={showLogout}>Выход</button>
                     <Link to="board_list">Мои рабочие пространства (доски)</Link>
                 </>

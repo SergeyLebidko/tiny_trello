@@ -10,14 +10,14 @@ import './App.scss';
 import {useTypedSelector} from "../../store/selectors";
 
 function App() {
-    const {users, loggedUser} = useTypedSelector(state => state.user)
+    const {loggedUser} = useTypedSelector(state => state.user)
 
     return (
         <BrowserRouter>
             <Routes>
                 <Route path={`/${ROUTE_PREFIX}`} element={<Main/>}/>
                 {/* Пути к списку досок и отдельным доскам доступны только для залогинившихся пользователей */}
-                { (localStorage.getItem('activeUser') === '1') &&
+                { loggedUser &&
                 <>
                     <Route path={`/${ROUTE_PREFIX}/board_list`} element={<BoardList/>}/>
                     <Route path={`/${ROUTE_PREFIX}/board/:boardId`} element={<Board/>}/>
