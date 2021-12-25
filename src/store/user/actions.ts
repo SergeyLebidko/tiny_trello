@@ -1,15 +1,18 @@
 import {Dispatch} from 'redux';
-import {RemoveUserAction, SetUserAction, User, UserActions} from './types';
+import {CheckUserAction, UserActions, LogoutUserAction} from './types';
 
-export const setUserAction = (user: User) => (dispatch: Dispatch<SetUserAction>) => {
+
+export const logoutUserAction = () => (dispatch: Dispatch<LogoutUserAction>) => {
     dispatch({
-        type: UserActions.SetUser,
-        payload: user
+        type: UserActions.LogoutUser
     });
 }
 
-export const removeUserAction = () => (dispatch: Dispatch<RemoveUserAction>) => {
+export const checkUserAction = (login : string,password : string) => (dispatch: Dispatch<CheckUserAction>) => {
     dispatch({
-        type: UserActions.RemoveUser
+        type: UserActions.CheckUser,
+        payload: {login,password}
     });
 }
+
+

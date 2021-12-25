@@ -2,12 +2,9 @@ import React, {useState} from 'react';
 import Register from '../../modals/Register/Register';
 import Login from '../../modals/Login/Login';
 import Logout from '../../modals/Logout/Logout';
-import {useSelector} from 'react-redux';
-import {getUser} from '../../../store/selectors';
-import {User} from '../../../store/user/types';
-import {RootState} from '../../../store/store';
 import './Main.scss';
 import {Link} from "react-router-dom";
+import {getUserIndex, useTypedSelector} from "../../../store/selectors";
 
 enum ModalMode {
     NoModal,
@@ -17,7 +14,7 @@ enum ModalMode {
 }
 
 const Main: React.FC = () => {
-    const user = useSelector<RootState, User | null>(getUser);
+    const {users, loggedUser} = useTypedSelector(state => state.user)
 
     const [modalMode, setModalMode] = useState<ModalMode>(ModalMode.NoModal);
 
@@ -34,11 +31,16 @@ const Main: React.FC = () => {
             {modalMode === ModalMode.LogoutModal && <Logout closeHandler={closeModal}/>}
 
             <h1>Tiny Trello (Главная страница)</h1>
-
-            {user ?
+            {/*Проверка на залогиненного пользователя*/}
+            {loggedUser ?
                 <>
-                    <h3>Добро пожалость на Tiny Trello, {user.firstName} {user.lastName}!</h3>
+                    <h3>Добро пожалость на Tiny Trello,
+                        {users[getUserIndex(users,loggedUser)].firstName}
+                        {users[getUserIndex(users,loggedUser)].lastName}!
+                    </h3>
+
                     <button onClick={showLogout}>Выход</button>
+                    {/*Может тут ссылка сначала на страницу пользователя, а потом отдельная ссылка на список бордов?*/}
                     <Link to="board_list">Мои рабочие пространства (доски)</Link>
                 </>
                 :

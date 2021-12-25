@@ -3,7 +3,7 @@ import {createRandomString} from '../../../utils/common';
 import {useModalError} from '../../../utils/hooks';
 import './Login.scss';
 import {useDispatch} from "react-redux";
-import {setUserAction} from "../../../store/user/actions";
+import {checkUserAction} from "../../../store/user/actions";
 
 type LoginProps = {
     closeHandler: () => void
@@ -27,8 +27,8 @@ const Login: React.FC<LoginProps> = ({closeHandler}) => {
     const loginHandler = (): void => {
         if (!loginRef.current || !passwordRef.current) return;
 
-        const login = loginRef.current.value;
-        const password = passwordRef.current.value;
+        const login : string = loginRef.current.value;
+        const password : string = passwordRef.current.value;
 
         if (!login || !password) {
             setErrorText('Все поля обязательны к заполнению');
@@ -37,10 +37,9 @@ const Login: React.FC<LoginProps> = ({closeHandler}) => {
 
         //TODO Вставить код запроса к "серверу" и добавления пользователя в хранилище redux
         // Сейчас - фиктивный код добавлени пользователя, чтобы проверить работу роутов
-        dispatch(setUserAction({
-            firstName: 'Вася',
-            lastName: 'Пупкин'
-        }));
+
+        // Сделал проверку данных!!!
+        dispatch(checkUserAction(login,password));
 
         // После выполнения входа - закрываем модалку
         closeHandler();

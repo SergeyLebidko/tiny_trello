@@ -1,5 +1,13 @@
 import {RootState} from './store';
-
+import {TypedUseSelectorHook, useSelector} from "react-redux";
 import {User} from './user/types';
 
-export const getUser = (state: RootState): User | null => state.user;
+
+//Более простой вариант кастомного хука для Typescript
+export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
+
+//Получение индекса в массиве на основе Id юзера
+export const getUserIndex = (users: User[], id: number): number => {
+    return users.findIndex(user => user.id === id)
+}
+

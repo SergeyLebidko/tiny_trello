@@ -1,15 +1,12 @@
 import {createStore, combineReducers, applyMiddleware} from 'redux';
 import {composeWithDevTools} from 'redux-devtools-extension';
 import thunk from 'redux-thunk';
-
-import {User} from './user/types';
 import {userReducer} from './user/reducer';
 
-export type RootState = {
-    user: User | null
-}
+//Хитрая конструкция, хз как работает, нужна для useTypedSelector
+export type RootState = ReturnType<typeof combinedReducer>
 
-const combinedReducer = combineReducers<RootState>({
+const combinedReducer = combineReducers({
     user: userReducer
 });
 

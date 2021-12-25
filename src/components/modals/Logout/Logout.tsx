@@ -1,6 +1,6 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
-import {removeUserAction} from '../../../store/user/actions';
+import {logoutUserAction} from '../../../store/user/actions';
 import './Logout.scss';
 
 type LogoutProps = {
@@ -11,7 +11,7 @@ const Logout: React.FC<LogoutProps> = ({closeHandler}) => {
     const dispatch = useDispatch();
 
     const exitHandler = (): void => {
-        dispatch(removeUserAction());
+        dispatch(logoutUserAction());
 
         // После выполнения выхода - закрываем модалку
         closeHandler();
