@@ -5,13 +5,13 @@ import {Card} from '../store/card/types';
 import {Task} from '../store/task/types';
 
 enum DataKeys {
-    LoggedUser = 'LOGGED_USER',
     Users = 'USERS',
     Boards = 'BOARDS',
     Cards = 'Cards',
     Tasks = 'Tasks'
 }
 
+// Класс реализует бэкенд на основе localStorage
 class Backend {
 
     constructor() {
@@ -22,7 +22,6 @@ class Backend {
         const cardsRaw = localStorage.getItem(DataKeys.Cards);
         const tasksRaw = localStorage.getItem(DataKeys.Tasks);
         if (!usersRaw || !boardsRaw || !cardsRaw || !tasksRaw) {
-            localStorage.removeItem(DataKeys.LoggedUser);
             localStorage.setItem(DataKeys.Users, JSON.stringify(USERS_PRESET));
             localStorage.setItem(DataKeys.Boards, JSON.stringify(BOARDS_PRESET));
             localStorage.setItem(DataKeys.Cards, JSON.stringify(CARDS_PRESET));
@@ -30,9 +29,9 @@ class Backend {
         }
     }
 
-    // Метод получает свободный идентификатор для переданного ключа
+    // Метод получает свободный идентификатор для переданного списка объектов
     // Например мы создаем нового пользователя и должны присвоить ему такой id, которого еще нет в базе.
-    // Этот метод вернет его, если передать ему ключ DataKeys.Users
+    // Этот метод вернет его, если передать список пользователей
     private getNextId(dataSet: Array<User | Board | Card | Task>): number {
         let result = 1;
         if (dataSet.length) {
@@ -41,9 +40,12 @@ class Backend {
         return result;
     }
 
-    // Метод регистрирует нового пользователя и сразе же возвращает его
+    // Метод регистрирует нового пользователя и сразу же возвращает его
     registerUser(userData: User): User {
         const users: Array<User> = JSON.parse(localStorage.getItem(DataKeys.Users) || '[]');
+        if (users.some(user => user.login === userData.login)) {
+            throw new Error('Пользователь с таким логином уже существует');
+        }
         const createdUser = {
             id: this.getNextId(users),
             ...userData
@@ -51,6 +53,14 @@ class Backend {
         users.push(createdUser);
         localStorage.setItem(DataKeys.Users, JSON.stringify(users));
         return createdUser;
+    }
+
+    // Метод выполняет логин: проверят переданные логин и пароль, находит по этим данным пользователя и возвращает его
+    loginUser(login: string, password: string): User {
+        const users: Array<User> = JSON.parse(localStorage.getItem(DataKeys.Users) || '[]');
+        const user = users.find(user => user.login === login && user.password === password);
+        if (user) return user;
+        throw new Error('Пользователь с такими логином и паролем не найден');
     }
 }
 
