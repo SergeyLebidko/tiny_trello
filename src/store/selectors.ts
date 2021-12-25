@@ -1,9 +1,7 @@
 import {RootState} from './store';
-import {TypedUseSelectorHook, useSelector} from "react-redux";
+import {TypedUseSelectorHook, useSelector} from 'react-redux';
 import {User} from './user/types';
 
-
-//Более простой вариант кастомного хука для Typescript
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 //Получение индекса в массиве на основе Id юзера

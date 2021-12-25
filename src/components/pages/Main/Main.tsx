@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
+import {Link} from 'react-router-dom';
 import Register from '../../modals/Register/Register';
 import Login from '../../modals/Login/Login';
 import Logout from '../../modals/Logout/Logout';
+import {getUserIndex, useTypedSelector} from '../../../store/selectors';
 import './Main.scss';
-import {Link} from "react-router-dom";
-import {getUserIndex, useTypedSelector} from "../../../store/selectors";
 
 enum ModalMode {
     NoModal,

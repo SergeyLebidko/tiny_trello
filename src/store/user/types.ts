@@ -1,14 +1,14 @@
 export type User = {
     id: number,
-    firstName: string,
-    lastName: string,
     login: string,
     password: string,
+    firstName: string,
+    lastName: string
 }
-//Константы обычно пишут заглавными буквами, оставил как есть
+
 export enum UserActions {
-    LogoutUser = 'logout_user',
-    CheckUser = 'check_user',
+    LogoutUser = 'LOGOUT_USER',
+    CheckUser = 'CHECK_USER',
 }
 
 export type LogoutUserAction = {

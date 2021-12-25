@@ -1,5 +1,4 @@
 import React from 'react';
-import {useSelector} from 'react-redux';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import Main from '../pages/Main/Main';
 import BoardList from '../pages/BoardList/BoardList';

@@ -1,6 +1,5 @@
 import {UserAction, User, UserActions} from './types';
 
-
 interface IState {
     users: User[] | [],
     loggedUser: number,
@@ -39,9 +38,7 @@ function ValidateUser(users: User[], login: string, password: string ) : number 
     return users[index].id;
 }
 
-
 export function userReducer(state= initialState, action: UserAction): IState {
-    console.log(action);
     //Пришлось переделать редьюсер
     switch (action.type) {
         case UserActions.LogoutUser: {
