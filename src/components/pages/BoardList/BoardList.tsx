@@ -1,18 +1,18 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
-import {getUserIndex, useTypedSelector} from '../../../store/selectors';
+import {useTypedSelector} from '../../../store/selectors';
 import {ROUTE_PREFIX} from '../../../constants/settings';
 import './BoardList.scss';
 
 const BoardList: React.FC = () => {
-    const {users, loggedUser} = useTypedSelector(state => state.user)
+    const loggedUser = useTypedSelector(state => state.user)
 
     return (
         // Проверка на залогиненного пользователя
         loggedUser ?
             <div>
                 <h1>Здесь будет список досок
-                    пользователя {users[getUserIndex(users,loggedUser)].firstName} {users[getUserIndex(users,loggedUser)].lastName}</h1>
+                    пользователя {loggedUser.firstName} {loggedUser.lastName}</h1>
                 {/* Ссылки на несколько досок чисто для примера */}
                 <ul>
                     <li>

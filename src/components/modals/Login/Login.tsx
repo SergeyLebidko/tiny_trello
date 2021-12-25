@@ -1,9 +1,9 @@
 import React, {useRef, useState} from 'react';
 import {createRandomString} from '../../../utils/common';
 import {useModalError} from '../../../utils/hooks';
+import {useDispatch} from 'react-redux';
+import {loginUserAction} from '../../../store/user/actions';
 import './Login.scss';
-import {useDispatch} from "react-redux";
-import {loginUserAction} from "../../../store/user/actions";
 
 type LoginProps = {
     closeHandler: () => void
@@ -36,8 +36,13 @@ const Login: React.FC<LoginProps> = ({closeHandler}) => {
         }
 
         const error = dispatch(loginUserAction(login, password));
+        if (error !== null) {
+            setErrorText(String(error));
+            return;
+        }
 
-        console.log(error)
+        // Если при выполнении логина не произошло ошибок - закрываем модалку
+        closeHandler();
     }
 
     return (
