@@ -16,7 +16,7 @@ class Backend {
 
     constructor() {
         // В конструкторе сразу же проверяем, есть ли уже какие-то данные в localStorage.
-        // Если нет - сбрасываем данные залогинившегося пользователя и сохраням в localStorage данные из data_presets
+        // Если хоть чего-то нет, то удаляем данные залогинившегося пользователя и сохраням в localStorage данные из data_presets
         const usersRaw = localStorage.getItem(DataKeys.Users);
         const boardsRaw = localStorage.getItem(DataKeys.Boards);
         const cardsRaw = localStorage.getItem(DataKeys.Cards);
