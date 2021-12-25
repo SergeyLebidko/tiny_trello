@@ -4,7 +4,7 @@ import {Board} from '../store/board/types';
 import {Card} from '../store/card/types';
 import {Task} from '../store/task/types';
 
-enum DataKeys {
+export enum DataKeys {
     LoggedUser = 'LOGGED_USER',
     Users = 'USERS',
     Boards = 'BOARDS',

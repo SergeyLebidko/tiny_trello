@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import Main from '../pages/Main/Main';
 import BoardList from '../pages/BoardList/BoardList';
@@ -7,9 +7,25 @@ import NoMatch from '../pages/NoMatch/NoMatch';
 import {ROUTE_PREFIX} from '../../constants/settings';
 import {useTypedSelector} from '../../store/selectors';
 import './App.scss';
+import {DataKeys} from "../../backend/backend";
+import {User, UserActionTypes} from "../../store/user/types";
+import {useDispatch} from "react-redux";
 
 function App() {
-    const loggedUser = useTypedSelector(state => state.user)
+    const dispatch = useDispatch();
+    const loggedUser = useTypedSelector(state => state.user);
+
+    // При монтировании приложения сразу же пытаемся извлечь данные о залогинившемся пользователе из localStorage
+    // Если они там есть - тут же записываем их в redux и таким образом делаем доступным черех хуки редакса всему приложению
+    useEffect(() => {
+        const loggedUserData = localStorage.getItem(DataKeys.LoggedUser);
+        if (!loggedUserData) return;
+        const user: User = JSON.parse(loggedUserData);
+        dispatch({
+            type: UserActionTypes.SetUser,
+            payload: user
+        });
+    }, [dispatch]);
 
     return (
         <BrowserRouter>
