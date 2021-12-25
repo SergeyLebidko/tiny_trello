@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import Register from '../../modals/Register/Register';
 import Login from '../../modals/Login/Login';
 import Logout from '../../modals/Logout/Logout';
@@ -31,7 +31,7 @@ const Main: React.FC = () => {
             {modalMode === ModalMode.LogoutModal && <Logout closeHandler={closeModal}/>}
 
             <h1>Tiny Trello (Главная страница)</h1>
-
+            {/*Проверка на залогиненного пользователя*/}
             {loggedUser ?
                 <>
                     <h3>Добро пожалость на Tiny Trello,
@@ -40,6 +40,7 @@ const Main: React.FC = () => {
                     </h3>
 
                     <button onClick={showLogout}>Выход</button>
+                    {/*Может тут ссылка сначала на страницу пользователя, а потом отдельная ссылка на список бордов?*/}
                     <Link to="board_list">Мои рабочие пространства (доски)</Link>
                 </>
                 :

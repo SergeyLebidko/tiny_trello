@@ -27,7 +27,7 @@ const initialState : IState = {
     loggedUser: 0,
 };
 
-
+//функция проверки данных пользователя
 function ValidateUser(users: User[], login: string, password: string ) : number {
 
     const index : number = users.findIndex((user) => user.login === login && user.password === password)
@@ -42,7 +42,7 @@ function ValidateUser(users: User[], login: string, password: string ) : number 
 
 export function userReducer(state= initialState, action: UserAction): IState {
     console.log(action);
-
+    //Пришлось переделать редьюсер
     switch (action.type) {
         case UserActions.LogoutUser: {
             return {...state, loggedUser: 0};

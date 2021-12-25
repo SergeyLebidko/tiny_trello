@@ -8,6 +8,7 @@ const BoardList: React.FC = () => {
     const {users, loggedUser} = useTypedSelector(state => state.user)
 
     return (
+        // Проверка на залогиненного пользователя
         loggedUser ?
             <div>
                 <h1>Здесь будет список досок
