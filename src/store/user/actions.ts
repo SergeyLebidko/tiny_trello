@@ -3,6 +3,14 @@ import {User, UserAction, UserActionTypes} from './types';
 import {isError} from '../../utils/common';
 import backend from '../../backend/backend';
 
+// Экшн нужен для случая, когда в localStorage уже существует залогинившийся пользователь и теперь его надо прописать в redux
+export const setUser = (user: User) => (dispatch: Dispatch<UserAction>): void => {
+    dispatch({
+        type: UserActionTypes.SetUser,
+        payload: user
+    })
+}
+
 export const registerUserAction = (user: User) => (dispatch: Dispatch<UserAction>): string | null => {
     try {
         const createdUser = backend.registerUser(user);

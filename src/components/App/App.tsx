@@ -17,6 +17,7 @@ import './App.scss';
 import {BoardActionTypes} from '../../store/board/types';
 import {CardActionTypes} from '../../store/card/types';
 import {TaskActionTypes} from '../../store/task/types';
+import {setUser} from "../../store/user/actions";
 
 function App() {
     const dispatch = useDispatch();
@@ -31,12 +32,7 @@ function App() {
 
             // Прописываем данные пользователя в redux
             const user: User = JSON.parse(loggedUserData);
-
-            //TODO Создать для операции отдельный экшен
-            dispatch({
-                type: UserActionTypes.SetUser,
-                payload: user
-            });
+            dispatch(setUser(user));
         }
         setHasUserChecked(true);
     }, [dispatch]);
