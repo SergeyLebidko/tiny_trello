@@ -73,6 +73,12 @@ class Backend {
     logoutUser(): void {
         localStorage.removeItem(DataKeys.LoggedUser)
     }
+
+    // Метод возвращает список досок пользователя. Текущий залогиненный пользователь извлекается из localStorage
+    getBoards():Array<Board> {
+        const boards: Array<Board> = JSON.parse(localStorage.getItem(DataKeys.Boards) || '[]');
+        return boards;
+    }
 }
 
 const backend = new Backend();
