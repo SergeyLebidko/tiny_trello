@@ -7,3 +7,5 @@ export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
 export const getLoggedUser = (state: RootState): User | null => state.user;
 export const getBoards = (state: RootState): Array<Board> => state.boards;
+
+//TODO Дополнить список селекторов для других типов данных

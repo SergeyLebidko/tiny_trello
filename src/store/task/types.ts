@@ -5,7 +5,7 @@ export enum Importance {
 }
 
 export type Task = {
-    id: number,
+    id?: number,
     cardId: number,
     text: string,
     done: boolean,
@@ -13,3 +13,17 @@ export type Task = {
     deadline: number,
     order: number
 }
+
+export enum TaskActionTypes {
+    SetTaskList = 'SET_TASK_LIST'
+}
+
+export type SetTaskListAction = {
+    type: TaskActionTypes.SetTaskList,
+    payload: Array<Task>
+}
+
+//TODO Дополнить перечень экшенами для выполнения операций удаления, создания, правки и т.д...
+
+//Объединяем все типы экшенов для простоты вставки
+export type TaskAction = SetTaskListAction;
