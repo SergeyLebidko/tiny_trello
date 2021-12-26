@@ -31,6 +31,8 @@ class Backend {
         }
     }
 
+    /* ********** Блок вспомогательных приватных методов ********** */
+
     // Метод получает свободный идентификатор для переданного списка объектов
     // Например мы создаем нового пользователя и должны присвоить ему такой id, которого еще нет в базе.
     // Этот метод вернет его, если передать список пользователей
@@ -50,6 +52,8 @@ class Backend {
         if (!user.id) throw new Error('Пользователь не залогинен!');
         return user;
     }
+
+    /* ********** Блок методов для работы с пользователями (сущность User) ********** */
 
     // Метод регистрирует нового пользователя, выполняет логин, и сразу же возвращает его
     registerUser(userData: User): User {
@@ -82,6 +86,8 @@ class Backend {
     logoutUser(): void {
         localStorage.removeItem(DataKeys.LoggedUser)
     }
+
+    /* ********** Блок методов для работы с досками (сущность Board) ********** */
 
     // Метод возвращает список досок пользователя. Текущий залогиненный пользователь извлекается из localStorage
     getBoards(): Array<Board> {
@@ -127,6 +133,34 @@ class Backend {
         localStorage.setItem(DataKeys.Boards, JSON.stringify(patchedBoardsList));
         return board;
     }
+
+    /* ********** Блок методов для работы с карточками (сущность Card) ********** */
+
+    // Метод возвращает список карточек залогинившегося пользователя
+    getCards(): Array<Card> {
+        const boards: Array<Board> = this.getBoards();
+
+        // Получаем из localStorage массив всех карточек
+        const cards: Array<Card> = JSON.parse(localStorage.getItem(DataKeys.Cards) || '[]');
+
+        // Возвращаем только те карточки, которые связаны с досками текущего пользователя
+        return cards.filter(card => !!boards.find(board => board.id === card.boardId));
+
+    }
+
+    /* ********** Блок методов для работы с задачами (сущность Task) ********** */
+
+    // Метод возвращает список всех задач текущего пользователя
+    getTasks(): Array<Task> {
+        const cards: Array<Card> = this.getCards();
+
+        // Получаем из localStorage массив всех задач
+        const tasks: Array<Task> = JSON.parse(localStorage.getItem(DataKeys.Tasks) || '[]');
+
+        // Возвращаем только те задачи, которые связаны с досками текущего пользователя
+        return tasks.filter(task => !!cards.find(card => card.id === task.cardId));
+    }
+
 }
 
 const backend = new Backend();
