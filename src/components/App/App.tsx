@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import Main from '../pages/Main/Main';
 import BoardList from '../pages/BoardList/BoardList';
@@ -13,19 +13,25 @@ import './App.scss';
 
 function App() {
     const dispatch = useDispatch();
+    const [hasUserChecked, setHasUserChecked] = useState<boolean>(false);
     const loggedUser = useTypedSelector(state => state.user);
 
     // При монтировании приложения сразу же пытаемся извлечь данные о залогинившемся пользователе из localStorage
     // Если они там есть - тут же записываем их в redux и таким образом делаем доступным черех хуки редакса всему приложению
     useEffect(() => {
         const loggedUserData = localStorage.getItem(DataKeys.LoggedUser);
-        if (!loggedUserData) return;
-        const user: User = JSON.parse(loggedUserData);
-        dispatch({
-            type: UserActionTypes.SetUser,
-            payload: user
-        });
-    }, [dispatch]);
+        if (loggedUserData) {
+            const user: User = JSON.parse(loggedUserData);
+            dispatch({
+                type: UserActionTypes.SetUser,
+                payload: user
+            });
+        }
+        setHasUserChecked(true);
+    }, [dispatch, setHasUserChecked]);
+
+    // Пока не выполнена проверка пользователя, выводим сообщение о загрузке - прелоадер
+    if(!hasUserChecked) return <div>Пожалуйста подождите...</div>;
 
     return (
         <BrowserRouter>
