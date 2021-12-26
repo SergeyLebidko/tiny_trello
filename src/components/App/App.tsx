@@ -9,7 +9,9 @@ import {getLoggedUser, useTypedSelector} from '../../store/selectors';
 import {DataKeys} from '../../backend/backend';
 import {User, UserActionTypes} from '../../store/user/types';
 import {useDispatch} from 'react-redux';
+import {loadBoards} from '../../store/board/actions';
 import './App.scss';
+
 
 function App() {
     const dispatch = useDispatch();
@@ -20,12 +22,19 @@ function App() {
     // Если они там есть - тут же записываем их в redux и таким образом делаем доступным черех хуки редакса всему приложению
     useEffect(() => {
         const loggedUserData = localStorage.getItem(DataKeys.LoggedUser);
+
+        // Если пользователь залогинен - загружаем из БД все ассоцированные с ним данные
         if (loggedUserData) {
+
+            // Прописываем данные пользователя в redux
             const user: User = JSON.parse(loggedUserData);
             dispatch({
                 type: UserActionTypes.SetUser,
                 payload: user
             });
+
+            // Загружаем доски пользователя
+            dispatch(loadBoards());
         }
         setHasUserChecked(true);
     }, [dispatch, setHasUserChecked]);
