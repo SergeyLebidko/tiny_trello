@@ -14,6 +14,10 @@ import {loadCards} from '../../store/card/actions';
 import {loadTasks} from '../../store/task/actions';
 import './App.scss';
 
+import {BoardActionTypes} from '../../store/board/types';
+import {CardActionTypes} from '../../store/card/types';
+import {TaskActionTypes} from '../../store/task/types';
+
 function App() {
     const dispatch = useDispatch();
     const [hasUserChecked, setHasUserChecked] = useState<boolean>(false);
@@ -27,6 +31,8 @@ function App() {
 
             // Прописываем данные пользователя в redux
             const user: User = JSON.parse(loggedUserData);
+
+            //TODO Создать для операции отдельный экшен
             dispatch({
                 type: UserActionTypes.SetUser,
                 payload: user
@@ -36,7 +42,7 @@ function App() {
     }, [dispatch]);
 
     // Если пользователь залогинился - сразу же подгружаем из "бэкенда" в redux все ассоцированные с ним данные
-    // Если разлгинился - удаляем его данные из хранилища
+    // Если разлогинился - удаляем его данные из хранилища
     useEffect(() => {
         if (loggedUser) {
             // Загружаем доски пользователя
@@ -47,6 +53,26 @@ function App() {
 
             // Загружаем задачи пользователя
             dispatch(loadTasks());
+        } else {
+            //TODO Создать для нижележащих операций отдельные экшены
+
+            // Удаляем из redux доски
+            dispatch({
+                type: BoardActionTypes.SetBoardList,
+                payload: []
+            });
+
+            // Удаляем из redux карточки
+            dispatch({
+                type: CardActionTypes.SetCardList,
+                payload: []
+            });
+
+            // Удаляем из redux задачи
+            dispatch({
+                type: TaskActionTypes.SetTaskList,
+                payload: []
+            });
         }
         setHasDataLoad(true);
     }, [loggedUser, dispatch, setHasUserChecked]);
