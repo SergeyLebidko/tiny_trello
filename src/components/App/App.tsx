@@ -31,7 +31,7 @@ function App() {
             dispatch(setUser(user));
         }
         setHasUserChecked(true);
-    }, [dispatch]);
+    }, [dispatch, setHasUserChecked]);
 
     // Если пользователь залогинился - сразу же подгружаем из "бэкенда" в redux все ассоцированные с ним данные
     // Если разлогинился - удаляем его данные из хранилища
@@ -56,7 +56,7 @@ function App() {
             dispatch(removeTasksFromRedux());
         }
         setHasDataLoad(true);
-    }, [loggedUser, dispatch, setHasUserChecked]);
+    }, [loggedUser, dispatch, setHasDataLoad]);
 
     // Пока не выполнена проверка пользователя и загрузка его данных, выводим сообщение о загрузке - прелоадер
     if (!hasUserChecked || !hasDataLoad) return <div>Пожалуйста подождите...</div>;
