@@ -31,37 +31,37 @@ export const CARDS_PRESET: Array<Card> = [
         id: 1,
         boardId: 1,
         title: 'Выполнено',
-        order: 1
+        order: 0
     },
     {
         id: 2,
         boardId: 1,
         title: 'В процессе',
-        order: 2
+        order: 1
     },
     {
         id: 3,
         boardId: 1,
         title: 'Надо изучить',
-        order: 3
+        order: 2
     },
     {
         id: 4,
         boardId: 2,
         title: 'Уже изучил',
-        order: 1
+        order: 0
     },
     {
         id: 5,
         boardId: 2,
         title: 'Сейчас разбираюсь',
-        order: 2
+        order: 1
     },
     {
         id: 6,
         boardId: 2,
         title: 'На будущее',
-        order: 3
+        order: 2
     }
 ]
 
@@ -73,7 +73,7 @@ export const TASKS_PRESET: Array<Task> = [
         done: true,
         importance: Importance.Medium,
         deadline: +new Date('08.15.2021'),
-        order: 1
+        order: 0
     },
     {
         id: 2,
@@ -82,7 +82,7 @@ export const TASKS_PRESET: Array<Task> = [
         done: true,
         importance: Importance.High,
         deadline: +new Date('08.25.2021'),
-        order: 2
+        order: 1
     },
     {
         id: 3,
@@ -100,7 +100,7 @@ export const TASKS_PRESET: Array<Task> = [
         done: false,
         importance: Importance.High,
         deadline: +new Date('09.01.2021'),
-        order: 1
+        order: 0
     },
     {
         id: 5,
@@ -109,7 +109,7 @@ export const TASKS_PRESET: Array<Task> = [
         done: false,
         importance: Importance.Low,
         deadline: +new Date('09.10.2021'),
-        order: 2
+        order: 1
     },
     {
         id: 6,
@@ -118,7 +118,7 @@ export const TASKS_PRESET: Array<Task> = [
         done: false,
         importance: Importance.High,
         deadline: +new Date('10.01.2021'),
-        order: 1
+        order: 0
     },
     {
         id: 7,
@@ -127,7 +127,7 @@ export const TASKS_PRESET: Array<Task> = [
         done: false,
         importance: Importance.Low,
         deadline: +new Date('10.05.2021'),
-        order: 2
+        order: 1
     },
     {
         id: 8,
@@ -136,7 +136,7 @@ export const TASKS_PRESET: Array<Task> = [
         done: true,
         importance: Importance.High,
         deadline: +new Date('10.10.2021'),
-        order: 1
+        order: 0
     },
     {
         id: 9,
@@ -145,7 +145,7 @@ export const TASKS_PRESET: Array<Task> = [
         done: true,
         importance: Importance.High,
         deadline: +new Date('10.10.2021'),
-        order: 2
+        order: 1
     },
     {
         id: 10,
@@ -154,7 +154,7 @@ export const TASKS_PRESET: Array<Task> = [
         done: true,
         importance: Importance.Low,
         deadline: +new Date('10.10.2021'),
-        order: 3
+        order: 2
     },
     {
         id: 11,
@@ -163,7 +163,7 @@ export const TASKS_PRESET: Array<Task> = [
         done: false,
         importance: Importance.Medium,
         deadline: +new Date('10.20.2021'),
-        order: 1
+        order: 0
     },
     {
         id: 11,
@@ -172,6 +172,6 @@ export const TASKS_PRESET: Array<Task> = [
         done: false,
         importance: Importance.Medium,
         deadline: +new Date('10.20.2021'),
-        order: 2
+        order: 1
     },
 ];
