@@ -9,7 +9,6 @@ import {
 } from './types';
 import backend from '../../backend/backend';
 
-// Редьюсер для загрузки списка досок с "сервера" в хранилище redux
 export const loadBoards = () => (dispatch: Dispatch<SetBoardListAction>): void => {
     const boards = backend.getBoards();
     dispatch({
@@ -18,7 +17,8 @@ export const loadBoards = () => (dispatch: Dispatch<SetBoardListAction>): void =
     });
 }
 
-// Редьюсер для создания доски
+// Функция-экшн для создания доски. На вход принимается объект типа Board, но без проставленного поля id
+// Поле id будет проставляться "бэкендом"
 export const createBoard = (board: Board) => (dispatch: Dispatch<CreateBoardAction>): void => {
     const createdBoard = backend.createBoard(board);
     dispatch({
