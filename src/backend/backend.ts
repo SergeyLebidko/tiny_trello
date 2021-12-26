@@ -42,6 +42,15 @@ class Backend {
         return result;
     }
 
+    // Метод получает из localStorage текущего залогиненного пользователя
+    private getLoggedUser(): User {
+        const user: User = JSON.parse(localStorage.getItem(DataKeys.LoggedUser) || '{}');
+
+        // Если предпринимается попытка выполнить запрос, когда нет залогиненного пользователя - выбрасываем исключение
+        if (!user.id) throw new Error('Пользователь не залогинен!');
+        return user;
+    }
+
     // Метод регистрирует нового пользователя, выполняет логин, и сразу же возвращает его
     registerUser(userData: User): User {
         const users: Array<User> = JSON.parse(localStorage.getItem(DataKeys.Users) || '[]');
@@ -49,8 +58,8 @@ class Backend {
             throw new Error('Пользователь с таким логином уже существует');
         }
         const createdUser = {
-            id: this.getNextId(users),
-            ...userData
+            ...userData,
+            id: this.getNextId(users)
         }
         users.push(createdUser);
         localStorage.setItem(DataKeys.Users, JSON.stringify(users));
@@ -76,13 +85,47 @@ class Backend {
 
     // Метод возвращает список досок пользователя. Текущий залогиненный пользователь извлекается из localStorage
     getBoards(): Array<Board> {
-        const user: User = JSON.parse(localStorage.getItem(DataKeys.LoggedUser) || '{}');
-
-        // Если предпринимается попытка выполнить запрос, если нет залогиненного пользователя - выбрасываем исключение
-        if (!user.id) throw new Error('Пользователь не залогинен!');
-
+        const user = this.getLoggedUser();
         const boards: Array<Board> = JSON.parse(localStorage.getItem(DataKeys.Boards) || '[]');
         return boards.filter(board => board.userId === user.id);
+    }
+
+    // Метод создает в "базе данных" доску и возвращает её (с уже проставленным id).
+    createBoard(board: Board): Board {
+        // Извлекаем текущего залогиненного пользователя.
+        // Если такого нет - будет сразу же выброшено исключение.
+        // Методы доступа к данным нельзя выполнять, если пользователь не вошел в систему
+        // Мы игнорируем возвращаемый объект, так как предполагаем, что он просто должен существовать
+        this.getLoggedUser();
+
+        // Выбираем из "базы данных" список досок и узнаем идентификатор, который должен быть присвоен создаваемой доске
+        const boards: Array<Board> = JSON.parse(localStorage.getItem(DataKeys.Boards) || '[]');
+        const nextId = this.getNextId(boards);
+        const createdBoard = {
+            ...board,
+            id: nextId
+        }
+        boards.push(createdBoard);
+        localStorage.setItem(DataKeys.Boards, JSON.stringify(boards));
+        return createdBoard;
+    }
+
+    // Метод принимает объект "доски" с исправленными полями и заменяет им уже существующий в БД объект с тем же идентификатором
+    patchBoard(board: Board): Board {
+        this.getLoggedUser();
+        const boards: Array<Board> = JSON.parse(localStorage.getItem(DataKeys.Boards) || '[]');
+        const patchedBoardsList = boards.map(boardFromDb => boardFromDb.id === board.id ? board : boardFromDb);
+        localStorage.setItem(DataKeys.Boards, JSON.stringify(patchedBoardsList));
+        return board;
+    }
+
+    // Метод принимает объект "доски" и удаляет его из БД. Удаленный объект возвращается из метода
+    removeBoard(board: Board) {
+        this.getLoggedUser();
+        const boards: Array<Board> = JSON.parse(localStorage.getItem(DataKeys.Boards) || '[]');
+        const patchedBoardsList = boards.filter(boardFromDb => boardFromDb.id !== board.id);
+        localStorage.setItem(DataKeys.Boards, JSON.stringify(patchedBoardsList));
+        return board;
     }
 }
 

@@ -22,7 +22,8 @@ const BoardList: React.FC = () => {
             {loggedUser &&
             <h1>
                 Здесь будет список досок пользователя {loggedUser.firstName} {loggedUser.lastName}
-            </h1>}
+            </h1>
+            }
             <ul>
                 {boards.map(
                     board =>
