@@ -37,3 +37,11 @@ export const removeBoard = (board: Board) => (dispatch: Dispatch<BoardAction>): 
         payload: removedBoard
     });
 }
+
+// Редьюсер для удаления списко досок из хранилища
+export const removeBoardsFromRedux = () => (dispatch: Dispatch<BoardAction>): void => {
+    dispatch({
+        type: BoardActionTypes.SetBoardList,
+        payload: []
+    });
+}

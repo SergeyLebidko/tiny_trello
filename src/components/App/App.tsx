@@ -7,17 +7,13 @@ import NoMatch from '../pages/NoMatch/NoMatch';
 import {ROUTE_PREFIX} from '../../constants/settings';
 import {getLoggedUser, useTypedSelector} from '../../store/selectors';
 import {DataKeys} from '../../backend/backend';
-import {User, UserActionTypes} from '../../store/user/types';
+import {User} from '../../store/user/types';
 import {useDispatch} from 'react-redux';
-import {loadBoards} from '../../store/board/actions';
-import {loadCards} from '../../store/card/actions';
-import {loadTasks} from '../../store/task/actions';
+import {loadBoards, removeBoardsFromRedux} from '../../store/board/actions';
+import {loadCards, removeCardsFromRedux} from '../../store/card/actions';
+import {loadTasks, removeTasksFromRedux} from '../../store/task/actions';
+import {setUser} from '../../store/user/actions';
 import './App.scss';
-
-import {BoardActionTypes} from '../../store/board/types';
-import {CardActionTypes} from '../../store/card/types';
-import {TaskActionTypes} from '../../store/task/types';
-import {setUser} from "../../store/user/actions";
 
 function App() {
     const dispatch = useDispatch();
@@ -50,30 +46,19 @@ function App() {
             // Загружаем задачи пользователя
             dispatch(loadTasks());
         } else {
-            //TODO Создать для нижележащих операций отдельные экшены
-
             // Удаляем из redux доски
-            dispatch({
-                type: BoardActionTypes.SetBoardList,
-                payload: []
-            });
+            dispatch(removeBoardsFromRedux());
 
             // Удаляем из redux карточки
-            dispatch({
-                type: CardActionTypes.SetCardList,
-                payload: []
-            });
+            dispatch(removeCardsFromRedux());
 
             // Удаляем из redux задачи
-            dispatch({
-                type: TaskActionTypes.SetTaskList,
-                payload: []
-            });
+            dispatch(removeTasksFromRedux());
         }
         setHasDataLoad(true);
     }, [loggedUser, dispatch, setHasUserChecked]);
 
-    // Пока не выполнена проверка пользователя, выводим сообщение о загрузке - прелоадер
+    // Пока не выполнена проверка пользователя и загрузка его данных, выводим сообщение о загрузке - прелоадер
     if (!hasUserChecked || !hasDataLoad) return <div>Пожалуйста подождите...</div>;
 
     return (

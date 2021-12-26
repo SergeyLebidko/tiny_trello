@@ -9,3 +9,10 @@ export const loadCards = () => (dispatch: Dispatch<CardAction>): void => {
         payload: cards
     });
 }
+
+export const removeCardsFromRedux = () => (dispatch: Dispatch<CardAction>): void => {
+    dispatch({
+        type: CardActionTypes.SetCardList,
+        payload: []
+    })
+}

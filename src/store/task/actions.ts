@@ -9,3 +9,10 @@ export const loadTasks = () => (dispatch: Dispatch<TaskAction>): void => {
         payload: tasks
     });
 }
+
+export const removeTasksFromRedux = () => (dispatch: Dispatch<TaskAction>): void => {
+    dispatch({
+        type: TaskActionTypes.SetTaskList,
+        payload: []
+    })
+}
