@@ -5,7 +5,7 @@ import BoardList from '../pages/BoardList/BoardList';
 import Board from '../pages/Board/Board';
 import NoMatch from '../pages/NoMatch/NoMatch';
 import {ROUTE_PREFIX} from '../../constants/settings';
-import {useTypedSelector} from '../../store/selectors';
+import {getLoggedUser, useTypedSelector} from '../../store/selectors';
 import {DataKeys} from '../../backend/backend';
 import {User, UserActionTypes} from '../../store/user/types';
 import {useDispatch} from 'react-redux';
@@ -14,7 +14,7 @@ import './App.scss';
 function App() {
     const dispatch = useDispatch();
     const [hasUserChecked, setHasUserChecked] = useState<boolean>(false);
-    const loggedUser = useTypedSelector(state => state.user);
+    const loggedUser = useTypedSelector(getLoggedUser);
 
     // При монтировании приложения сразу же пытаемся извлечь данные о залогинившемся пользователе из localStorage
     // Если они там есть - тут же записываем их в redux и таким образом делаем доступным черех хуки редакса всему приложению

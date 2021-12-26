@@ -3,7 +3,7 @@ import {Link} from 'react-router-dom';
 import Register from '../../modals/Register/Register';
 import Login from '../../modals/Login/Login';
 import Logout from '../../modals/Logout/Logout';
-import {useTypedSelector} from '../../../store/selectors';
+import {getLoggedUser, useTypedSelector} from '../../../store/selectors';
 import './Main.scss';
 
 enum ModalMode {
@@ -14,7 +14,7 @@ enum ModalMode {
 }
 
 const Main: React.FC = () => {
-    const loggedUser = useTypedSelector(state => state.user);
+    const loggedUser = useTypedSelector(getLoggedUser);
 
     const [modalMode, setModalMode] = useState<ModalMode>(ModalMode.NoModal);
 

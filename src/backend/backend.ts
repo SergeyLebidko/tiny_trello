@@ -75,9 +75,14 @@ class Backend {
     }
 
     // Метод возвращает список досок пользователя. Текущий залогиненный пользователь извлекается из localStorage
-    getBoards():Array<Board> {
+    getBoards(): Array<Board> {
+        const user: User = JSON.parse(localStorage.getItem(DataKeys.LoggedUser) || '{}');
+
+        // Если предпринимается попытка выполнить запрос, если нет залогиненного пользователя - выбрасываем исключение
+        if (!user.id) throw new Error('Пользователь не залогинен!');
+
         const boards: Array<Board> = JSON.parse(localStorage.getItem(DataKeys.Boards) || '[]');
-        return boards;
+        return boards.filter(board => board.userId === user.id);
     }
 }
 

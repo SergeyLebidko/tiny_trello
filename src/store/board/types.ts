@@ -1,11 +1,12 @@
 export type Board = {
-    id: number,
+    id?: number,
     userId: number,
     title: string
 }
 
-enum BoardActionTypes {
-    SetBoardList = "SET_BOARD_LIST",
+export enum BoardActionTypes {
+    SetBoardList = 'SET_BOARD_LIST',
+    CreateBoard = 'CREATE_BOARD',
     PatchBoard = 'PATCH_BOARD',
     RemoveBoard = 'REMOVE_BOARD'
 }
@@ -13,6 +14,11 @@ enum BoardActionTypes {
 export type SetBoardListAction = {
     type: BoardActionTypes.SetBoardList,
     payload: Array<Board>
+}
+
+export type CreateBoardAction = {
+    type: BoardActionTypes.CreateBoard,
+    payload: Board
 }
 
 export type PatchBoardAction = {
@@ -26,4 +32,4 @@ export type RemoveBoardAction = {
 }
 
 //Объединяем все типы экшенов для простоты вставки
-export type BoardAction = SetBoardListAction | PatchBoardAction | RemoveBoardAction;
+export type BoardAction = SetBoardListAction | CreateBoardAction | PatchBoardAction | RemoveBoardAction;
