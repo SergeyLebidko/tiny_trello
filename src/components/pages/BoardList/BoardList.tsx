@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Link} from 'react-router-dom';
 import {getBoards, getLoggedUser, useTypedSelector} from '../../../store/selectors';
 import {ROUTE_PREFIX} from '../../../constants/settings';
@@ -15,12 +15,12 @@ const BoardList: React.FC = () => {
     const loggedUser = useTypedSelector(getLoggedUser);
     const boards = useTypedSelector(getBoards);
 
-
     const removeBoardHandler = (board: Board): void => {
         dispatch(removeBoard(board));
     }
 
     const renameBoardHandler = (board: Board): void => {
+
         dispatch(patchBoard(board));
     }
 
@@ -33,6 +33,8 @@ const BoardList: React.FC = () => {
         }
     }
 
+
+
     return (
         loggedUser ? (
             <div>
@@ -42,10 +44,18 @@ const BoardList: React.FC = () => {
                 <ul style={{display:'inline-flex'}}>
                     {boards.map(
                         board =>
-                            <li key={board.id} style={{width:200, height:100, border: '1px solid black'}}>
-                                <Link to={`/${ROUTE_PREFIX}/board/${board.id}`}>{board.title}</Link>
-                                <Menu remove={() => removeBoardHandler(board)} rename={() => renameBoardHandler(board)}>
-                                </Menu>
+                            <li key={board.id} style={{position:"relative", width:200, height:100, border: '1px solid black'}}>
+                                <Link
+                                    to={`/${ROUTE_PREFIX}/board/${board.id}`}
+                                >
+                                    {board.title}
+                                </Link>
+                                <Menu
+                                    remove={() => removeBoardHandler(board)}
+                                    rename={renameBoardHandler}
+                                    board={board}
+                                />
+
                             </li>
                     )}
                     <button
@@ -54,6 +64,7 @@ const BoardList: React.FC = () => {
                     >
                         Создать доску
                     </button>
+
                 </ul>
             </div>
             )
