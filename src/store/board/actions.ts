@@ -1,6 +1,9 @@
 import {Dispatch} from 'redux';
 import {Board, BoardAction, BoardActionTypes} from './types';
 import backend from '../../backend/backend';
+import {CardAction, CardActionTypes} from "../card/types";
+import {TaskAction, TaskActionTypes} from "../task/types";
+import {RootState} from "../store";
 
 export const loadBoards = () => (dispatch: Dispatch<BoardAction>): void => {
     const boards = backend.getBoards();
@@ -30,11 +33,23 @@ export const patchBoard = (board: Board) => (dispatch: Dispatch<BoardAction>): v
 }
 
 // Редьюсер для удаления доски
-export const removeBoard = (board: Board) => (dispatch: Dispatch<BoardAction>): void => {
+export const removeBoard = (board: Board) => (dispatch: Dispatch<BoardAction | CardAction | TaskAction>, getState: () => RootState): void => {
     const removedBoard = backend.removeBoard(board);
     dispatch({
         type: BoardActionTypes.RemoveBoard,
         payload: removedBoard
+    });
+
+    // Удаляем из хранилища все связанные с удаленной доской карточки
+    dispatch({
+        type: CardActionTypes.SetCardList,
+        payload: getState().cards.filter(card => card.boardId !== removedBoard.id)
+    });
+
+    // После удаления карточек - удаляем из хранилища связанные с ними таски
+    dispatch({
+        type: TaskActionTypes.SetTaskList,
+        payload: getState().tasks.filter(task => !!getState().cards.find(card => task.cardId === card.id))
     });
 }
 
