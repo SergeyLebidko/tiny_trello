@@ -3,9 +3,9 @@ import {useParams} from 'react-router-dom';
 import {Board} from '../../../store/board/types';
 import NoMatch from '../NoMatch/NoMatch';
 import {getBoards, useTypedSelector} from '../../../store/selectors';
-import './BoardDisplay.scss';
+import './BoardPanel.scss';
 
-const BoardDisplay: React.FC = () => {
+const BoardPanel: React.FC = () => {
     const boards: Array<Board> = useTypedSelector(getBoards);
     const {boardId} = useParams();
 
@@ -21,4 +21,4 @@ const BoardDisplay: React.FC = () => {
     );
 }
 
-export default BoardDisplay;
+export default BoardPanel;
