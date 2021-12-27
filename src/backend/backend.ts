@@ -53,6 +53,62 @@ class Backend {
         return user;
     }
 
+    // Метод для получения списков сущностей
+    private get<T extends Board | Card | Task>(dataKey: DataKeys): Array<T> {
+        const user = this.getLoggedUser();
+        const entityList: Array<T> = JSON.parse(localStorage.getItem(dataKey) || '[]');
+        if (dataKey === DataKeys.Boards) {
+            return entityList.filter(board => (board as Board).userId === user.id);
+        }
+        if (dataKey === DataKeys.Cards) {
+            const boards = this.get(DataKeys.Boards);
+            return entityList.filter(card => !!boards.find(board => board.id === (card as Card).boardId));
+        }
+        if (dataKey === DataKeys.Tasks) {
+            const cards = this.get(DataKeys.Cards);
+            return entityList.filter(task => !!cards.find(card => card.id === (task as Task).cardId));
+        }
+        throw new Error('Неизвестный тип сущности');
+    }
+
+    // Метод для создания сущностей
+    private create<T extends Board | Card | Task>(element: T, dataKey: DataKeys): T {
+        // Извлекаем текущего залогиненного пользователя.
+        // Если такого нет - будет сразу же выброшено исключение.
+        // Методы доступа к данным нельзя выполнять, если пользователь не вошел в систему
+        // Мы игнорируем возвращаемый объект, так как предполагаем, что он просто должен существовать
+        this.getLoggedUser();
+
+        // Выбираем из "базы данных" список элементов заданного типа и узнаем идентификатор, который должен быть присвоен создаваемому элементу
+        const elementsInBase: Array<T> = JSON.parse(localStorage.getItem(dataKey) || '[]');
+        const nextId = this.getNextId(elementsInBase);
+        const createdElement = {
+            ...element,
+            id: nextId
+        }
+        elementsInBase.push(createdElement);
+        localStorage.setItem(DataKeys.Boards, JSON.stringify(elementsInBase));
+        return createdElement;
+    }
+
+    // Метод для изменения сущностей
+    private patch<T extends Board | Card | Task>(element: T, dataKey: DataKeys): T {
+        this.getLoggedUser();
+        const elementsInBase: Array<T> = JSON.parse(localStorage.getItem(dataKey) || '[]');
+        const updatedElementList = elementsInBase.map(elementInBase => elementInBase.id === element.id ? element : elementInBase);
+        localStorage.setItem(dataKey, JSON.stringify(updatedElementList));
+        return element;
+    }
+
+    // Метод для удаления сущностей
+    private remove<T extends Board | Card | Task>(element: T, dataKey: DataKeys): T {
+        this.getLoggedUser();
+        const elementsInBase: Array<T> = JSON.parse(localStorage.getItem(dataKey) || '[]');
+        const updatedElementList = elementsInBase.filter(elementsInBase => elementsInBase.id !== element.id);
+        localStorage.setItem(dataKey, JSON.stringify(updatedElementList));
+        return element;
+    }
+
     /* ********** Блок методов для работы с пользователями (сущность User) ********** */
 
     // Метод регистрирует нового пользователя, выполняет логин, и сразу же возвращает его
@@ -89,81 +145,57 @@ class Backend {
 
     /* ********** Блок методов для работы с досками (сущность Board) ********** */
 
-    // Метод возвращает список досок пользователя. Текущий залогиненный пользователь извлекается из localStorage
     getBoards(): Array<Board> {
-        const user = this.getLoggedUser();
-        const boards: Array<Board> = JSON.parse(localStorage.getItem(DataKeys.Boards) || '[]');
-        return boards.filter(board => board.userId === user.id);
+        return this.get<Board>(DataKeys.Boards);
     }
 
-    // Метод создает в "базе данных" доску и возвращает её (с уже проставленным id).
     createBoard(board: Board): Board {
-        // Извлекаем текущего залогиненного пользователя.
-        // Если такого нет - будет сразу же выброшено исключение.
-        // Методы доступа к данным нельзя выполнять, если пользователь не вошел в систему
-        // Мы игнорируем возвращаемый объект, так как предполагаем, что он просто должен существовать
-        this.getLoggedUser();
-
-        // Выбираем из "базы данных" список досок и узнаем идентификатор, который должен быть присвоен создаваемой доске
-        const boards: Array<Board> = JSON.parse(localStorage.getItem(DataKeys.Boards) || '[]');
-        const nextId = this.getNextId(boards);
-        const createdBoard = {
-            ...board,
-            id: nextId
-        }
-        boards.push(createdBoard);
-        localStorage.setItem(DataKeys.Boards, JSON.stringify(boards));
-        return createdBoard;
+        return this.create<Board>(board, DataKeys.Boards);
     }
 
-    // Метод принимает объект "доски" с исправленными полями и заменяет им уже существующий в БД объект с тем же идентификатором
     patchBoard(board: Board): Board {
-        this.getLoggedUser();
-        const boards: Array<Board> = JSON.parse(localStorage.getItem(DataKeys.Boards) || '[]');
-        const patchedBoardsList = boards.map(boardFromDb => boardFromDb.id === board.id ? board : boardFromDb);
-        localStorage.setItem(DataKeys.Boards, JSON.stringify(patchedBoardsList));
-        return board;
+        return this.patch<Board>(board, DataKeys.Boards);
     }
 
-    // Метод принимает объект "доски" и удаляет его из БД. Удаленный объект возвращается из метода
     removeBoard(board: Board) {
-        this.getLoggedUser();
-        const boards: Array<Board> = JSON.parse(localStorage.getItem(DataKeys.Boards) || '[]');
-        const patchedBoardsList = boards.filter(boardFromDb => boardFromDb.id !== board.id);
-        localStorage.setItem(DataKeys.Boards, JSON.stringify(patchedBoardsList));
-        return board;
+        return this.patch<Board>(board, DataKeys.Boards);
     }
 
     /* ********** Блок методов для работы с карточками (сущность Card) ********** */
 
-    // Метод возвращает список карточек залогинившегося пользователя
     getCards(): Array<Card> {
-        const boards: Array<Board> = this.getBoards();
-
-        // Получаем из localStorage массив всех карточек
-        const cards: Array<Card> = JSON.parse(localStorage.getItem(DataKeys.Cards) || '[]');
-
-        // Возвращаем только те карточки, которые связаны с досками текущего пользователя
-        return cards.filter(card => !!boards.find(board => board.id === card.boardId));
+        return this.get<Card>(DataKeys.Cards);
     }
 
-    //TODO Дополнить список методов для работы с карточками
+    createCard(card: Card): Card {
+        return this.create<Card>(card, DataKeys.Cards);
+    }
+
+    patchCard(card: Card): Card {
+        return this.patch<Card>(card, DataKeys.Cards);
+    }
+
+    removeCard(card: Card): Card {
+        return this.remove<Card>(card, DataKeys.Cards);
+    }
 
     /* ********** Блок методов для работы с задачами (сущность Task) ********** */
 
-    // Метод возвращает список всех задач текущего пользователя
     getTasks(): Array<Task> {
-        const cards: Array<Card> = this.getCards();
-
-        // Получаем из localStorage массив всех задач
-        const tasks: Array<Task> = JSON.parse(localStorage.getItem(DataKeys.Tasks) || '[]');
-
-        // Возвращаем только те задачи, которые связаны с досками текущего пользователя
-        return tasks.filter(task => !!cards.find(card => card.id === task.cardId));
+        return this.get<Task>(DataKeys.Tasks);
     }
 
-    //TODO Дополнить список методов для работы с задачами
+    createTask(task: Task): Task {
+        return this.create<Task>(task, DataKeys.Tasks);
+    }
 
+    patchTask(task: Task): Task {
+        return this.patch<Task>(task, DataKeys.Tasks);
+    }
+
+    removeTask(task: Task): Task {
+        return this.remove<Task>(task, DataKeys.Tasks);
+    }
 }
 
 const backend = new Backend();
