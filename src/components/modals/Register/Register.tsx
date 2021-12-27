@@ -2,6 +2,8 @@ import React, {useRef, useState} from 'react';
 import {createRandomString} from '../../../utils/common';
 import {ALL_LETTERS, DIGITS, PASSWORD_MIN_LEN} from '../../../constants/settings';
 import {useModalError} from '../../../utils/hooks';
+import {useDispatch} from 'react-redux';
+import {registerUserAction} from '../../../store/user/actions';
 import './Register.scss';
 
 type RegisterProps = {
@@ -9,6 +11,8 @@ type RegisterProps = {
 }
 
 const Register: React.FC<RegisterProps> = ({closeHandler}) => {
+    const dispatch = useDispatch();
+
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const [error, setErrorText] = useModalError();
@@ -69,7 +73,19 @@ const Register: React.FC<RegisterProps> = ({closeHandler}) => {
             return;
         }
 
-        // TODO Вставить код отправки данных нового пользователя на "сервер"
+        const error = dispatch(registerUserAction({
+            login,
+            firstName,
+            lastName,
+            password: password1
+        }));
+        if (error !== null) {
+            setErrorText(String(error));
+            return;
+        }
+
+        // Если при выполнении регистрации не произошло ошибок - закрываем модалку
+        closeHandler();
     }
 
     return (
