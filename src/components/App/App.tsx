@@ -36,23 +36,14 @@ function App() {
     // Если пользователь залогинился - сразу же подгружаем из "бэкенда" в redux все ассоцированные с ним данные
     // Если разлогинился - удаляем его данные из хранилища
     useEffect(() => {
+        setHasDataLoad(false);
         if (loggedUser) {
-            // Загружаем доски пользователя
             dispatch(loadBoards());
-
-            // Загружаем карточки пользователя
             dispatch(loadCards());
-
-            // Загружаем задачи пользователя
             dispatch(loadTasks());
         } else {
-            // Удаляем из redux доски
             dispatch(removeBoardsFromRedux());
-
-            // Удаляем из redux карточки
             dispatch(removeCardsFromRedux());
-
-            // Удаляем из redux задачи
             dispatch(removeTasksFromRedux());
         }
         setHasDataLoad(true);
