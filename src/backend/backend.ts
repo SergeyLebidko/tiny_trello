@@ -105,6 +105,24 @@ class Backend {
         this.getLoggedUser();
         const elementsInBase: Array<T> = JSON.parse(localStorage.getItem(dataKey) || '[]');
         const updatedElementList = elementsInBase.filter(elementsInBase => elementsInBase.id !== element.id);
+        if (dataKey === DataKeys.Cards) {
+            const tasks: Array<Task> = JSON.parse(localStorage.getItem(DataKeys.Tasks) || '[]');
+            tasks.forEach(task => {
+                if (task.cardId === element.id) {
+                    this.remove<Task>(task, DataKeys.Tasks);
+                }
+            });
+        } else if (dataKey === DataKeys.Boards) {
+            const cards: Array<Card> = JSON.parse(localStorage.getItem(DataKeys.Cards) || '[]');
+            cards.forEach(card => {
+                if (card.boardId === element.id) {
+                    this.remove<Card>(card, DataKeys.Cards);
+                }
+            });
+        } else if (dataKey !== DataKeys.Tasks) {
+            throw new Error('Неизвестный тип сущности!');
+        }
+
         localStorage.setItem(dataKey, JSON.stringify(updatedElementList));
         return element;
     }
