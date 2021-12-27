@@ -1,9 +1,9 @@
 import {Dispatch} from 'redux';
 import {Board, BoardAction, BoardActionTypes} from './types';
+import {CardAction, CardActionTypes} from '../card/types';
+import {TaskAction, TaskActionTypes} from '../task/types';
 import backend from '../../backend/backend';
-import {CardAction, CardActionTypes} from "../card/types";
-import {TaskAction, TaskActionTypes} from "../task/types";
-import {RootState} from "../store";
+import {RootState} from '../store';
 
 export const loadBoards = () => (dispatch: Dispatch<BoardAction>): void => {
     const boards = backend.getBoards();
