@@ -6,7 +6,10 @@ export type Card = {
 }
 
 export enum CardActionTypes {
-    SetCardList = 'SET_CARD_LIST'
+    SetCardList = 'SET_CARD_LIST',
+    CreateCard = 'CREATE_CARD',
+    PatchCard = 'PATCH_CARD',
+    RemoveCard = 'REMOVE_CARD'
 }
 
 export type SetCardListAction = {
@@ -14,7 +17,20 @@ export type SetCardListAction = {
     payload: Array<Card>
 }
 
-//TODO Дополнить перечень экшенами для выполнения операций удаления, создания, правки и т.д...
+export type CreateCardAction = {
+    type: CardActionTypes.CreateCard,
+    payload: Card
+}
+
+export type PatchCardAction = {
+    type: CardActionTypes.PatchCard,
+    payload: Card
+}
+
+export type RemoveCardAction = {
+    type: CardActionTypes.RemoveCard,
+    payload: Card
+}
 
 //Объединяем все типы экшенов для простоты вставки
-export type CardAction = SetCardListAction;
+export type CardAction = SetCardListAction | CreateCardAction | PatchCardAction | RemoveCardAction;

@@ -15,7 +15,10 @@ export type Task = {
 }
 
 export enum TaskActionTypes {
-    SetTaskList = 'SET_TASK_LIST'
+    SetTaskList = 'SET_TASK_LIST',
+    CreateTask = 'CREATE_TASK',
+    PatchTask = 'PATCH_TASK',
+    RemoveTask = 'REMOVE_TASK'
 }
 
 export type SetTaskListAction = {
@@ -23,7 +26,20 @@ export type SetTaskListAction = {
     payload: Array<Task>
 }
 
-//TODO Дополнить перечень экшенами для выполнения операций удаления, создания, правки и т.д...
+export type CreateTaskAction = {
+    type: TaskActionTypes.CreateTask,
+    payload: Task
+}
+
+export type PatchTaskAction = {
+    type: TaskActionTypes.PatchTask,
+    payload: Task
+}
+
+export type RemoveTaskAction = {
+    type: TaskActionTypes.RemoveTask,
+    payload: Task
+}
 
 //Объединяем все типы экшенов для простоты вставки
-export type TaskAction = SetTaskListAction;
+export type TaskAction = SetTaskListAction | CreateTaskAction | PatchTaskAction | RemoveTaskAction;
