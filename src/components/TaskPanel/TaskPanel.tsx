@@ -2,7 +2,12 @@ import React from 'react';
 import {Importance, Task} from '../../store/task/types';
 import './TaskPanel.scss';
 
-const TaskPanel: React.FC<Task> = ({text, done, importance, deadline}) => {
+type TaskPanelProps = {
+    task: Task,
+    removeTaskHandler: (task: Task) => void
+}
+
+const TaskPanel: React.FC<TaskPanelProps> = ({task, removeTaskHandler}) => {
 
     const IMPORTANCE_TEXT_SELECTOR = {
         [Importance.Low]: 'Не высокая',
@@ -18,8 +23,10 @@ const TaskPanel: React.FC<Task> = ({text, done, importance, deadline}) => {
         return `${d}.${m}.${y}`
     }
 
+    const {text, done, importance, deadline} = task;
     return (
         <li className="task_panel">
+            <button onClick={() => removeTaskHandler(task)}>Удалить задачу</button>
             <h1>{text}</h1>
             <h2>{done ? 'Выполнено' : 'Не выполнено'}</h2>
             <h2>Важность: {IMPORTANCE_TEXT_SELECTOR[importance]}</h2>

@@ -6,13 +6,21 @@ import NoMatch from '../NoMatch/NoMatch';
 import {getBoards, getCards, useTypedSelector} from '../../../store/selectors';
 import {Card} from '../../../store/card/types';
 import {ROUTE_PREFIX} from '../../../constants/settings';
+import {useDispatch} from 'react-redux';
+import {removeCard} from '../../../store/card/actions';
 import './BoardPanel.scss';
 
 const BoardPanel: React.FC = () => {
+    const dispatch = useDispatch();
+
     const boards: Array<Board> = useTypedSelector(getBoards);
     const cards: Array<Card> = useTypedSelector(getCards);
 
     const {boardId} = useParams();
+
+    const removeCardHandler = (card: Card): void => {
+        dispatch(removeCard(card));
+    }
 
     // Ищем доску, соответствующую переданному id. Если доски с таким идентификатором не нашлось - выводим страницу NoMatch
     const board = boards.find(board => board.id === Number(boardId));
@@ -29,7 +37,7 @@ const BoardPanel: React.FC = () => {
                 {cards
                     .filter(card => card.boardId === board.id)
                     .sort((a, b) => a.order - b.order)
-                    .map(card => <CardPanel key={card.id} {...card}/>)
+                    .map(card => <CardPanel key={card.id} card={card} removeCardHandler={removeCardHandler}/>)
                 }
             </ul>
         </div>

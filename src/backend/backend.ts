@@ -176,7 +176,7 @@ class Backend {
     }
 
     removeBoard(board: Board) {
-        return this.patch<Board>(board, DataKeys.Boards);
+        return this.remove<Board>(board, DataKeys.Boards);
     }
 
     /* ********** Блок методов для работы с карточками (сущность Card) ********** */
