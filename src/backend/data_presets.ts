@@ -10,6 +10,13 @@ export const USERS_PRESET: Array<User> = [
         lastName: 'Резцов',
         login: 'Dima',
         password: '123'
+    },
+    {
+        id: 2,
+        firstName: 'Антон',
+        lastName: 'Наумов',
+        login: 'Anton',
+        password: '123'
     }
 ];
 

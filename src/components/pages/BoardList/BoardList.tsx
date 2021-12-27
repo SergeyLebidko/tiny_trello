@@ -1,12 +1,13 @@
-import React from 'react';
+import React, {useState} from 'react';
 import {Link} from 'react-router-dom';
 import {getBoards, getLoggedUser, useTypedSelector} from '../../../store/selectors';
 import {ROUTE_PREFIX} from '../../../constants/settings';
 import {useDispatch} from 'react-redux';
-import {createBoard, removeBoard} from '../../../store/board/actions';
+import {createBoard, patchBoard, removeBoard} from '../../../store/board/actions';
 import {Board} from '../../../store/board/types';
 import './BoardList.scss';
 import {User} from "../../../store/user/types";
+import Menu from "../../Menu/Menu";
 
 const BoardList: React.FC = () => {
     const dispatch = useDispatch();
@@ -14,9 +15,15 @@ const BoardList: React.FC = () => {
     const loggedUser = useTypedSelector(getLoggedUser);
     const boards = useTypedSelector(getBoards);
 
+
     const removeBoardHandler = (board: Board): void => {
         dispatch(removeBoard(board));
     }
+
+    const renameBoardHandler = (board: Board): void => {
+        dispatch(patchBoard(board));
+    }
+
     const addBoardHandler = (loggedUser: User) : void => {
         if (loggedUser.id) {
             dispatch(createBoard({
@@ -37,7 +44,8 @@ const BoardList: React.FC = () => {
                         board =>
                             <li key={board.id} style={{width:200, height:100, border: '1px solid black'}}>
                                 <Link to={`/${ROUTE_PREFIX}/board/${board.id}`}>{board.title}</Link>
-                                <button onClick={() => removeBoardHandler(board)}>Удалить доску</button>
+                                <Menu remove={() => removeBoardHandler(board)} rename={() => renameBoardHandler(board)}>
+                                </Menu>
                             </li>
                     )}
                     <button

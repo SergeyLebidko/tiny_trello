@@ -83,8 +83,8 @@ class Backend {
         const elementsInBase: Array<T> = JSON.parse(localStorage.getItem(dataKey) || '[]');
         const nextId = this.getNextId(elementsInBase);
         const createdElement = {
+            id: nextId,
             ...element,
-            id: nextId
         }
         elementsInBase.push(createdElement);
         localStorage.setItem(DataKeys.Boards, JSON.stringify(elementsInBase));
