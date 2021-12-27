@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import {BrowserRouter, Route, Routes} from 'react-router-dom';
 import Main from '../pages/Main/Main';
 import BoardList from '../pages/BoardList/BoardList';
-import Board from '../pages/Board/Board';
+import BoardDisplay from '../pages/BoardDisplay/BoardDisplay';
 import NoMatch from '../pages/NoMatch/NoMatch';
 import {ROUTE_PREFIX} from '../../constants/settings';
 import {getLoggedUser, useTypedSelector} from '../../store/selectors';
@@ -60,7 +60,7 @@ function App() {
                 {loggedUser &&
                 <>
                     <Route path={`/${ROUTE_PREFIX}/board_list`} element={<BoardList/>}/>
-                    <Route path={`/${ROUTE_PREFIX}/board/:boardId`} element={<Board/>}/>
+                    <Route path={`/${ROUTE_PREFIX}/board/:boardId`} element={<BoardDisplay/>}/>
                 </>
                 }
                 <Route path="*" element={<NoMatch/>}/>
