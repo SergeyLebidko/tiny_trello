@@ -1,10 +1,9 @@
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import {getBoards, getLoggedUser, useTypedSelector} from '../../../store/selectors';
 import {useDispatch} from 'react-redux';
 import {createBoard, patchBoard, removeBoard} from '../../../store/board/actions';
 import {Board} from '../../../store/board/types';
 import './BoardList.scss';
-import {User} from "../../../store/user/types";
 import BoardCard from "../../BoardCard/BoardCard";
 
 const BoardList: React.FC = () => {
@@ -12,6 +11,8 @@ const BoardList: React.FC = () => {
 
     const loggedUser = useTypedSelector(getLoggedUser);
     const boards = useTypedSelector(getBoards);
+    const [edit,setEdit] = useState<boolean>(false)
+    const inputRef = useRef<HTMLInputElement>(null)
 
     const removeBoardHandler = (board: Board): void => {
         dispatch(removeBoard(board));
@@ -21,13 +22,23 @@ const BoardList: React.FC = () => {
         dispatch(patchBoard(board));
     }
 
-    const addBoardHandler = (loggedUser: User): void => {
+    const addBoardHandler = (): void => {
+        if (!loggedUser || !inputRef.current) return;
         if (loggedUser.id) {
             dispatch(createBoard({
                 userId: loggedUser.id,
-                title: 'Какая-то борда'
+                title: inputRef.current.value,
             }));
+            setEdit(!edit)
         }
+    }
+
+    const getTitleEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+        if (e.code === 'Enter') {
+            addBoardHandler();
+            setEdit(!edit);
+        }
+
     }
 
 
@@ -46,14 +57,24 @@ const BoardList: React.FC = () => {
                                 rename={renameBoardHandler}
                             />)
                         }
-                        <li>
-                            <button
-                                style={{width: 200, height: 100, border: '1px solid black'}}
-                                onClick={() => addBoardHandler(loggedUser)}
-                            >
-                                Создать доску
-                            </button>
-                        </li>
+                        { edit?
+                            <li style={{width: 200, height: 100, border: '1px solid black'}}>
+                                <p>Введите название доски</p>
+                                <input type="text" ref={inputRef} autoFocus onKeyDown={getTitleEnter}/>
+                                <button onClick={addBoardHandler}>
+                                    Создать доску
+                                </button>
+                            </li>
+                            :
+                            <li>
+                                <button
+                                    style={{width: 200, height: 100, border: '1px solid black'}}
+                                    onClick={() => setEdit(!edit)}
+                                >
+                                    Создать доску
+                                </button>
+                            </li>
+                        }
                     </ul>
                 </div>
             )
