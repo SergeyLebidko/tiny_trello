@@ -43,7 +43,7 @@ const BoardList: React.FC = () => {
                                 key={board.id}
                                 board={board}
                                 remove={() => removeBoardHandler(board)}
-                                rename={() => renameBoardHandler(board)}
+                                rename={renameBoardHandler}
                             />)
                         }
                         <li>
