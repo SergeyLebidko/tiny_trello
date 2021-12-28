@@ -14,3 +14,8 @@ export function createRandomString(size = 8, hasNoDigits = true): string {
     }
     return result.join('');
 }
+
+// Защита типа для корректного чтения сообщений об ошибках в блоках catch
+export function isError(e: unknown): e is Error {
+    return e instanceof Error;
+}

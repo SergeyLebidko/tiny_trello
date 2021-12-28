@@ -1,23 +1,24 @@
 export type User = {
-    id: number,
-    firstName: string,
-    lastName: string,
+    id?: number,
     login: string,
     password: string,
-}
-//Константы обычно пишут заглавными буквами, оставил как есть
-export enum UserActions {
-    LogoutUser = 'logout_user',
-    CheckUser = 'check_user',
+    firstName: string,
+    lastName: string
 }
 
-export type LogoutUserAction = {
-    type: UserActions.LogoutUser
+export enum UserActionTypes {
+    SetUser = 'SET_USER',
+    RemoveUser = 'REMOVE_USER',
 }
 
-export type CheckUserAction = {
-    type: UserActions.CheckUser,
-    payload: {login : string, password : string, }
+export type SetUserAction = {
+    type: UserActionTypes.SetUser,
+    payload: User
 }
+
+export type RemoveUserAction = {
+    type: UserActionTypes.RemoveUser
+}
+
 //Объединяем все типы экшенов для простоты вставки
-export type UserAction =  LogoutUserAction | CheckUserAction;
+export type UserAction =  SetUserAction | RemoveUserAction;

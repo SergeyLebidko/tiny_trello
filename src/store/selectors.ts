@@ -1,13 +1,13 @@
 import {RootState} from './store';
-import {TypedUseSelectorHook, useSelector} from "react-redux";
+import {TypedUseSelectorHook, useSelector} from 'react-redux';
 import {User} from './user/types';
+import {Board} from './board/types';
+import {Task} from './task/types';
+import {Card} from './card/types';
 
-
-//Более простой вариант кастомного хука для Typescript
 export const useTypedSelector: TypedUseSelectorHook<RootState> = useSelector;
 
-//Получение индекса в массиве на основе Id юзера
-export const getUserIndex = (users: User[], id: number): number => {
-    return users.findIndex(user => user.id === id)
-}
-
+export const getLoggedUser = (state: RootState): User | null => state.user;
+export const getBoards = (state: RootState): Array<Board> => state.boards;
+export const getCards = (state: RootState): Array<Card> => state.cards;
+export const getTasks = (state: RootState): Array<Task> => state.tasks;

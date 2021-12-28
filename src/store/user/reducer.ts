@@ -1,54 +1,12 @@
-import {UserAction, User, UserActions} from './types';
+import {User, UserAction, UserActionTypes} from './types';
 
-
-interface IState {
-    users: User[] | [],
-    loggedUser: number,
-}
-
-// Начальное состояние
-const initialState : IState = {
-    users: [
-        {
-            id: 1,
-            firstName: 'Вася',
-            lastName: 'Ложкин',
-            login: 'Vasya',
-            password: '321',
-        },
-        {
-            id: 2,
-            firstName: 'Дима',
-            lastName: 'Резцов',
-            login: 'Dima',
-            password: '123',
-        },
-    ],
-    loggedUser: 0,
-};
-
-//функция проверки данных пользователя
-function ValidateUser(users: User[], login: string, password: string ) : number {
-
-    const index : number = users.findIndex((user) => user.login === login && user.password === password)
-
-    if (index === -1) {
-        return 0;
-    }
-
-    return users[index].id;
-}
-
-
-export function userReducer(state= initialState, action: UserAction): IState {
-    console.log(action);
-    //Пришлось переделать редьюсер
+export function userReducer(state: null | User = null, action: UserAction): null | User {
     switch (action.type) {
-        case UserActions.LogoutUser: {
-            return {...state, loggedUser: 0};
+        case UserActionTypes.SetUser: {
+            return action.payload;
         }
-        case UserActions.CheckUser: {
-            return {...state, loggedUser: ValidateUser(state.users, action.payload.login, action.payload.password)}
+        case UserActionTypes.RemoveUser: {
+            return null;
         }
         default: {
             return state;
