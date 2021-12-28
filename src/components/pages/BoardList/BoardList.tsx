@@ -1,13 +1,11 @@
 import React from 'react';
-import {Link} from 'react-router-dom';
 import {getBoards, getLoggedUser, useTypedSelector} from '../../../store/selectors';
-import {ROUTE_PREFIX} from '../../../constants/settings';
 import {useDispatch} from 'react-redux';
 import {createBoard, patchBoard, removeBoard} from '../../../store/board/actions';
 import {Board} from '../../../store/board/types';
 import './BoardList.scss';
 import {User} from "../../../store/user/types";
-import Menu from "../../Menu/Menu";
+import BoardCard from "../../BoardCard/BoardCard";
 
 const BoardList: React.FC = () => {
     const dispatch = useDispatch();
@@ -20,11 +18,10 @@ const BoardList: React.FC = () => {
     }
 
     const renameBoardHandler = (board: Board): void => {
-
         dispatch(patchBoard(board));
     }
 
-    const addBoardHandler = (loggedUser: User) : void => {
+    const addBoardHandler = (loggedUser: User): void => {
         if (loggedUser.id) {
             dispatch(createBoard({
                 userId: loggedUser.id,
@@ -34,39 +31,31 @@ const BoardList: React.FC = () => {
     }
 
 
-
     return (
         loggedUser ? (
-            <div>
-                <h1>
-                    Здесь будет список досок пользователя {loggedUser.firstName} {loggedUser.lastName}
-                </h1>
-                <ul style={{display:'inline-flex'}}>
-                    {boards.map(
-                        board =>
-                            <li key={board.id} style={{position:"relative", width:200, height:100, border: '1px solid black'}}>
-                                <Link
-                                    to={`/${ROUTE_PREFIX}/board/${board.id}`}
-                                >
-                                    {board.title}
-                                </Link>
-                                <Menu
-                                    remove={() => removeBoardHandler(board)}
-                                    rename={renameBoardHandler}
-                                    board={board}
-                                />
-
-                            </li>
-                    )}
-                    <button
-                        style={{width:200, height:100, border: '1px solid black'}}
-                        onClick={() => addBoardHandler(loggedUser)}
-                    >
-                        Создать доску
-                    </button>
-
-                </ul>
-            </div>
+                <div>
+                    <h1>
+                        Здесь будет список досок пользователя {loggedUser.firstName} {loggedUser.lastName}
+                    </h1>
+                    <ul style={{display: 'inline-flex'}}>
+                        {boards.map((board) =>
+                            <BoardCard
+                                key={board.id}
+                                board={board}
+                                remove={() => removeBoardHandler(board)}
+                                rename={() => renameBoardHandler(board)}
+                            />)
+                        }
+                        <li>
+                            <button
+                                style={{width: 200, height: 100, border: '1px solid black'}}
+                                onClick={() => addBoardHandler(loggedUser)}
+                            >
+                                Создать доску
+                            </button>
+                        </li>
+                    </ul>
+                </div>
             )
             : null
     )
