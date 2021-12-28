@@ -3,13 +3,13 @@ import {ROUTE_PREFIX} from "../../constants/settings";
 import {Link} from "react-router-dom";
 import {Board} from "../../store/board/types";
 
-interface IBoardCard {
+interface IBoardItem {
     board: Board,
     remove: () => void,
     rename: (board: Board) => void,
 }
 
-const BoardCard: FC<IBoardCard> = ({board, remove, rename}) => {
+const BoardItem: FC<IBoardItem> = ({board, remove, rename}) => {
     const [edit, setEdit] = useState<boolean>(false)
 
     const selectTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -63,4 +63,4 @@ const BoardCard: FC<IBoardCard> = ({board, remove, rename}) => {
     );
 };
 
-export default BoardCard;
+export default BoardItem;

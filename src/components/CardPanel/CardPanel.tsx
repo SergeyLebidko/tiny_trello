@@ -21,7 +21,34 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler}) => {
         dispatch(removeTask(task));
     }
 
+
+
     const {id, title} = card;
+
+    // function dragOverHandler(e:React.DragEvent<HTMLLIElement>, card : Card) : void {
+    //     e.preventDefault()
+    //     if (e.currentTarget.className === "task_panel") {
+    //         e.currentTarget.className = 'task_panel shadowed';
+    //     }
+    // }
+    //
+    // function dragLeaveHandler(e:React.DragEvent<HTMLLIElement>) : void {
+    //     e.currentTarget.className = 'task_panel';
+    // }
+    //
+    // function dragStartHandler(e:React.DragEvent<HTMLLIElement>) : void {
+    //     console.log(1)
+    // }
+    //
+    // function dragEndHandler(e:React.DragEvent<HTMLLIElement>) : void {
+    //     e.currentTarget.className = 'task_panel';
+    // }
+    //
+    // function dropHandler(e:React.DragEvent<HTMLLIElement>, card : Card) : void {
+    //     e.preventDefault()
+    //
+    // }
+
     return (
         <div className="card_panel">
             <h1>{title}</h1>
@@ -30,7 +57,19 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler}) => {
                 {tasks
                     .filter(task => task.cardId === id)
                     .sort((a, b) => a.order - b.order)
-                    .map(task => <TaskPanel key={task.id} task={task} removeTaskHandler={removeTaskHandler}/>)
+                    .map(task =>
+                        <TaskPanel
+                            key={task.id}
+                            task={task}
+                            card={card}
+                            removeTaskHandler={removeTaskHandler}
+                            // dragOver={(e:React.DragEvent<HTMLLIElement>) => dragOverHandler(e,card)}
+                            // dragLeave={(e:React.DragEvent<HTMLLIElement>) => dragLeaveHandler(e)}
+                            // dragStart={(e:React.DragEvent<HTMLLIElement>) => dragStartHandler(e)}
+                            // dragEnd={(e:React.DragEvent<HTMLLIElement>) => dragEndHandler(e)}
+                            // drop={(e:React.DragEvent<HTMLLIElement>) => dropHandler(e,card)}
+                        />
+                    )
                 }
             </ul>
         </div>

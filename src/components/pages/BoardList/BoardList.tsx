@@ -4,7 +4,7 @@ import {useDispatch} from 'react-redux';
 import {createBoard, patchBoard, removeBoard} from '../../../store/board/actions';
 import {Board} from '../../../store/board/types';
 import './BoardList.scss';
-import BoardCard from "../../BoardCard/BoardCard";
+import BoardItem from "../../BoardItem/BoardItem";
 
 const BoardList: React.FC = () => {
     const dispatch = useDispatch();
@@ -41,7 +41,6 @@ const BoardList: React.FC = () => {
 
     }
 
-
     return (
         loggedUser ? (
                 <div>
@@ -50,7 +49,7 @@ const BoardList: React.FC = () => {
                     </h1>
                     <ul style={{display: 'inline-flex'}}>
                         {boards.map((board) =>
-                            <BoardCard
+                            <BoardItem
                                 key={board.id}
                                 board={board}
                                 remove={() => removeBoardHandler(board)}
