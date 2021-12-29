@@ -51,6 +51,7 @@
 
     .register-danger {
       width: 100%;
+      height: initial;
       background: #eb5a46;
       text-align: center;
       color: #fbedeb;
@@ -80,36 +81,72 @@
 
       .inp-register {
         width: 100%;
-        min-height: 44px;
+        max-width: 320px;
+        height: 44px;
+        box-sizing: border-box;
         margin-bottom: 15px;
         font-size: 14px;        
         background-color: #FAFBFC;
         border: 2px solid #DFE1E6;
         border-radius: 3px;
-        height: 44px;
         padding: .5em;
         transition: background-color .2s ease-in-out 0s,border-color .2s ease-in-out 0s;
         &:focus {
           outline: none;
           border-color: #4c9aff;
         }    
-      }  
+      } 
 
-      .inp-password {
+      .create-pass {
+        background: #0e8503;
+        margin-bottom: 10px;
+        padding: .5em 1.3em;
+        box-sizing: border-box;
+        border: none;
+        border-radius: 3px;
+        color: #f1f2f3;
+        font-size: 14px;
+        font-weight: 600;
+        transition-duration: 0.5s;
+        &:hover {
+          cursor: pointer;
+          background: #099405;
+          color: #ffffff;;
+          transition-duration: 0.5s;
+        }
+      } 
+
+      .password-wrap {
+        position: relative;
         width: 100%;
         height: 44px;
         margin-bottom: 15px;
-        font-size: 14px;
-        background-color: #FAFBFC;
-        border: 2px solid #DFE1E6;
-        border-radius: 3px;
-        padding: .5em;
-        transition-duration: .3s;
-        &:focus {
-          outline: none;
-          border-color: #4c9aff;
+
+        .inp-password {
+          width: 100%;
+          font-size: 14px;          
+          background-color: #FAFBFC;
+          border: 2px solid #DFE1E6;
+          -moz-box-sizing: border-box;
+          box-sizing: border-box;
+          border-radius: 3px;
+          height: 44px;
+          padding: .5em;
           transition-duration: .3s;
-        }        
+          &:focus {
+            outline: none;
+            border-color: #4c9aff;
+            transition-duration: .3s;
+          }  
+        }
+
+        .show-hide-pass {
+          position: absolute;
+          width: 23px;
+          right: 10px;
+          top: calc(50% - 12px);
+          background-color: #FAFBFC;
+        }
       }
 
       .conditions {

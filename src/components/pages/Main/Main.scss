@@ -11,7 +11,6 @@
   @media (max-width: 770px) {
     background: linear-gradient(0deg, #fff, #edebfd 100%)     
   }
-
   
   header {
     position: fixed;
@@ -37,7 +36,9 @@
       .header-names {
         margin: 0 20px;
         text-align: center;
-        color: rgb(22, 136, 7);
+        font-size: 20px;
+        color: rgb(59, 218, 38);
+        text-shadow: 0px 0px 3px rgb(1, 7, 1);
         font-family: 'Charlie Text',sans-serif;
       }
 
@@ -224,6 +225,7 @@
 
         .form-hero {
           display: flex;
+          align-items: center;
           margin-top: 50px;
           @media (max-width: 770px) {
             width: 100%;        
@@ -257,7 +259,8 @@
             background-color: #0065ff;
             border: 1px solid #0065ff;
             border-radius: 6px;
-            &:hover {              
+            &:hover {
+              cursor: pointer;             
               background-color: #0056d9;
               border-color: #0051cc;
             }

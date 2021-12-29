@@ -2,6 +2,8 @@ import React, {useRef, useState} from 'react';
 import {createRandomString} from '../../../utils/common';
 import {ALL_LETTERS, DIGITS, PASSWORD_MIN_LEN} from '../../../constants/settings';
 import {useModalError} from '../../../utils/hooks';
+import {useDispatch} from 'react-redux';
+import {registerUserAction} from '../../../store/user/actions';
 
 type RegisterProps = {
     closeHandler: () => void
@@ -9,6 +11,8 @@ type RegisterProps = {
 }
 
 const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden}) => {
+    const dispatch = useDispatch();
+
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
     const [error, setErrorText] = useModalError();
@@ -38,23 +42,23 @@ const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden})
     const registerHandler = (): void => {
         if (!loginRef.current || !firstNameRef.current || !lastNameRef.current || !password1Ref.current || !password2Ref.current) return;
 
-        const register = loginRef.current.value.trim();
+        const login = loginRef.current.value.trim();
         const firstName = firstNameRef.current.value.trim();
         const lastName = lastNameRef.current.value.trim();
         const password1 = password1Ref.current.value;
         const password2 = password2Ref.current.value;
 
-        if (![register, firstName, lastName, password1, password2].every(value => !!value)) {
+        if (![login, firstName, lastName, password1, password2].every(value => !!value)) {
             setErrorText('Все поля обязательны к заполнению');
             return;
         }
 
-        if (DIGITS.includes(register[0])) {
+        if (DIGITS.includes(login[0])) {
             setErrorText('Логин начинается с цифры');
             return;
         }
 
-        if (register.split('').some(letter => !ALL_LETTERS.includes(letter))) {
+        if (login.split('').some(letter => !ALL_LETTERS.includes(letter))) {
             setErrorText('Логин содержит недопустимые символы');
             return;
         }
@@ -69,7 +73,19 @@ const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden})
             return;
         }
 
-        // TODO Вставить код отправки данных нового пользователя на "сервер"
+        const error = dispatch(registerUserAction({
+            login,
+            firstName,
+            lastName,
+            password: password1
+        }));
+        if (error !== null) {
+            setErrorText(String(error));
+            return;
+        }
+
+        // Если при выполнении регистрации не произошло ошибок - закрываем модалку
+        closeHandler();
     }
 
     return (
@@ -88,7 +104,7 @@ const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden})
                 <div className="register-form">
                     <input 
                         className="inp-register" 
-                        placeholder="Укажите адрес электронной почты" 
+                        placeholder="Укажите Логин" 
                         id={loginId} ref={loginRef}
                     />                    
                     <input 
@@ -103,18 +119,35 @@ const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden})
                         id={lastNameId} 
                         ref={lastNameRef}
                     />
-                    <input className="inp-password" 
-                        placeholder="Укажите пароль" 
-                        id={password1Id} 
-                        ref={password1Ref} 
-                        type={showPassword ? 'text' : 'password'}
-                    />
-                    <input className="inp-password" 
-                        placeholder="Повторите пароль" 
-                        id={password2Id} 
-                        ref={password2Ref} 
-                        type={showPassword ? 'text' : 'password'}
-                    />   
+                    <button className="create-pass" onClick={createPasswordHandler}>Создать пароль</button>
+                    <div className="password-wrap">
+                        <input className="inp-password" 
+                            placeholder="Укажите пароль" 
+                            id={password1Id} 
+                            ref={password1Ref} 
+                            type={showPassword ? 'text' : 'password'}
+                        />
+                        <img 
+                            className="show-hide-pass"
+                            src={showPassword ? 'icons/show-pass.png' : 'icons/hide-pass.png'} 
+                            alt="show/hide-pass" 
+                            onClick={showPasswordHandler}
+                        />                            
+                    </div>
+                    <div className="password-wrap">
+                        <input className="inp-password" 
+                            placeholder="Укажите пароль" 
+                            id={password2Id} 
+                            ref={password2Ref} 
+                            type={showPassword ? 'text' : 'password'}
+                        />
+                        <img 
+                            className="show-hide-pass"
+                            src={showPassword ? 'icons/show-pass.png' : 'icons/hide-pass.png'} 
+                            alt="show/hide-pass" 
+                            onClick={showPasswordHandler}
+                        />                            
+                    </div> 
                     <div className="conditions">
                         <span>Регистрируясь, вы подтверждаете, что принимаете наши</span>
                         <span><a href="">Условия использования</a> и <a href="">Политику конфиденциальности</a></span>                        

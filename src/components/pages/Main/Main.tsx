@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {Link} from "react-router-dom";
+import {Link} from 'react-router-dom';
 import Register from '../../modals/Register/Register';
 import Login from '../../modals/Login/Login';
 import Logout from '../../modals/Logout/Logout';
-import {getLoggedUser, useTypedSelector} from "../../../store/selectors";
+import {getLoggedUser, useTypedSelector} from '../../../store/selectors';
 
 enum ModalMode {
     NoModal,
@@ -13,7 +13,7 @@ enum ModalMode {
 }
 
 const Main: React.FC = () => {
-    const loggedUser = useTypedSelector(getLoggedUser)
+    const loggedUser = useTypedSelector(getLoggedUser);
 
     const [modalMode, setModalMode] = useState<ModalMode>(ModalMode.NoModal);
 
@@ -55,7 +55,7 @@ const Main: React.FC = () => {
                 {loggedUser ?
                     <div className="header-auth"> 
                         <h3 className="header-names">
-                        {loggedUser.firstName} {loggedUser.lastName}!
+                        {loggedUser.firstName} {loggedUser.lastName}
                         </h3>
 
                         <button className="btn-logout" onClick={showLogout}>Выход</button>

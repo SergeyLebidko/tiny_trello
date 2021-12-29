@@ -51,6 +51,7 @@
 
     .login-danger {
       width: 100%;
+      height: initial;
       background: #eb5a46;
       text-align: center;
       color: #fbedeb;
@@ -120,6 +121,14 @@
             border-color: #4c9aff;
             transition-duration: .3s;
           }  
+        }
+
+        .show-hide-pass {
+          position: absolute;
+          width: 23px;
+          right: 10px;
+          top: calc(50% - 12px);
+          background-color: #FAFBFC;
         }
       }
       
