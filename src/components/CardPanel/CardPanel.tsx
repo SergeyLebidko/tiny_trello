@@ -1,6 +1,6 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Card} from '../../store/card/types';
-import {getCards, getTasks, useTypedSelector} from '../../store/selectors';
+import {getTasks, useTypedSelector} from '../../store/selectors';
 import TaskPanel from '../TaskPanel/TaskPanel';
 import {Task} from '../../store/task/types';
 import {useDispatch} from 'react-redux';
