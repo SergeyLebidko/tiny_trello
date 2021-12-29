@@ -14,14 +14,17 @@ const BoardList: React.FC = () => {
     const [edit,setEdit] = useState<boolean>(false)
     const inputRef = useRef<HTMLInputElement>(null)
 
+    // Функция удаления доску
     const removeBoardHandler = (board: Board): void => {
         dispatch(removeBoard(board));
     }
 
+    // Функция изменения названия доску
     const renameBoardHandler = (board: Board): void => {
         dispatch(patchBoard(board));
     }
 
+    // Функция добавления доску
     const addBoardHandler = (): void => {
         if (!loggedUser || !inputRef.current) return;
         if (loggedUser.id) {
@@ -33,6 +36,7 @@ const BoardList: React.FC = () => {
         }
     }
 
+    // Захват события нажатия Enter
     const getTitleEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
         if (e.code === 'Enter') {
             addBoardHandler();
@@ -56,6 +60,7 @@ const BoardList: React.FC = () => {
                                 rename={renameBoardHandler}
                             />)
                         }
+                        {/*Переключатель режима создания доски*/}
                         { edit?
                             <li style={{width: 200, height: 100, border: '1px solid black'}}>
                                 <p>Введите название доски</p>

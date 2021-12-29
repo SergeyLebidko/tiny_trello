@@ -8,14 +8,9 @@ type TaskPanelProps = {
     task: Task,
     card: Card,
     removeTaskHandler: (task: Task) => void,
-    // dragOver: (e: React.DragEvent<HTMLLIElement>, card: Card) => void,
-    // dragLeave: (e: React.DragEvent<HTMLLIElement>) => void,
-    // dragStart: (e: React.DragEvent<HTMLLIElement>) => void,
-    // dragEnd: (e: React.DragEvent<HTMLLIElement>) => void,
-    // drop: (e: React.DragEvent<HTMLLIElement>, card: Card) => void,
 }
 
-const TaskPanel: React.FC<TaskPanelProps> = ({task, removeTaskHandler, }) => {
+const TaskPanel: React.FC<TaskPanelProps> = ({task, removeTaskHandler,}) => {
 
     const IMPORTANCE_TEXT_SELECTOR = {
         [Importance.Low]: 'Не высокая',
@@ -35,11 +30,6 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, removeTaskHandler, }) => {
     return (
         <li className="task_panel"
             draggable={true}
-            // onDragOver={dragOver}
-            // onDragLeave={dragLeave}
-            // onDragStart={dragStart}
-            // onDragEnd={dragEnd}
-            // onDrop={drop}
         >
             <button onClick={() => removeTaskHandler(task)}>Удалить задачу</button>
             <h1>{text}</h1>
