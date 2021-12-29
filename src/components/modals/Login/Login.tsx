@@ -53,14 +53,14 @@ const Login: React.FC<LoginProps> = ({closeHandler}) => {
                 <ul>
                     <li>
                         <label htmlFor={loginId}>Логин:</label>
-                        <input id={loginId} ref={loginRef}/>
+                        <input id={loginId} ref={loginRef} defaultValue={'Dima'}/>
                     </li>
                     <li>
                         <button onClick={showPasswordHandler}>
                             {showPassword ? 'Скрыть пароль' : 'Показать пароль'}
                         </button>
                         <label htmlFor={passwordId}>Пароль:</label>
-                        <input id={passwordId} ref={passwordRef} type={showPassword ? 'text' : 'password'}/>
+                        <input id={passwordId} ref={passwordRef} type={showPassword ? 'text' : 'password'} defaultValue={'123'}/>
                     </li>
                 </ul>
                 <div>
