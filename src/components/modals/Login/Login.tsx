@@ -1,15 +1,15 @@
 import React, {useRef, useState} from 'react';
 import {createRandomString} from '../../../utils/common';
 import {useModalError} from '../../../utils/hooks';
-import {useDispatch} from 'react-redux';
-import {loginUserAction} from '../../../store/user/actions';
-import './Login.scss';
+import {useDispatch} from "react-redux";
+import {checkUserAction} from "../../../store/user/actions";
 
 type LoginProps = {
     closeHandler: () => void
+    removeOverflowHidden: () => void
 }
 
-const Login: React.FC<LoginProps> = ({closeHandler}) => {
+const Login: React.FC<LoginProps> = ({closeHandler, removeOverflowHidden}) => {
     const dispatch = useDispatch();
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -27,47 +27,103 @@ const Login: React.FC<LoginProps> = ({closeHandler}) => {
     const loginHandler = (): void => {
         if (!loginRef.current || !passwordRef.current) return;
 
-        const login: string = loginRef.current.value;
-        const password: string = passwordRef.current.value;
+        const login : string = loginRef.current.value;
+        const password : string = passwordRef.current.value;
 
         if (!login || !password) {
             setErrorText('Все поля обязательны к заполнению');
             return;
         }
 
-        const error = dispatch(loginUserAction(login, password));
-        if (error !== null) {
-            setErrorText(String(error));
-            return;
-        }
+        //TODO Вставить код запроса к "серверу" и добавления пользователя в хранилище redux
+        // Сейчас - фиктивный код добавлени пользователя, чтобы проверить работу роутов
 
-        // Если при выполнении логина не произошло ошибок - закрываем модалку
+        // Сделал проверку данных!!!
+        dispatch(checkUserAction(login,password));
+
+        // После выполнения входа - закрываем модалку
         closeHandler();
     }
 
     return (
         <div className="login">
-            <div className="login__content">
-                <h1>Введите учетные данные</h1>
-                {error && <p>{error}</p>}
-                <ul>
-                    <li>
-                        <label htmlFor={loginId}>Логин:</label>
-                        <input id={loginId} ref={loginRef}/>
-                    </li>
-                    <li>
-                        <button onClick={showPasswordHandler}>
-                            {showPassword ? 'Скрыть пароль' : 'Показать пароль'}
-                        </button>
-                        <label htmlFor={passwordId}>Пароль:</label>
-                        <input id={passwordId} ref={passwordRef} type={showPassword ? 'text' : 'password'}/>
-                    </li>
-                </ul>
-                <div>
-                    <button onClick={closeHandler}>Отмена</button>
-                    <button onClick={loginHandler}>Войти</button>
+            <button 
+                className="back" 
+                onClick={() => {closeHandler(); removeOverflowHidden()}}
+            >
+                <img src="icons/back.svg" alt="back"/>
+            </button>                    
+            <img className="login-logo" src="img/login-logo.png" alt="logo" />
+
+            <div className="login-content">
+                {error && <p className="login-danger">{error}</p>}
+                <h1>Вход в Trello</h1>
+                    <div className="login-form">
+                        <input className="inp-login" 
+                            placeholder="Укажите адрес электронной почты" 
+                            id={loginId} ref={loginRef} 
+                        />                
+                            
+                        <div className="password-wrap">
+                            <input className="inp-password" 
+                                placeholder="Введите пароль" 
+                                id={passwordId} 
+                                ref={passwordRef} 
+                                type={showPassword ? 'text' : 'password'}
+                            />                            
+                        </div>
+                        <button className="submit-login" onClick={loginHandler}>Войти</button>
+                    </div>                
+                    
+                <p>ИЛИ</p>
+
+                <button className="btn-login-out">
+                    <img src="icons/google-logo.png" alt="google" />
+                    <span>Войти через Google</span>
+                </button>
+                <button className="btn-login-out">
+                    <img src="icons/ms-logo.png" alt="ms" />
+                    <span>Войти через Microsoft</span>
+                </button>
+                <button className="btn-login-out">
+                    <img src="icons/apple-logo.png" alt="apple" />
+                    <span>Войти через Apple</span>
+                </button>
+
+                <div className="sso">
+                    <a href="#">Вход с помощью SSO</a>
+                </div>
+                
+                <div className="issue">
+                    <a href="#">Не удается войти?</a> <span>·</span> <a href="#">Зарегистрировать аккаунт</a>
                 </div>
             </div>
+
+            <div className="policy">
+                <a href="#">Политика конфиденциальности</a> <span>·</span> <a href="#">Условия использования</a>
+            </div>
+
+            <div className="inp-lang">
+                <img src="img/input-img.png" alt="lang" />
+            </div>
+
+            <div className="login-footer">
+                <img src="img/login-footer-img.png" alt="Atlassian" />
+                <ul className="login-footer-links">
+                    <li><a href="#">Шаблоны</a></li>
+                    <li><a href="#">Цены</a></li>
+                    <li><a href="#">Приложения</a></li>
+                    <li><a href="#">Вакансии</a></li>
+                    <li><a href="#">Блог</a></li>
+                    <li><a href="#">Разработчики</a></li>
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Помощь</a></li>
+                    <li><a href="#">Настройки файлов cookie</a></li>
+                </ul>
+            </div>
+            
+            <img className="modal-img-l" src="img/modal-img-l.png" alt="bg-l" />
+            <img className="modal-img-r" src="img/modal-img-r.png" alt="bg-r" />
         </div>
     );
 }
