@@ -1,20 +1,13 @@
 import React from 'react';
 import {Importance, Task} from '../../store/task/types';
 import './TaskPanel.scss';
-import {Card} from "../../store/card/types";
 
 type TaskPanelProps = {
     task: Task,
-    card: Card,
-    removeTaskHandler: (task: Task) => void,
-    dragOver: (e:React.DragEvent<HTMLLIElement>) => void,
-    dragLeave: (e:React.DragEvent<HTMLLIElement>) => void,
-    dragEnd: (e:React.DragEvent<HTMLLIElement>) => void,
-    dragStart: (card: Card, task: Task) => void,
-    drop: (e:React.DragEvent<HTMLLIElement>) => void,
+    removeTaskHandler: (task: Task) => void
 }
 
-const TaskPanel: React.FC<TaskPanelProps> = ({task, card, removeTaskHandler,dragOver,dragLeave, dragEnd,dragStart,drop}) => {
+const TaskPanel: React.FC<TaskPanelProps> = ({task, removeTaskHandler}) => {
 
     const IMPORTANCE_TEXT_SELECTOR = {
         [Importance.Low]: 'Не высокая',
@@ -32,14 +25,7 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, removeTaskHandler,drag
 
     const {text, done, importance, deadline} = task;
     return (
-        <li className="task_panel"
-            draggable={true}
-            onDragOver={dragOver}
-            onDragLeave={dragLeave}
-            onDragEnd={dragEnd}
-            onDragStart={() => dragStart(card,task)}
-            onDrop={drop}
-        >
+        <li className="task_panel">
             <button onClick={() => removeTaskHandler(task)}>Удалить задачу</button>
             <h1>{text}</h1>
             <h2>{done ? 'Выполнено' : 'Не выполнено'}</h2>
