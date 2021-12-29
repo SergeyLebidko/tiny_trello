@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
+import {Link} from "react-router-dom";
 import Register from '../../modals/Register/Register';
 import Login from '../../modals/Login/Login';
 import Logout from '../../modals/Logout/Logout';
-import {Link} from "react-router-dom";
-import {getUserIndex, useTypedSelector} from "../../../store/selectors";
+import {getLoggedUser, useTypedSelector} from "../../../store/selectors";
 
 enum ModalMode {
     NoModal,
@@ -13,7 +13,7 @@ enum ModalMode {
 }
 
 const Main: React.FC = () => {
-    const {users, loggedUser} = useTypedSelector(state => state.user)
+    const loggedUser = useTypedSelector(getLoggedUser)
 
     const [modalMode, setModalMode] = useState<ModalMode>(ModalMode.NoModal);
 
@@ -48,14 +48,14 @@ const Main: React.FC = () => {
 
                 {modalMode === ModalMode.RegisterModal && <Register closeHandler={closeModal} removeOverflowHidden={removeOverflowHidden}/>}
                 {modalMode === ModalMode.LoginModal && <Login closeHandler={closeModal} removeOverflowHidden={removeOverflowHidden}/>}
-                {modalMode === ModalMode.LogoutModal && <Logout closeHandler={closeModal} firstName={users[getUserIndex(users,loggedUser)].firstName} lastName={users[getUserIndex(users,loggedUser)].lastName}/>}
+                {modalMode === ModalMode.LogoutModal && <Logout closeHandler={closeModal} firstName={loggedUser!.firstName} lastName={loggedUser!.lastName}/>}
 
                 {/* <h1>Tiny Trello (Главная страница)</h1> */}
                 {/*Проверка на залогиненного пользователя*/}
                 {loggedUser ?
                     <div className="header-auth"> 
                         <h3 className="header-names">
-                            {users[getUserIndex(users,loggedUser)].firstName}  {users[getUserIndex(users,loggedUser)].lastName}!
+                        {loggedUser.firstName} {loggedUser.lastName}!
                         </h3>
 
                         <button className="btn-logout" onClick={showLogout}>Выход</button>

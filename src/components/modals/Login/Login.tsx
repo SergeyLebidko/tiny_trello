@@ -2,7 +2,7 @@ import React, {useRef, useState} from 'react';
 import {createRandomString} from '../../../utils/common';
 import {useModalError} from '../../../utils/hooks';
 import {useDispatch} from "react-redux";
-import {checkUserAction} from "../../../store/user/actions";
+import {loginUserAction} from '../../../store/user/actions';
 
 type LoginProps = {
     closeHandler: () => void
@@ -39,7 +39,7 @@ const Login: React.FC<LoginProps> = ({closeHandler, removeOverflowHidden}) => {
         // Сейчас - фиктивный код добавлени пользователя, чтобы проверить работу роутов
 
         // Сделал проверку данных!!!
-        dispatch(checkUserAction(login,password));
+        dispatch(loginUserAction(login,password));
 
         // После выполнения входа - закрываем модалку
         closeHandler();
