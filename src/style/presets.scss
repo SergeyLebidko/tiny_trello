@@ -5,6 +5,7 @@ $white: rgb(255, 255, 255);
 $frozen-white: rgb(240, 240, 255);
 $blue: rgb(30, 144, 255);
 $blue-dark: rgb(65, 105, 225);
+$blue-light: rgb(0, 191, 255);
 $gray: rgb(192, 192, 192);
 $gray-dark: rgb(105, 105, 105);
 $red: rgb(255, 69, 0);
@@ -39,7 +40,7 @@ $large-start: 1024px;
   background-color: $frozen-white;
 
   &:focus {
-    outline: 1px solid $blue;
+    outline: 1px solid $blue-light;
   }
 }
 
