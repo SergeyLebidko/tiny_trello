@@ -108,12 +108,6 @@ const Register: React.FC<RegisterProps> = ({closeHandler}) => {
                         <input className="input" id={lastNameId} ref={lastNameRef}/>
                     </li>
                     <li className="register__input_item">
-                        <span onClick={showPasswordHandler}>
-                            {showPassword ? 'Скрыть пароль' : 'Показать пароль'}
-                        </span>
-                        <span onClick={createPasswordHandler}>Создать пароль</span>
-                    </li>
-                    <li className="register__input_item">
                         <label htmlFor={password1Id}>Пароль:</label>
                         <input
                             className="input"
@@ -122,6 +116,12 @@ const Register: React.FC<RegisterProps> = ({closeHandler}) => {
                             type={showPassword ? 'text' : 'password'}
                         />
 
+                    </li>
+                    <li className="register__control_item">
+                        <span onClick={showPasswordHandler}>
+                            {showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+                        </span>
+                        <span onClick={createPasswordHandler}>Создать пароль</span>
                     </li>
                     <li className="register__input_item">
                         <label htmlFor={password2Id}>Подтверждение:</label>

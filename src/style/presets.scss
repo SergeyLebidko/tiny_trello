@@ -2,6 +2,7 @@
 $black: rgb(50, 50, 50);
 $black-transparent: rgba(0, 0, 0, 0.4);
 $white: rgb(255, 255, 255);
+$frozen-white: rgb(240, 240, 255);
 $blue: rgb(30, 144, 255);
 $blue-dark: rgb(65, 105, 225);
 $gray: rgb(192, 192, 192);
@@ -30,9 +31,16 @@ $large-start: 1024px;
 }
 
 .input {
+  width: 100%;
   padding: 0.5rem;
   border-radius: 5px;
-  border: 1px solid $gray;
+  border: none;
+  box-sizing: border-box;
+  background-color: $frozen-white;
+
+  &:focus {
+    outline: 1px solid $blue;
+  }
 }
 
 @mixin modal {
@@ -55,7 +63,7 @@ $large-start: 1024px;
     padding: 1em;
     background-color: $white;
     border-radius: 5px;
-    box-shadow: 0 0 10px rgba(50, 50, 50, 0.5);
+    box-shadow: 0 0 15px rgba(50, 50, 50, 0.7);
   }
 
   &__service_title {
@@ -81,17 +89,12 @@ $large-start: 1024px;
 
   &__input_item {
     display: flex;
-    align-items: center;
+    flex-direction: column;
+  }
+
+  &__control_item {
+    display: flex;
     justify-content: flex-end;
-
-    label {
-      margin-right: 0.5em;
-    }
-
-    .input {
-      margin-left: auto;
-      width: 20em;
-    }
 
     span {
       text-transform: lowercase;
@@ -106,7 +109,7 @@ $large-start: 1024px;
     }
   }
 
-  &__input_item + &__input_item {
+  &__input_item + &__input_item, &__control_item + &__input_item {
     margin-top: 0.5em;
   }
 

@@ -57,11 +57,6 @@ const Login: React.FC<LoginProps> = ({closeHandler}) => {
                         <input className="input" id={loginId} ref={loginRef} defaultValue={'Dima'}/>
                     </li>
                     <li className="login__input_item">
-                        <span onClick={showPasswordHandler}>
-                            {showPassword ? 'Скрыть пароль' : 'Показать пароль'}
-                        </span>
-                    </li>
-                    <li className="login__input_item">
                         <label htmlFor={passwordId}>Пароль:</label>
                         <input
                             className="input"
@@ -70,6 +65,11 @@ const Login: React.FC<LoginProps> = ({closeHandler}) => {
                             type={showPassword ? 'text' : 'password'}
                             defaultValue={'123'}
                         />
+                    </li>
+                    <li className="login__control_item">
+                        <span onClick={showPasswordHandler}>
+                            {showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+                        </span>
                     </li>
                 </ul>
                 <div className="login__control_block">
