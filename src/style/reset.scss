@@ -1,8 +1,7 @@
+@import "./presets";
+
 // Подключение шрифта
-@font-face {
-  font-family: 'PublicSans';
-  src: url("../content/fonts/PublicSans.ttf");
-}
+@import url('https://fonts.googleapis.com/css2?family=Pushster&family=Roboto:wght@300&display=swap');
 
 // Сброс стилей браузера
 html, body, main, div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend,
@@ -14,8 +13,10 @@ time, mark, audio, video, button {
   border: 0;
   vertical-align: baseline;
   box-sizing: border-box;
-  font-family: PublicSans, sans-serif;
+  font-family: Roboto, sans-serif;
+  font-weight: normal;
   font-size: 1rem;
+  color: $black;
 }
 
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
