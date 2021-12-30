@@ -4,6 +4,7 @@ $white: rgb(255, 255, 255);
 $blue: rgb(30, 144, 255);
 $blue-dark: rgb(65, 105, 225);
 $gray: rgb(192, 192, 192);
+$gray-dark: rgb(105, 105, 105);
 
 // Пресеты размеров
 $small-end: 768px;
@@ -13,7 +14,7 @@ $large-start: 1024px;
 
 // Общие стили
 .button {
-  padding: 0.5rem 2rem;
+  padding: 0.5rem;
   border-radius: 5px;
   color: $white;
   background-color: $blue;

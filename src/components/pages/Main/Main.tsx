@@ -93,7 +93,7 @@ const Main: React.FC = () => {
                 <img className="main__hero_image" src={heroImage.default}/>
             </section>
 
-            <footer>
+            <footer className="main__footer">
                 2021. SDN. Все права защищены
             </footer>
 
