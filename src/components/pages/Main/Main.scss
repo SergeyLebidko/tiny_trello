@@ -46,12 +46,12 @@
 
   &__user_control {
     * + * {
-      margin: 0.5em;
+      margin-left: 0.5em;
     }
   }
 
   &__user_title {
-    font-size: 1.5em;
+    font-size: 1.3em;
   }
 
   &__content {
@@ -160,7 +160,6 @@
   .main {
     &__text_block {
       max-width: 30em;
-      margin: 2em;
     }
   }
 }
