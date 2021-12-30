@@ -1,5 +1,166 @@
+@import "../../../style/presets";
+
 .main {
-  button {
-    margin: 0.5em;
+  background-image: linear-gradient(to bottom, #eae6ff, #efecff, #f5f2ff, #faf9ff, #ffffff);
+
+  &__header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: transparent;
+    transition: all 500ms;
+
+    padding: 1em;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    > * + * {
+      margin: 0.5em 0 0 0;
+    }
+  }
+
+  &__header_stuck {
+    background-color: $white;
+    box-shadow: 0 5px 10px rgba(50, 50, 50, 0.2);
+  }
+
+  &__logo {
+    font-family: Pushster, Roboto, sans-serif;
+    font-size: 1em;
+    color: $blue;
+
+    display: flex;
+    align-items: center;
+
+    transition: all 500ms;
+
+    img {
+      width: 1em;
+      height: 1em;
+      margin-right: 0.5em;
+    }
+  }
+
+  &__user_control {
+    * + * {
+      margin: 0.5em;
+    }
+  }
+
+  &__user_title {
+    font-size: 1.5em;
+  }
+
+  &__content {
+    padding: 12em 1em 6em 1em;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    min-height: 100vh;
+  }
+
+  &__text_block {
+    h1 {
+      font-family: Pushster, Roboto, sans-serif;
+      font-size: 2em;
+      text-align: center;
+    }
+
+    h3 {
+      font-size: 1.5em;
+      text-align: center;
+    }
+
+    p {
+      text-align: justify;
+      color: $gray-dark;
+    }
+
+    > * + * {
+      margin-top: 1.5rem;
+    }
+  }
+
+  &__hero_image {
+    max-width: 20em;
+    max-height: 30em;
+    margin: 3em 0 0 0;
+    transition: all 300ms;
+  }
+
+  &__footer {
+    position: fixed;
+    background-color: white;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0.5em;
+
+    text-align: center;
+
+    font-size: 0.8em;
+    color: $gray;
+  }
+}
+
+@media (min-width: $medium-start) {
+  .main {
+
+    &__header {
+      flex-direction: row;
+      justify-content: space-between;
+
+      > * + * {
+        margin: 0;
+      }
+    }
+
+    &__logo {
+      font-size: 1.5em;
+
+      img {
+        width: 1.5em;
+        height: 1.5em;
+      }
+    }
+
+    &__content {
+      flex-direction: row;
+      align-items: flex-start;
+    }
+
+    &__text_block {
+      align-items: flex-start;
+
+      h1 {
+        font-family: Pushster, Roboto, sans-serif;
+        font-size: 2.5em;
+        text-align: left;
+      }
+
+      h3 {
+        font-size: 2em;
+        text-align: left;
+      }
+    }
+
+    &__hero_image {
+      margin: 0 0 0 3em;
+    }
+  }
+}
+
+@media (min-width: $large-start) {
+  .main {
+    &__text_block {
+      max-width: 30em;
+      margin: 2em;
+    }
   }
 }
