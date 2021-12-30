@@ -48,24 +48,31 @@ const Login: React.FC<LoginProps> = ({closeHandler}) => {
     return (
         <div className="login">
             <div className="login__content">
-                <h1>Введите учетные данные</h1>
-                {error && <p>{error}</p>}
-                <ul>
-                    <li>
+                <h1 className="login__service_title">Tiny Trello</h1>
+                <h1 className="login__modal_title">Введите учетные данные</h1>
+                {error && <div className="login__error">{error}</div>}
+                <ul className="login__input_block">
+                    <li className="login__input_item">
                         <label htmlFor={loginId}>Логин:</label>
-                        <input id={loginId} ref={loginRef} defaultValue={'Dima'}/>
+                        <input className="input" id={loginId} ref={loginRef} defaultValue={'Dima'}/>
                     </li>
-                    <li>
-                        <button onClick={showPasswordHandler}>
-                            {showPassword ? 'Скрыть пароль' : 'Показать пароль'}
-                        </button>
+                    <li className="login__input_item">
                         <label htmlFor={passwordId}>Пароль:</label>
-                        <input id={passwordId} ref={passwordRef} type={showPassword ? 'text' : 'password'} defaultValue={'123'}/>
+                        <input
+                            className="input"
+                            id={passwordId}
+                            ref={passwordRef}
+                            type={showPassword ? 'text' : 'password'}
+                            defaultValue={'123'}
+                        />
+                        <span onClick={showPasswordHandler}>
+                            {showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+                        </span>
                     </li>
                 </ul>
-                <div>
-                    <button onClick={closeHandler}>Отмена</button>
-                    <button onClick={loginHandler}>Войти</button>
+                <div className="login__control_block">
+                    <button className="button" onClick={closeHandler}>Отмена</button>
+                    <button className="button" onClick={loginHandler}>Войти</button>
                 </div>
             </div>
         </div>
