@@ -19,14 +19,10 @@ $large-start: 1024px;
   color: $white;
   background-color: $blue;
   cursor: pointer;
+  text-decoration: none;
   transition: all 300ms;
 
   &:hover {
     background-color: $blue-dark;
   }
-}
-
-.linked_button {
-  @extend .button;
-  text-decoration: none;
 }

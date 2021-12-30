@@ -57,7 +57,7 @@ const Main: React.FC = () => {
                             {loggedUser.firstName} {loggedUser.lastName}
                         </span>
                         <div className="main__user_control">
-                            <Link className="linked_button" to={`/${ROUTE_PREFIX}/board_list`}>
+                            <Link className="button" to={`/${ROUTE_PREFIX}/board_list`}>
                                 Перейти к доскам
                             </Link>
                             <button className="button" onClick={showLogout}>
