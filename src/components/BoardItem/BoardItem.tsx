@@ -12,10 +12,12 @@ interface IBoardItem {
 const BoardItem: FC<IBoardItem> = ({board, remove, rename}) => {
     const [edit, setEdit] = useState<boolean>(false)
 
+    // Автовыделение
     const selectTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
         e.currentTarget.select()
     }
 
+    // Если теряем фокус, срабатывает событие
     const getTitle = (e: React.FocusEvent<HTMLInputElement>): void => {
         rename(
             {
@@ -25,7 +27,7 @@ const BoardItem: FC<IBoardItem> = ({board, remove, rename}) => {
         )
         setEdit(!edit)
     }
-
+    // Если нажимаем Enter, срабатывает событие
     const getTitleEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
 
         if (e.code === 'Enter') {
@@ -42,6 +44,7 @@ const BoardItem: FC<IBoardItem> = ({board, remove, rename}) => {
 
     return (
         <li style={{position: "relative", width: 200, height: 100, border: '1px solid black'}}>
+            {/*Здесь мы переключаем режим изменения названия доски*/}
             {edit
                 ? <input
                     type="text"
