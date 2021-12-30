@@ -5,6 +5,7 @@ $white: rgb(255, 255, 255);
 $frozen-white: rgb(240, 240, 255);
 $blue: rgb(30, 144, 255);
 $blue-dark: rgb(65, 105, 225);
+$blue-light: rgb(0, 191, 255);
 $gray: rgb(192, 192, 192);
 $gray-dark: rgb(105, 105, 105);
 $red: rgb(255, 69, 0);
@@ -39,7 +40,7 @@ $large-start: 1024px;
   background-color: $frozen-white;
 
   &:focus {
-    outline: 1px solid $blue;
+    outline: 1px solid $blue-light;
   }
 }
 
@@ -95,18 +96,18 @@ $large-start: 1024px;
   &__control_item {
     display: flex;
     justify-content: flex-end;
+  }
 
-    span {
-      text-transform: lowercase;
-      border-bottom: 1px dashed $gray-dark;
-      color: $gray-dark;
-      font-size: 0.8em;
-      cursor: pointer;
-    }
+  &__field_control {
+    text-transform: lowercase;
+    border-bottom: 1px dashed $gray-dark;
+    color: $gray-dark;
+    font-size: 0.8em;
+    cursor: pointer;
+  }
 
-    span + span {
-      margin-left: 0.5em;
-    }
+  &__field_control + &__field_control {
+    margin-left: 0.5rem;
   }
 
   &__input_item + &__input_item, &__control_item + &__input_item {
@@ -114,7 +115,7 @@ $large-start: 1024px;
   }
 
   &__control_block {
-    margin-top: 3rem;
+    margin-top: 2rem;
     display: flex;
     justify-content: center;
 

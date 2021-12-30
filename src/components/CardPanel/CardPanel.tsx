@@ -4,7 +4,7 @@ import {getTasks, useTypedSelector} from '../../store/selectors';
 import TaskPanel from '../TaskPanel/TaskPanel';
 import {Task} from '../../store/task/types';
 import {useDispatch} from 'react-redux';
-import {createTask, removeTask} from '../../store/task/actions';
+import {createTask, patchTask, removeTask} from '../../store/task/actions';
 import './CardPanel.scss';
 
 type CardPaneProps = {
@@ -41,14 +41,24 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         e.currentTarget.className = "task_panel"
     }
 
-    function dropHandler(e: React.DragEvent<HTMLLIElement>, card:Card, task: Task) {
+    // А почему аргумент task не используется?
+    function dropHandler(e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
         e.preventDefault();
         if (!currentTask) return;
-        dispatch(removeTask(currentTask))
-        if (!card.id) return;
-        dispatch(createTask({
+
+        // Очень странный код: удаляешь таску, потом создаешь такую же но в другой доске
+
+        // dispatch(removeTask(currentTask))
+        // if (!card.id) return;
+        // dispatch(createTask({
+        //     ...currentTask,
+        //     cardId: card.id,
+        // }))
+
+        // А почему не попробовать так?
+        dispatch(patchTask({
             ...currentTask,
-            cardId: card.id,
+            cardId: card.id as number
         }))
     }
 
@@ -66,11 +76,11 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                             task={task}
                             card={card}
                             removeTaskHandler={removeTaskHandler}
-                            dragOver = {(e) => dragOverHandler(e)}
-                            dragLeave = {(e) => dragLeaveHandler(e)}
-                            dragEnd = {(e) => dragEndHandler(e)}
-                            dragStart = {dragStart}
-                            drop = {(e) => dropHandler(e,card,task)}
+                            dragOver={(e) => dragOverHandler(e)}
+                            dragLeave={(e) => dragLeaveHandler(e)}
+                            dragEnd={(e) => dragEndHandler(e)}
+                            dragStart={dragStart}
+                            drop={(e) => dropHandler(e, card, task)}
                         />
                     )
                 }

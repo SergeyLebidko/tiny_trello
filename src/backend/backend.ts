@@ -87,7 +87,7 @@ class Backend {
             ...element,
         }
         elementsInBase.push(createdElement);
-        localStorage.setItem(DataKeys.Boards, JSON.stringify(elementsInBase));
+        localStorage.setItem(dataKey, JSON.stringify(elementsInBase));
         return createdElement;
     }
 
