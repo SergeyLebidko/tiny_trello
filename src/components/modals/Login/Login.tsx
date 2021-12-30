@@ -67,7 +67,7 @@ const Login: React.FC<LoginProps> = ({closeHandler}) => {
                         />
                     </li>
                     <li className="login__control_item">
-                        <span className="login__field_control" onClick={showPasswordHandler}>
+                        <span className="login__field_control" onClick={showPasswordHandler} tabIndex={0}>
                             {showPassword ? 'Скрыть пароль' : 'Показать пароль'}
                         </span>
                     </li>

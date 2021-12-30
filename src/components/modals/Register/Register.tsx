@@ -118,10 +118,10 @@ const Register: React.FC<RegisterProps> = ({closeHandler}) => {
 
                     </li>
                     <li className="register__control_item">
-                        <span className="register__field_control" onClick={showPasswordHandler}>
+                        <span className="register__field_control" onClick={showPasswordHandler} tabIndex={0}>
                             {showPassword ? 'Скрыть пароль' : 'Показать пароль'}
                         </span>
-                        <span className="register__field_control" onClick={createPasswordHandler}>
+                        <span className="register__field_control" onClick={createPasswordHandler} tabIndex={0}>
                             Создать пароль
                         </span>
                     </li>
