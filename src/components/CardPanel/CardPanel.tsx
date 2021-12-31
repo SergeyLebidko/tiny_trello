@@ -76,11 +76,11 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                             task={task}
                             card={card}
                             removeTaskHandler={removeTaskHandler}
-                            dragOver={(e) => dragOverHandler(e)}
-                            dragLeave={(e) => dragLeaveHandler(e)}
-                            dragEnd={(e) => dragEndHandler(e)}
+                            dragOver={(e: React.DragEvent<HTMLLIElement>) => dragOverHandler(e)}
+                            dragLeave={(e: React.DragEvent<HTMLLIElement>) => dragLeaveHandler(e)}
+                            dragEnd={(e: React.DragEvent<HTMLLIElement>) => dragEndHandler(e)}
                             dragStart={dragStart}
-                            drop={(e) => dropHandler(e, card, task)}
+                            drop={(e: React.DragEvent<HTMLLIElement>) => dropHandler(e, card, task)}
                         />
                     )
                 }
