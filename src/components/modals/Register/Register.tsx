@@ -91,39 +91,53 @@ const Register: React.FC<RegisterProps> = ({closeHandler}) => {
     return (
         <div className="register">
             <div className="register__content">
-                <h1>Введите данные для регистрации</h1>
-                {error && <p>{error}</p>}
+                <h1 className="register__service_title">Tiny Trello</h1>
+                <h1 className="register__modal_title">Введите данные для регистрации</h1>
+                {error && <div className="register__error">{error}</div>}
                 <ul>
-                    <li>
+                    <li className="register__input_item">
                         <label htmlFor={loginId}>Логин:</label>
-                        <input id={loginId} ref={loginRef}/>
+                        <input className="input" id={loginId} ref={loginRef}/>
                     </li>
-                    <li>
+                    <li className="register__input_item">
                         <label htmlFor={firstNameId}>Имя:</label>
-                        <input id={firstNameId} ref={firstNameRef}/>
+                        <input className="input" id={firstNameId} ref={firstNameRef}/>
                     </li>
-                    <li>
+                    <li className="register__input_item">
                         <label htmlFor={lastNameId}>Фамилия:</label>
-                        <input id={lastNameId} ref={lastNameRef}/>
+                        <input className="input" id={lastNameId} ref={lastNameRef}/>
                     </li>
-                    <li>
-                        <button onClick={showPasswordHandler}>
-                            {showPassword ? 'Скрыть пароль' : 'Показать пароль'}
-                        </button>
-                        <button onClick={createPasswordHandler}>Создать пароль</button>
-                    </li>
-                    <li>
+                    <li className="register__input_item">
                         <label htmlFor={password1Id}>Пароль:</label>
-                        <input id={password1Id} ref={password1Ref} type={showPassword ? 'text' : 'password'}/>
+                        <input
+                            className="input"
+                            id={password1Id}
+                            ref={password1Ref}
+                            type={showPassword ? 'text' : 'password'}
+                        />
+
                     </li>
-                    <li>
-                        <label htmlFor={password2Id}>Пароль:</label>
-                        <input id={password2Id} ref={password2Ref} type={showPassword ? 'text' : 'password'}/>
+                    <li className="register__control_item">
+                        <span className="register__field_control" onClick={showPasswordHandler} tabIndex={0}>
+                            {showPassword ? 'Скрыть пароль' : 'Показать пароль'}
+                        </span>
+                        <span className="register__field_control" onClick={createPasswordHandler} tabIndex={0}>
+                            Создать пароль
+                        </span>
+                    </li>
+                    <li className="register__input_item">
+                        <label htmlFor={password2Id}>Подтверждение:</label>
+                        <input
+                            className="input"
+                            id={password2Id}
+                            ref={password2Ref}
+                            type={showPassword ? 'text' : 'password'}
+                        />
                     </li>
                 </ul>
-                <div>
-                    <button onClick={closeHandler}>Отмена</button>
-                    <button onClick={registerHandler}>Зарегистрироваться</button>
+                <div className="register__control_block">
+                    <button className="button" onClick={closeHandler}>Отмена</button>
+                    <button className="button" onClick={registerHandler}>Зарегистрироваться</button>
                 </div>
             </div>
         </div>
