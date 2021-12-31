@@ -1,4 +1,4 @@
-import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState} from 'react';
 import {Card} from '../../store/card/types';
 import {getTasks, useTypedSelector} from '../../store/selectors';
 import TaskPanel from '../TaskPanel/TaskPanel';
@@ -70,7 +70,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         dispatch(patchTask({
             ...currentTask,
             cardId: card.id as number,
-            order: task.order + 0.01,
+            order: task.order + 0.1,
         }))
         e.stopPropagation()
 
@@ -83,7 +83,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         dispatch(patchTask({
             ...currentTask,
             cardId: card.id as number,
-            order: tasks.filter(task => task.cardId === card.id).length + 0.01,
+            order: tasks.filter(task => task.cardId === card.id).length + 0.1,
         }))
     }
 
@@ -101,6 +101,15 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
     function dropTaskEndHandler(e: React.DragEvent<HTMLDivElement>) {
         e.currentTarget.className = "card_panel"
     }
+
+    useEffect(() => {
+        tasks.filter(task => task.cardId === card.id).sort((a, b) => a.order - b.order).map((task,i) => {
+            return  dispatch(patchTask({
+                ...task,
+                order: i,
+            }))
+        })
+    },[tasks.filter(task => task.cardId === card.id).length])
 
 
     return (
