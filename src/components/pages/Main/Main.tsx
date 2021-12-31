@@ -6,7 +6,6 @@ import Logout from '../../modals/Logout/Logout';
 import {getLoggedUser, useTypedSelector} from '../../../store/selectors';
 import * as logoImage from '../../../content/images/logo.png';
 import * as heroImage from '../../../content/images/hero-img.png';
-import {ROUTE_PREFIX} from '../../../constants/settings';
 import './Main.scss';
 
 enum ModalMode {
@@ -57,7 +56,7 @@ const Main: React.FC = () => {
                             {loggedUser.firstName} {loggedUser.lastName}
                         </span>
                         <div className="main__user_control">
-                            <Link className="button" to={`/${ROUTE_PREFIX}/board_list`}>
+                            <Link className="button" to="/board_list">
                                 Перейти к доскам
                             </Link>
                             <button className="button" onClick={showLogout}>
