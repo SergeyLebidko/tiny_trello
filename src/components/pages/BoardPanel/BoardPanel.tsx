@@ -5,7 +5,6 @@ import CardPanel from '../../CardPanel/CardPanel';
 import NoMatch from '../NoMatch/NoMatch';
 import {getBoards, getCards, useTypedSelector} from '../../../store/selectors';
 import {Card} from '../../../store/card/types';
-import {ROUTE_PREFIX} from '../../../constants/settings';
 import {useDispatch} from 'react-redux';
 import {removeCard} from '../../../store/card/actions';
 import './BoardPanel.scss';
@@ -39,8 +38,8 @@ const BoardPanel: React.FC = () => {
         <div>
             <h1>Доска: {board.title}</h1>
             <ul>
-                <li><Link to={`/${ROUTE_PREFIX}`}>На главную страницу</Link></li>
-                <li><Link to={`/${ROUTE_PREFIX}/board_list`}>К списку досок</Link></li>
+                <li><Link to="/">На главную страницу</Link></li>
+                <li><Link to="/board_list">К списку досок</Link></li>
             </ul>
             <ul className="board_panel__card_list">
                 {cards

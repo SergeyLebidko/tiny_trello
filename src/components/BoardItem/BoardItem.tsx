@@ -1,5 +1,4 @@
 import React, {FC, useState} from 'react';
-import {ROUTE_PREFIX} from "../../constants/settings";
 import {Link} from "react-router-dom";
 import {Board} from "../../store/board/types";
 
@@ -56,9 +55,7 @@ const BoardItem: FC<IBoardItem> = ({board, remove, rename}) => {
                 />
                 : <h2 onClick={() => setEdit(!edit)}>{board.title}</h2>
             }
-            <Link
-                to={`/${ROUTE_PREFIX}/board/${board.id}`}
-            >
+            <Link to={`/board/${board.id}`}>
                 Перейти на доску
             </Link>
             <button onClick={() => remove()} style={{position: "absolute", top: 0, right: 0, padding: 5}}>х</button>
