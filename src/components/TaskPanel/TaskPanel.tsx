@@ -14,7 +14,7 @@ type TaskPanelProps = {
     drop: (e:React.DragEvent<HTMLLIElement>) => void,
 }
 
-const TaskPanel: React.FC<TaskPanelProps> = ({task, card, removeTaskHandler,dragOver,dragLeave, dragEnd,dragStart,drop}) => {
+const TaskPanel: React.FC<TaskPanelProps> = ({task, card, removeTaskHandler,dragOver,dragLeave,dragEnd,dragStart,drop}) => {
 
     const IMPORTANCE_TEXT_SELECTOR = {
         [Importance.Low]: 'Не высокая',
@@ -30,7 +30,7 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, removeTaskHandler,drag
         return `${d}.${m}.${y}`
     }
 
-    const {text, done, importance, deadline} = task;
+    const {text, done, importance, deadline, order} = task;
     return (
         <li className="task_panel"
             draggable={true}
@@ -45,6 +45,7 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, removeTaskHandler,drag
             <h2>{done ? 'Выполнено' : 'Не выполнено'}</h2>
             <h2>Важность: {IMPORTANCE_TEXT_SELECTOR[importance]}</h2>
             <h2>Срок: {getFormattedDate(deadline)}</h2>
+            <p>Очередь {order}</p>
         </li>
     );
 };
