@@ -173,7 +173,7 @@ export const TASKS_PRESET: Array<Task> = [
         order: 0
     },
     {
-        id: 11,
+        id: 12,
         cardId: 5,
         text: 'Что такое обобщения и обощенные функции',
         done: false,
