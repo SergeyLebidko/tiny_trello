@@ -4,7 +4,7 @@ import {getTasks, useTypedSelector} from '../../store/selectors';
 import TaskPanel from '../TaskPanel/TaskPanel';
 import {Task} from '../../store/task/types';
 import {useDispatch} from 'react-redux';
-import {createTask, patchTask, removeTask} from '../../store/task/actions';
+import {patchTask, removeTask} from '../../store/task/actions';
 import './CardPanel.scss';
 
 type CardPaneProps = {
