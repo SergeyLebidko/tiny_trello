@@ -41,25 +41,27 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         e.currentTarget.className = "task_panel"
     }
 
-    // А почему аргумент task не используется?
     function dropHandler(e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
         e.preventDefault();
+        e.currentTarget.className = "task_panel"
+
         if (!currentTask) return;
 
-        // Очень странный код: удаляешь таску, потом создаешь такую же но в другой доске
-
-        // dispatch(removeTask(currentTask))
-        // if (!card.id) return;
-        // dispatch(createTask({
-        //     ...currentTask,
-        //     cardId: card.id,
-        // }))
-
-        // А почему не попробовать так?
         dispatch(patchTask({
             ...currentTask,
-            cardId: card.id as number
+            cardId: card.id as number,
+            order: task.order - 0.01,
         }))
+
+        tasks
+            .filter(task => task.cardId === card.id)
+            .map((task, index) => {
+                    dispatch(patchTask({
+                        ...task,
+                        order: index,
+                    }))
+                }
+            )
     }
 
     return (
@@ -87,6 +89,6 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
             </ul>
         </div>
     );
-};
+}
 
 export default CardPanel;
