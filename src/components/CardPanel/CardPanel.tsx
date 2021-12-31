@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React, {useEffect, useLayoutEffect, useRef, useState} from 'react';
 import {Card} from '../../store/card/types';
 import {getTasks, useTypedSelector} from '../../store/selectors';
 import TaskPanel from '../TaskPanel/TaskPanel';
@@ -50,6 +50,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         if (e.currentTarget.className === "task_panel") {
             e.currentTarget.className = "task_panel shadowed"
         }
+        e.stopPropagation()
     }
 
     function dragLeaveHandler(e: React.DragEvent<HTMLLIElement>) {
@@ -69,20 +70,47 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         dispatch(patchTask({
             ...currentTask,
             cardId: card.id as number,
-            order: task.order - 0.01,
+            order: task.order + 0.01,
         }))
+        e.stopPropagation()
 
-        tasks.filter(task => task.cardId === card.id).map((task, index) => {
-                dispatch(patchTask({
-                    ...task,
-                    order: index,
-                }))
-            }
-        )
     }
 
+    const dropTaskHandler = (e: React.DragEvent<HTMLDivElement>, card: Card) : void => {
+        e.preventDefault();
+        e.currentTarget.className = "card_panel"
+        if (!currentTask) return;
+        dispatch(patchTask({
+            ...currentTask,
+            cardId: card.id as number,
+            order: tasks.filter(task => task.cardId === card.id).length + 0.01,
+        }))
+    }
+
+    function dropTaskOverHandler(e: React.DragEvent<HTMLDivElement>) {
+        e.preventDefault();
+        if (e.currentTarget.className === "card_panel") {
+            e.currentTarget.className = "card_panel shadowed"
+        }
+    }
+
+    function dropTaskLeaveHandler(e: React.DragEvent<HTMLDivElement>) {
+        e.currentTarget.className = "card_panel"
+    }
+
+    function dropTaskEndHandler(e: React.DragEvent<HTMLDivElement>) {
+        e.currentTarget.className = "card_panel"
+    }
+
+
     return (
-        <div className="card_panel">
+        <div
+            className="card_panel"
+            onDrop={(e: React.DragEvent<HTMLDivElement>) => dropTaskHandler(e,card)}
+            onDragOver={(e: React.DragEvent<HTMLDivElement>) => dropTaskOverHandler(e)}
+            onDragLeave={(e: React.DragEvent<HTMLDivElement>) => dropTaskLeaveHandler(e)}
+            onDragEnd={(e: React.DragEvent<HTMLDivElement>) => dropTaskEndHandler(e)}
+        >
             <h1>{title}</h1>
             <button onClick={() => removeCardHandler(card)}>Удалить карточку</button>
             <ul>
@@ -105,7 +133,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                 }
                 {/*Переключатель режима создания таски*/}
                 { edit?
-                    <li style={{width: 200, height: 100, border: '1px solid black'}}>
+                    <li style={{width: 200, height: 150, border: '1px solid black'}}>
                         <p>Введите текст задачи</p>
                         <textarea ref={textRef} autoFocus></textarea>
                         <select value={selected} onChange={(e:React.ChangeEvent<HTMLSelectElement>) => setSelected(e.currentTarget.value as Importance)}>
@@ -124,7 +152,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                             style={{width: 200, border: '1px solid black'}}
                             onClick={() => setEdit(!edit)}
                         >
-                            Создать доску
+                            Создать задачу
                         </button>
                     </li>
                 }
