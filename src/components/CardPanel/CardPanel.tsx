@@ -1,10 +1,10 @@
-import React from 'react';
+import React, {useRef, useState} from 'react';
 import {Card} from '../../store/card/types';
 import {getTasks, useTypedSelector} from '../../store/selectors';
 import TaskPanel from '../TaskPanel/TaskPanel';
-import {Task} from '../../store/task/types';
+import {Importance, Task} from '../../store/task/types';
 import {useDispatch} from 'react-redux';
-import {patchTask, removeTask} from '../../store/task/actions';
+import {createTask, patchTask, removeTask} from '../../store/task/actions';
 import './CardPanel.scss';
 
 type CardPaneProps = {
@@ -19,9 +19,28 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
     const dispatch = useDispatch();
 
     const tasks = useTypedSelector(getTasks);
+    const [edit,setEdit] = useState<boolean>(false)
+    const [selected,setSelected] = useState<Importance>(Importance.Low)
+    const textRef = useRef<HTMLTextAreaElement>(null)
+    const dateRef = useRef<HTMLInputElement>(null)
 
     const removeTaskHandler = (task: Task): void => {
         dispatch(removeTask(task));
+    }
+
+    const addTaskHandler = () : void => {
+        if (!textRef.current || !dateRef.current) return;
+        dispatch(createTask(
+            {
+                cardId: card.id as number,
+                text: textRef.current.value,
+                done: false,
+                importance: selected,
+                deadline: +new Date(dateRef.current.value),
+                order: tasks.filter(task => task.cardId === card.id).length,
+            }
+        ))
+        setEdit(!edit)
     }
 
     const {id, title} = card;
@@ -53,15 +72,13 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
             order: task.order - 0.01,
         }))
 
-        tasks
-            .filter(task => task.cardId === card.id)
-            .map((task, index) => {
-                    dispatch(patchTask({
-                        ...task,
-                        order: index,
-                    }))
-                }
-            )
+        tasks.filter(task => task.cardId === card.id).map((task, index) => {
+                dispatch(patchTask({
+                    ...task,
+                    order: index,
+                }))
+            }
+        )
     }
 
     return (
@@ -85,6 +102,31 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                             drop={(e: React.DragEvent<HTMLLIElement>) => dropHandler(e, card, task)}
                         />
                     )
+                }
+                {/*Переключатель режима создания таски*/}
+                { edit?
+                    <li style={{width: 200, height: 100, border: '1px solid black'}}>
+                        <p>Введите текст задачи</p>
+                        <textarea ref={textRef} autoFocus></textarea>
+                        <select value={selected} onChange={(e:React.ChangeEvent<HTMLSelectElement>) => setSelected(e.currentTarget.value as Importance)}>
+                            <option value={Importance.Low}>Низкая</option>
+                            <option value={Importance.Medium}>Средняя</option>
+                            <option value={Importance.High}>Высокая</option>
+                        </select>
+                        <input type="date" ref={dateRef}/>
+                        <button onClick={addTaskHandler}>
+                            Создать задачу
+                        </button>
+                    </li>
+                    :
+                    <li>
+                        <button
+                            style={{width: 200, border: '1px solid black'}}
+                            onClick={() => setEdit(!edit)}
+                        >
+                            Создать доску
+                        </button>
+                    </li>
                 }
             </ul>
         </div>
