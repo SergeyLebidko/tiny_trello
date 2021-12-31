@@ -82,7 +82,7 @@ class Backend {
         // Выбираем из "базы данных" список элементов заданного типа и узнаем идентификатор, который должен быть присвоен создаваемому элементу
         const elementsInBase: Array<T> = JSON.parse(localStorage.getItem(dataKey) || '[]');
         const nextId = this.getNextId(elementsInBase);
-        const createdElement = {
+        const createdElement: T = {
             id: nextId,
             ...element,
         }
