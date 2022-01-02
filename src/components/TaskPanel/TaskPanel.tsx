@@ -40,8 +40,8 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, removeTaskHandler,drag
             onDragStart={() => dragStart(card,task)}
             onDrop={drop}
         >
-            <button onClick={() => removeTaskHandler(task)}>Удалить задачу</button>
-            <h1>{text}</h1>
+            <button className='task_delete' onClick={() => removeTaskHandler(task)}>x</button>
+            <h1 className="task_header">{text}</h1>
             <h2>{done ? 'Выполнено' : 'Не выполнено'}</h2>
             <h2>Важность: {IMPORTANCE_TEXT_SELECTOR[importance]}</h2>
             <h2>Срок: {getFormattedDate(deadline)}</h2>

@@ -47,6 +47,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
 
     function dragOverHandler(e: React.DragEvent<HTMLLIElement>) {
         e.preventDefault();
+        // Добавление эффектов
         if (e.currentTarget.className === "task_panel") {
             e.currentTarget.className = "task_panel shadowed"
         }
@@ -64,7 +65,6 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
     function dropHandler(e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
         e.preventDefault();
         e.currentTarget.className = "task_panel"
-
         if (!currentTask) return;
         //Идет проверка условия, при котором будет определяться как перетасовываются карточки
         if (currentCard === card && task.order > currentTask.order) {
@@ -98,6 +98,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
 
     function dropTaskOverHandler(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault();
+        // Добавление эффектов
         if (e.currentTarget.className === "card_panel") {
             e.currentTarget.className = "card_panel shadowed"
         }
@@ -131,7 +132,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
             onDragEnd={(e: React.DragEvent<HTMLDivElement>) => dropTaskEndHandler(e)}
         >
             <h1>{title}</h1>
-            <button onClick={() => removeCardHandler(card)}>Удалить карточку</button>
+            <button className="card_delete" onClick={() => removeCardHandler(card)}>x</button>
             <ul>
                 {tasks
                     .filter(task => task.cardId === id)
