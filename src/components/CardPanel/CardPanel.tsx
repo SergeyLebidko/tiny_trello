@@ -15,7 +15,7 @@ type CardPaneProps = {
     currentTask: Task | null,
 }
 
-const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart, currentTask}) => {
+const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,currentCard, currentTask}) => {
     const dispatch = useDispatch();
 
     const tasks = useTypedSelector(getTasks);
@@ -66,14 +66,23 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         e.currentTarget.className = "task_panel"
 
         if (!currentTask) return;
+        //Идет проверка условия, при котором будет определяться как перетасовываются карточки
+        if (currentCard === card && task.order > currentTask.order) {
+            dispatch(patchTask({
+                ...currentTask,
+                cardId: card.id as number,
+                order: task.order + 0.1,
+            }))
+            e.stopPropagation()
+        } else {
+            dispatch(patchTask({
+                ...currentTask,
+                cardId: card.id as number,
+                order: task.order - 0.1,
+            }))
+            e.stopPropagation()
 
-        dispatch(patchTask({
-            ...currentTask,
-            cardId: card.id as number,
-            order: task.order + 0.1,
-        }))
-        e.stopPropagation()
-
+        }
     }
 
     const dropTaskHandler = (e: React.DragEvent<HTMLDivElement>, card: Card) : void => {
@@ -102,6 +111,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         e.currentTarget.className = "card_panel"
     }
 
+    // Пересчет очереди после изменения количества тасок в стопке
     useEffect(() => {
         tasks.filter(task => task.cardId === card.id).sort((a, b) => a.order - b.order).map((task,i) => {
             return  dispatch(patchTask({
