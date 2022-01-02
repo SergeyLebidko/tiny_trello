@@ -10,7 +10,7 @@ import './CardPanel.scss';
 type CardPaneProps = {
     card: Card,
     removeCardHandler: (card: Card) => void,
-    dragStart: (card: Card, task: Task) => void,
+    dragStart: (e:React.DragEvent<HTMLLIElement>, card: Card, task: Task) => void,
     currentCard: Card | null,
     currentTask: Task | null,
 }
@@ -62,11 +62,10 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         e.currentTarget.className = "task_panel"
     }
 
-    function dropHandler(e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
-        e.preventDefault();
+    function dragEnterHandler (e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
         e.currentTarget.className = "task_panel"
         if (!currentTask) return;
-        //Идет проверка условия, при котором будет определяться как перетасовываются карточки
+        // Идет проверка условия, при котором будет определяться как перетасовываются карточки
         if (currentCard === card && task.order > currentTask.order) {
             dispatch(patchTask({
                 ...currentTask,
@@ -81,11 +80,15 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                 order: task.order - 0.1,
             }))
             e.stopPropagation()
-
         }
     }
 
-    const dropTaskHandler = (e: React.DragEvent<HTMLDivElement>, card: Card) : void => {
+    function dropHandler(e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
+        e.preventDefault();
+        e.currentTarget.className = "task_panel"
+    }
+
+    const dropTaskEnterHandler = (e: React.DragEvent<HTMLDivElement>, card: Card) : void => {
         e.preventDefault();
         e.currentTarget.className = "card_panel"
         if (!currentTask) return;
@@ -112,21 +115,21 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         e.currentTarget.className = "card_panel"
     }
 
-    // Пересчет очереди после изменения количества тасок в стопке
-    useEffect(() => {
-        tasks.filter(task => task.cardId === card.id).sort((a, b) => a.order - b.order).map((task,i) => {
-            return  dispatch(patchTask({
-                ...task,
-                order: i,
-            }))
-        })
-    },[tasks.filter(task => task.cardId === card.id).length])
+    // DEPRECATED Пересчет очереди после изменения количества тасок в стопке
+    // useEffect(() => {
+    //     tasks.filter(task => task.cardId === card.id).sort((a, b) => a.order - b.order).map((task,i) => {
+    //         return  dispatch(patchTask({
+    //             ...task,
+    //             order: i,
+    //         }))
+    //     })
+    // },[tasks.filter(task => task.cardId === card.id).length])
 
 
     return (
         <div
             className="card_panel"
-            onDrop={(e: React.DragEvent<HTMLDivElement>) => dropTaskHandler(e,card)}
+            onDragEnter={(e: React.DragEvent<HTMLDivElement>) => dropTaskEnterHandler(e,card)}
             onDragOver={(e: React.DragEvent<HTMLDivElement>) => dropTaskOverHandler(e)}
             onDragLeave={(e: React.DragEvent<HTMLDivElement>) => dropTaskLeaveHandler(e)}
             onDragEnd={(e: React.DragEvent<HTMLDivElement>) => dropTaskEndHandler(e)}
@@ -148,6 +151,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                             dragEnd={(e: React.DragEvent<HTMLLIElement>) => dragEndHandler(e)}
                             dragStart={dragStart}
                             drop={(e: React.DragEvent<HTMLLIElement>) => dropHandler(e, card, task)}
+                            dragEnter={(e: React.DragEvent<HTMLLIElement>) => dragEnterHandler(e, card, task)}
                         />
                     )
                 }

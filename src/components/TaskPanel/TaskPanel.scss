@@ -4,6 +4,7 @@
   padding: 0.5em;
   color: white;
   position: relative;
+  cursor: pointer;
 }
 
 .shadowed {
@@ -21,4 +22,9 @@
 
 .task_header {
   font-weight: 700;
+}
+
+.task_shadow-block {
+  background-color: gray;
+  border: 1px solid black;
 }
