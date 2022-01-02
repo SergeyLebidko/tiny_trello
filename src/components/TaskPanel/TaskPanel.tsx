@@ -10,11 +10,12 @@ type TaskPanelProps = {
     dragOver: (e:React.DragEvent<HTMLLIElement>) => void,
     dragLeave: (e:React.DragEvent<HTMLLIElement>) => void,
     dragEnd: (e:React.DragEvent<HTMLLIElement>) => void,
-    dragStart: (card: Card, task: Task) => void,
+    dragStart: (e:React.DragEvent<HTMLLIElement>, card: Card, task: Task) => void,
     drop: (e:React.DragEvent<HTMLLIElement>) => void,
+    dragEnter: (e:React.DragEvent<HTMLLIElement>, card: Card, task: Task) => void,
 }
 
-const TaskPanel: React.FC<TaskPanelProps> = ({task, card, removeTaskHandler,dragOver,dragLeave,dragEnd,dragStart,drop}) => {
+const TaskPanel: React.FC<TaskPanelProps> = ({task, card, removeTaskHandler,dragOver,dragLeave,dragEnd,dragStart,drop,dragEnter}) => {
 
     const IMPORTANCE_TEXT_SELECTOR = {
         [Importance.Low]: 'Не высокая',
@@ -37,11 +38,12 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, removeTaskHandler,drag
             onDragOver={dragOver}
             onDragLeave={dragLeave}
             onDragEnd={dragEnd}
-            onDragStart={() => dragStart(card,task)}
+            onDragStart={(e:React.DragEvent<HTMLLIElement>) => dragStart(e,card,task)}
             onDrop={drop}
+            onDragEnter={(e:React.DragEvent<HTMLLIElement>) => dragEnter(e,card,task)}
         >
-            <button onClick={() => removeTaskHandler(task)}>Удалить задачу</button>
-            <h1>{text}</h1>
+            <button className='task_delete' onClick={() => removeTaskHandler(task)}>x</button>
+            <h1 className="task_header">{text}</h1>
             <h2>{done ? 'Выполнено' : 'Не выполнено'}</h2>
             <h2>Важность: {IMPORTANCE_TEXT_SELECTOR[importance]}</h2>
             <h2>Срок: {getFormattedDate(deadline)}</h2>
