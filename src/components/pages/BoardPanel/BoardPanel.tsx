@@ -30,12 +30,6 @@ const BoardPanel: React.FC = () => {
     if (!board) return <NoMatch/>;
 
     function dragStartHandler(e:React.DragEvent<HTMLLIElement>,card: Card, task: Task) {
-
-        // Тут должен быть код по настройке непрозрачности элемента, пока заготовки
-        // const dragged = e.currentTarget
-        // dragged.style.opacity = 'visible'
-        // e.dataTransfer.setDragImage( dragged,0, 0);
-
         setCurrentCard(card)
         setCurrentTask(task)
     }
