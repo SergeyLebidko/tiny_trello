@@ -8,9 +8,10 @@ import './Register.scss';
 
 type RegisterProps = {
     closeHandler: () => void
+    removeOverflowHidden: () => void
 }
 
-const Register: React.FC<RegisterProps> = ({closeHandler}) => {
+const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden}) => {
     const dispatch = useDispatch();
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
@@ -90,56 +91,112 @@ const Register: React.FC<RegisterProps> = ({closeHandler}) => {
 
     return (
         <div className="register">
-            <div className="register__content">
-                <h1 className="register__service_title">Tiny Trello</h1>
-                <h1 className="register__modal_title">Введите данные для регистрации</h1>
-                {error && <div className="register__error">{error}</div>}
-                <ul>
-                    <li className="register__input_item">
-                        <label htmlFor={loginId}>Логин:</label>
-                        <input className="input" id={loginId} ref={loginRef}/>
-                    </li>
-                    <li className="register__input_item">
-                        <label htmlFor={firstNameId}>Имя:</label>
-                        <input className="input" id={firstNameId} ref={firstNameRef}/>
-                    </li>
-                    <li className="register__input_item">
-                        <label htmlFor={lastNameId}>Фамилия:</label>
-                        <input className="input" id={lastNameId} ref={lastNameRef}/>
-                    </li>
-                    <li className="register__input_item">
-                        <label htmlFor={password1Id}>Пароль:</label>
-                        <input
-                            className="input"
-                            id={password1Id}
-                            ref={password1Ref}
-                            type={showPassword ? 'text' : 'password'}
-                        />
+        <button 
+            className="register__btn_return" 
+            onClick={() => {closeHandler(); removeOverflowHidden()}}
+        >
+            <img src="icons/back.svg" alt="back"/>
+        </button>                    
+        <img className="register__logo" src="img/login-logo.png" alt="logo" />
 
-                    </li>
-                    <li className="register__control_item">
-                        <span className="register__field_control" onClick={showPasswordHandler} tabIndex={0}>
-                            {showPassword ? 'Скрыть пароль' : 'Показать пароль'}
-                        </span>
-                        <span className="register__field_control" onClick={createPasswordHandler} tabIndex={0}>
-                            Создать пароль
-                        </span>
-                    </li>
-                    <li className="register__input_item">
-                        <label htmlFor={password2Id}>Подтверждение:</label>
-                        <input
-                            className="input"
-                            id={password2Id}
-                            ref={password2Ref}
+        <div className="register__content">
+            {error && <p className="register__danger">{error}</p>}
+            <p className="register__content_logo">Зарегистрировать аккаунт</p>
+                <div className="register__form">
+                    <input 
+                        className="register__inp" 
+                        placeholder="Укажите Логин" 
+                        id={loginId} ref={loginRef}
+                    />                    
+                    <input 
+                        className="register__inp"
+                        placeholder="Имя" 
+                        id={firstNameId} 
+                        ref={firstNameRef}
+                    />
+                    <input 
+                        className="register__inp"
+                        placeholder="Фамилия"
+                        id={lastNameId} 
+                        ref={lastNameRef}
+                    />
+                    <button className="register__btn_create_pass" onClick={createPasswordHandler}>Создать пароль</button>
+                    <div className="register__password_block">
+                        <input className="register__password_inp" 
+                            placeholder="Укажите пароль" 
+                            id={password1Id} 
+                            ref={password1Ref} 
                             type={showPassword ? 'text' : 'password'}
                         />
-                    </li>
-                </ul>
-                <div className="register__control_block">
-                    <button className="button" onClick={closeHandler}>Отмена</button>
-                    <button className="button" onClick={registerHandler}>Зарегистрироваться</button>
-                </div>
-            </div>
+                        <img 
+                            className="register__password_look"
+                            src={showPassword ? 'icons/show-pass.png' : 'icons/hide-pass.png'} 
+                            alt="show/hide-pass" 
+                            onClick={showPasswordHandler}
+                        />                            
+                    </div>
+                    <div className="register__password_block">
+                        <input className="register__password_inp" 
+                            placeholder="Укажите пароль" 
+                            id={password2Id} 
+                            ref={password2Ref} 
+                            type={showPassword ? 'text' : 'password'}
+                        />
+                        <img 
+                            className="register__password_look"
+                            src={showPassword ? 'icons/show-pass.png' : 'icons/hide-pass.png'} 
+                            alt="show/hide-pass" 
+                            onClick={showPasswordHandler}
+                        />                            
+                    </div> 
+                    <div className="register__conditions">
+                        <span>Регистрируясь, вы подтверждаете, что принимаете наши</span>
+                        <span>
+                            <a className="register__link" href="">Условия использования</a> и<br/> <a className="register__link" href="">Политику конфиденциальности</a>
+                        </span>                        
+                    </div>                     
+                    
+                                        
+                    <button className="register__btn_submit" onClick={registerHandler}>Регистрация</button>
+                </div>                
+                
+            <p className="register__or">ИЛИ</p>
+
+            <button className="register__btn_out">
+                <img className="register__btn_img" src="icons/google-logo.png" alt="google" />
+                <span className="register__btn_text">Войти через Google</span>
+            </button>
+            <button className="register__btn_out">
+                <img className="register__btn_img" src="icons/ms-logo.png" alt="ms" />
+                <span className="register__btn_text">Войти через Microsoft</span>
+            </button>
+            <button className="register__btn_out">
+                <img className="register__btn_img" src="icons/apple-logo.png" alt="apple" />
+                <span className="register__btn_text">Войти через Apple</span>
+            </button>            
+        </div>
+
+        <div className="register__lang">
+            <img src="img/input-img.png" alt="lang" />
+        </div>
+
+        <div className="register__footer">
+            <img className="register__footer_img" src="img/login-footer-img.png" alt="Atlassian" />
+            <ul className="register__footer_list">
+                <li><a href="#">Шаблоны</a></li>
+                <li><a href="#">Цены</a></li>
+                <li><a href="#">Приложения</a></li>
+                <li><a href="#">Вакансии</a></li>
+                <li><a href="#">Блог</a></li>
+                <li><a href="#">Разработчики</a></li>
+                <li><a href="#">О нас</a></li>
+                <li><a href="#">Помощь</a></li>
+                <li><a href="#">Настройки файлов cookie</a></li>
+            </ul>
+        </div>
+
+        <img className="register__footer_img_left" src="img/modal-img-l.png" alt="bg-l" />
+        <img className="register__footer_img_right" src="img/modal-img-r.png" alt="bg-r" />
         </div>
     );
 }
