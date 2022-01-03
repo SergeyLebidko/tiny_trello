@@ -16,6 +16,7 @@ const BoardPanel: React.FC = () => {
     const boards: Array<Board> = useTypedSelector(getBoards);
     const cards: Array<Card> = useTypedSelector(getCards);
 
+
     const {boardId} = useParams();
 
     const removeCardHandler = (card: Card): void => {
