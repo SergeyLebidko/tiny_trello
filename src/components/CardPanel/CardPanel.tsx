@@ -4,7 +4,7 @@ import {getTasks, useTypedSelector} from '../../store/selectors';
 import TaskPanel from '../TaskPanel/TaskPanel';
 import {Importance, Task} from '../../store/task/types';
 import {useDispatch} from 'react-redux';
-import {createTask, patchTask, removeTask} from '../../store/task/actions';
+import {createTask, patchTask} from '../../store/task/actions';
 import './CardPanel.scss';
 import Confirm from "../modals/Confirm/Confirm";
 
@@ -210,7 +210,6 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                         >
                             Создать задачу
                         </button>
-
                     </li>
                 }
             </ul>
