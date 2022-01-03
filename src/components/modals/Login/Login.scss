@@ -1,5 +1,155 @@
-@import "../../../style/presets";
+@import '../../../sass/import';
 
 .login {
-  @include modal;
+  @include modal();
+
+  &__btn_return {
+    @include btn-return();
+
+    img {
+      width: 50px;
+    }
+  }
+
+  &__logo  {
+    @include modal-logo();
+  }
+
+  &__content {
+    @include modal-content();   
+  }
+
+  &__danger {
+    @include modal-danger();
+  }
+
+  &__content_logo {
+    @include modal-content-logo();
+  }
+
+  &__form {
+    width: 100%;
+    @include flex(_, _, column);
+  }      
+
+  &__inp {
+    @include modal-input();
+    margin-bottom: 20px; 
+  }
+
+  &__password_block {
+    position: relative;
+    width: 100%;
+    height: 44px;
+    margin-bottom: 20px;
+  }
+
+  &__password_inp {
+    @include modal-input();  
+  }
+
+  &__password_look {
+    @include modal-input-look();
+  }
+      
+      
+  &__btn {
+    @include btn-reset();
+    @include btn-filled();
+    height: 35px;
+    margin-bottom: 20px;
+    background: $green;
+    font: bold 14px/1 'Charlie Display', sans-serif;
+
+    &:hover {
+      opacity: 0.8;
+      background: $green;
+    }
+  }
+
+  &__or {
+    margin-bottom: 20px;
+    text-align: center;
+    font: .8rem/1 'Charlie Display',sans-serif;
+    color: $gray;
+  }
+
+  &__btn_out {
+    @include modal-btn-out();
+    margin-bottom: 12px;
+  }
+
+  &__btn_img {
+    width: 16px;
+    margin-right: 10px;
+  }
+
+  &__btn_text {
+    font: bold .9rem/1 'Charlie Display',sans-serif;
+    color: $gray;
+  }    
+
+  &__sso {
+    width: 100%;
+    height: 50px;
+    margin: 15px 0;
+    text-align: center;
+    border-bottom: 1px solid $gray-light;
+  }
+
+  &__link {
+    @include modal-link();  
+  }
+
+  &__issue {
+    width: 100%;
+    text-align: center;
+  }
+
+  &__point {
+    margin: 0 5px;
+    font: 900 15px 'Charlie Display',sans-serif;
+    color: $gray;
+  }
+
+  &__policy {
+    width: 330px;
+    height: 28px;
+    margin-top: 15px;
+    text-align: center;
+
+    a {
+      font-size: 12px; 
+    }
+  }
+
+  &__lang {
+    width: 400px;
+    min-height: 120px;
+    @include flex(center, center);
+    border-bottom: 1px solid #cccccc;
+  }
+
+  &__footer {
+    @include flex(_, center, column);
+    width: 100%;
+    margin: 20px 0;
+  }
+
+  &__footer_img {
+    margin: 10px 0;
+  }
+
+  &__footer_list {
+    @include modal-footer-list();
+    margin-top: 15px;
+  }
+
+  &__footer_img_left {
+    @include modal-footer-img-left();
+  }
+  
+  &__footer_img_right {
+    @include modal-footer-img-right();
+  }
 }
