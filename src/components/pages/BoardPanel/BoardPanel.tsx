@@ -100,7 +100,7 @@ const BoardPanel: React.FC = () => {
                             style={{width: 200, border: '1px solid black'}}
                             onClick={() => setEdit(!edit)}
                         >
-                            Создать задачу
+                            Создать список
                         </button>
                     </li>
                 }
