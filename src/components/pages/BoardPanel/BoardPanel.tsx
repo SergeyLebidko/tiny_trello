@@ -50,7 +50,7 @@ const BoardPanel: React.FC = () => {
         ))
         setEdit(!edit)
     }
-
+    // В зависимости от длины массива карт получаем новую позицию
     function getNewOrder() {
         if (!board) return;
         return cards.filter(card => card.boardId === board.id).length
@@ -77,6 +77,7 @@ const BoardPanel: React.FC = () => {
                             removeCardHandler={removeCardHandler}
                         />)
                 }
+                {/*когда мы создаем новый список, появляется форма*/}
                 {edit ?
                     <li style={{width: 200, height: 150, border: '1px solid black'}}>
                         <p>Введите название списка</p>

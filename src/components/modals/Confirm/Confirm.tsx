@@ -16,6 +16,7 @@ const Confirm: FC<IConfirm> = ({text, buttonLabel, cancelHandler, acceptHandler}
                 <h1 className="confirm__title">Tiny Trello</h1>
                 <p className="confirm__modal_title">{text}</p>
                 <div className="confirm__control_block">
+                    {/* В кнопки мы вставляем функции, полученные извне*/}
                     <button className="confirm__button" onClick={cancelHandler}>Отмена</button>
                     <button className="confirm__button" onClick={acceptHandler}>{buttonLabel}</button>
                 </div>

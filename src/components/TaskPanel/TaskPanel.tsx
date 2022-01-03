@@ -20,6 +20,7 @@ type TaskPanelProps = {
 const TaskPanel: React.FC<TaskPanelProps> = ({task, card, dragOver, dragLeave, dragEnd, dragStart, drop, dragEnter}) => {
 
     const dispatch = useDispatch()
+
     const IMPORTANCE_TEXT_SELECTOR = {
         [Importance.Low]: 'Не высокая',
         [Importance.Medium]: 'Средняя',
@@ -51,6 +52,7 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, dragOver, dragLeave, d
             onDrop={drop}
             onDragEnter={(e: React.DragEvent<HTMLLIElement>) => dragEnter(e, card, task)}
         >
+            {/* Модальная форма подтверждения удаления*/}
             {modalMode &&
             <Confirm
                 text={`Действительно удалить задачу "${text}"?`}
