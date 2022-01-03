@@ -68,7 +68,14 @@ const BoardList: React.FC = () => {
                                 <button onClick={addBoardHandler}>
                                     Создать доску
                                 </button>
+                                <button
+                                    style={{width: 200, border: '1px solid black'}}
+                                    onClick={() => setEdit(!edit)}
+                                >
+                                    Отмена
+                                </button>
                             </li>
+
                             :
                             <li>
                                 <button
@@ -77,6 +84,7 @@ const BoardList: React.FC = () => {
                                 >
                                     Создать доску
                                 </button>
+
                             </li>
                         }
                     </ul>

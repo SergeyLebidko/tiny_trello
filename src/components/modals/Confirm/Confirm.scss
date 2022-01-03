@@ -1,0 +1,26 @@
+.confirm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  z-index: 5000;
+  transform: translate(-50%,-50%);
+  background-color: #5E6C84;
+  color: white;
+  padding: 0.5em;
+}
+
+.confirm__content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
+
+.confirm__control_block {
+  display: flex;
+  justify-content: center;
+  column-gap: 5px;
+  & button {
+    padding: 0.2em;
+  }
+}

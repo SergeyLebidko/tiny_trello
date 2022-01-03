@@ -1,11 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Link} from 'react-router-dom';
 import Register from '../../modals/Register/Register';
 import Login from '../../modals/Login/Login';
 import Logout from '../../modals/Logout/Logout';
 import {getLoggedUser, useTypedSelector} from '../../../store/selectors';
-import * as logoImage from '../../../content/images/logo.png';
-import * as heroImage from '../../../content/images/hero-img.png';
 import './Main.scss';
 
 enum ModalMode {
@@ -19,22 +17,6 @@ const Main: React.FC = () => {
     const loggedUser = useTypedSelector(getLoggedUser);
 
     const [modalMode, setModalMode] = useState<ModalMode>(ModalMode.NoModal);
-    const headerRef = useRef<HTMLElement>(null);
-
-    useEffect(() => {
-        const scrollListener = (): void => {
-            if (headerRef.current === null) return;
-            if (window.scrollY > 100) {
-                headerRef.current.classList.add('main__header_stuck');
-            } else {
-                headerRef.current.classList.remove('main__header_stuck');
-            }
-        }
-
-        window.addEventListener('scroll', scrollListener);
-
-        return () => window.removeEventListener('acroll', scrollListener);
-    }, []);
 
     const showRegister = (): void => setModalMode(ModalMode.RegisterModal);
     const showLogin = (): void => setModalMode(ModalMode.LoginModal);
@@ -42,58 +24,93 @@ const Main: React.FC = () => {
 
     const closeModal = (): void => setModalMode(ModalMode.NoModal);
 
+    // прячем скроллбар
+    const setOverflowHidden = (): void => {
+        document.querySelector('html')?.classList.add('overflow-hidden')
+    }
+
+    // показываем скроллбар
+    const removeOverflowHidden = (): void => {
+        document.querySelector('html')?.classList.remove('overflow-hidden')
+    }
+
+    // анимация header при прокрутке страницы
+    useEffect(() => {
+        const header = document.querySelector('header');
+        window.addEventListener('scroll', () => {
+            pageYOffset >= 60 ? header?.classList.add('scroll') : header?.classList.remove('scroll');
+        })
+    }, [])
+
     return (
         <main className="main">
-            {modalMode === ModalMode.RegisterModal && <Register closeHandler={closeModal}/>}
-            {modalMode === ModalMode.LoginModal && <Login closeHandler={closeModal}/>}
-            {modalMode === ModalMode.LogoutModal && <Logout closeHandler={closeModal}/>}
+            <header className="main__header">
+                <img className="main__logo" src="img/header-logo.png" alt="logo" />
 
-            <header className="main__header main__header_transparent" ref={headerRef}>
-                <span className="main__logo"><img src={logoImage.default}/>Tiny Trello</span>
+                {modalMode === ModalMode.RegisterModal && <Register closeHandler={closeModal} removeOverflowHidden={removeOverflowHidden}/>}
+                {modalMode === ModalMode.LoginModal && <Login closeHandler={closeModal} removeOverflowHidden={removeOverflowHidden}/>}
+                {modalMode === ModalMode.LogoutModal && <Logout closeHandler={closeModal} removeOverflowHidden={removeOverflowHidden} firstName={loggedUser!.firstName} lastName={loggedUser!.lastName}/>}
+
+                {/*Проверка на залогиненного пользователя*/}
                 {loggedUser ?
-                    <>
-                        <span className="main__user_title">
-                            {loggedUser.firstName} {loggedUser.lastName}
-                        </span>
-                        <div className="main__user_control">
-                            <Link className="button" to="/board_list">
-                                Перейти к доскам
-                            </Link>
-                            <button className="button" onClick={showLogout}>
-                                Выход
-                            </button>
-                        </div>
-                    </>
-                    :
-                    <div className="main__user_control">
-                        <button className="button" onClick={showRegister}>
-                            Регистрация
-                        </button>
-                        <button className="button" onClick={showLogin}>
-                            Вход
-                        </button>
+                    <div className="main__stuck"> 
+                        <h3 className="main__user_names">
+                        {loggedUser.firstName} {loggedUser.lastName}
+                        </h3>
+
+                        <button className="main__btn_logout" onClick={ () => {showLogout(); setOverflowHidden()} }>Выход</button>
+                        {/*Может тут ссылка сначала на страницу пользователя, а потом отдельная ссылка на список бордов?*/}
+                        <Link className="main__link_board" to="board_list">Мои пространства</Link>
                     </div>
+                    :
+                    <>  <div className="main__btn_block">
+                            <button className="main__btn_login" onClick={ () => {showLogin(); setOverflowHidden()} }>Войти</button>
+                            <button className="main__btn_register" onClick={ () => {showRegister(); setOverflowHidden()} }>Регистрация</button>
+                        </div>
+                        
+                    </>
                 }
             </header>
 
-            <section className="main__content">
-                <div className="main__text_block">
-                    <h1>
-                        Tiny Trello
-                    </h1>
-                    <h3>
-                        Помогает командам эффективно решать рабочие задачи
-                    </h3>
-                    <p>
-                        Работайте в команде, управляйте проектами и выводите продуктивность на новый уровень собственным
-                        уникальным способом используя наш сервис
-                    </p>
+            <section className="main__hero">
+                <div className="main__hero_container">
+                    <div className="main__hero_left">
+                        <h1><span>Trello</span> помогает командам эффективно решать рабочие задачи.</h1>
+                        <p className="main__hero_text">Работайте в команде, управляйте проектами и выводите продуктивность на новый уровень собственным уникальным способом вместе с <span>Trello</span>.</p>
+                        <form className="main__hero_form">  
+                            <input className="main__hero_inp" type="email" placeholder="Электронная почта"></input>
+                            <button type="submit" className="main__hero_btn">Зарегистрируйтесь — это бесплатно!</button>
+                        </form>
+                    </div>
+                    <div className="main__hero_right">
+                        <img className="main__hero_img" src="img/hero-img.png" alt="hero-logo" />
+                    </div>
                 </div>
-                <img className="main__hero_image" src={heroImage.default}/>
+            </section>
+
+            <section className="main__product">
+                <h2>Это не просто работа. Это координация действий в команде.</h2>
+                <p className="main__product_text">Начните с досок, колонок и карточек, а затем переходите к более сложным функциям. Управляйте проектами, упорядочивайте задачи и поддерживайте командный дух&nbsp;— все это в Trello.</p>
+                <button className="main__product_btn">Начать работу →</button>
+                <img className="main__product_img" src="img/product-img.png" alt="" />
             </section>
 
             <footer className="main__footer">
-                2021. SDN. Все права защищены
+                <ul className="main__footer_list"> 
+                    <li><a href="#">Шаблоны</a></li>
+                    <li><a href="#">Цены</a></li>
+                    <li><a href="#">Приложения</a></li>
+                    <li><a href="#">Вакансии</a></li>
+                    <li><a href="#">Блог</a></li>
+                    <li><a href="#">Разработчики</a></li>
+                    <li><a href="#">О нас</a></li>
+                    <li><a href="#">Помощь</a></li>
+                    <li><a href="#">Юридическая информация</a></li>
+                    <li><a href="#">Настройки файлов cookie</a></li>
+                    <li><a href="#">Конфиденциальность</a></li>
+                </ul>
+                <img className="main__footer_img" src="img/footer-img.png" alt="Atlassian" />
+                <p>© 2021. Все права защищены.</p>
             </footer>
 
         </main>
