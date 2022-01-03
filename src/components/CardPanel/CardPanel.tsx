@@ -4,7 +4,7 @@ import {getTasks, useTypedSelector} from '../../store/selectors';
 import TaskPanel from '../TaskPanel/TaskPanel';
 import {Importance, Task} from '../../store/task/types';
 import {useDispatch} from 'react-redux';
-import {createTask, patchTask, removeTask} from '../../store/task/actions';
+import {createTask, patchTask} from '../../store/task/actions';
 import './CardPanel.scss';
 import Confirm from "../modals/Confirm/Confirm";
 
@@ -29,7 +29,17 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
     const textRef = useRef<HTMLTextAreaElement>(null)
     const dateRef = useRef<HTMLInputElement>(null)
 
+    // Получаем дату в текстовом формате, который требует форма
+    const getToday = (): string => {
+        const date = new Date(Date.now());
+        const d = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+        const m = date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+        const y = date.getFullYear();
+        // Да-да, именно так
+        return `${y}-${m}-${d}`
+    }
 
+    // Определяем очередь среди тасок
     function getNewOrder() {
         return tasks.filter(task => task.cardId === card.id).length
     }
@@ -52,6 +62,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
 
     function dragOverHandler(e: React.DragEvent<HTMLLIElement>) {
         e.preventDefault();
+        // Обязательно предотвращаем всплытие
         e.stopPropagation()
     }
 
@@ -64,10 +75,12 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
     }
 
     function dragEnterHandler(e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
+        // Обязательно предотвращаем всплытие
         e.stopPropagation()
+        // Добавление эффектов при наведении на задачу
         e.currentTarget.className = "task_panel shadowed"
-        if (!currentTask) return;
         // Идет проверка условия, при котором будет определяться как перетасовываются карточки
+        if (!currentTask) return;
         if (currentCard === card && task.order > currentTask.order) {
             dispatch(patchTask({
                 ...currentTask,
@@ -103,7 +116,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
 
     function cardTaskOverHandler(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault();
-        // Добавление эффектов
+        // Добавление эффектов при наведении на список
         if (e.currentTarget.className === "card_panel") {
             e.currentTarget.className = "card_panel shadow"
         }
@@ -121,7 +134,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         e.currentTarget.className = "card_panel"
     }
 
-    // Очередь обновляется при каждой новой замененной таске (возможно костьльно, так как не нашел способа избежать ререндера)
+    // Очередь обновляется при каждой новой замененной таске
     useEffect(() => {
         if (!currentTask) return;
         tasks.filter(task => task.cardId === card.id).sort((a, b) => a.order - b.order).map((task, i) => {
@@ -135,6 +148,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
     const {id, title} = card;
 
     return (
+        // Обработчики списка
         <div
             className="card_panel"
             onDragEnter={(e: React.DragEvent<HTMLDivElement>) => cardTaskEnterHandler(e, card)}
@@ -145,6 +159,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         >
             <h1>{title}</h1>
             <button className="card_delete" onClick={() => setModalMode(true)}>x</button>
+            {/* Модальная форма подтверждения удаления*/}
             {modalMode &&
             <Confirm
                 text={`Действительно удалить список "${title}"?`}
@@ -161,6 +176,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                             key={task.id}
                             task={task}
                             card={card}
+                            // Обработчики таски
                             dragOver={(e: React.DragEvent<HTMLLIElement>) => dragOverHandler(e)}
                             dragLeave={(e: React.DragEvent<HTMLLIElement>) => dragLeaveHandler(e)}
                             dragEnd={(e: React.DragEvent<HTMLLIElement>) => dragEndHandler(e)}
@@ -181,7 +197,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                             <option value={Importance.Medium}>Средняя</option>
                             <option value={Importance.High}>Высокая</option>
                         </select>
-                        <input type="date" ref={dateRef} defaultValue={+new Date(Date.now())}/>
+                        <input type="date" ref={dateRef} defaultValue={getToday()}/>
                         <button
                             onClick={addTaskHandler}
                             style={{width: 200, border: '1px solid black'}}
@@ -203,7 +219,6 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                         >
                             Создать задачу
                         </button>
-
                     </li>
                 }
             </ul>

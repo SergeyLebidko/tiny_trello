@@ -11,13 +11,14 @@ interface IConfirm {
 const Confirm: FC<IConfirm> = ({text, buttonLabel, cancelHandler, acceptHandler}) => {
 
     return (
-        <div className="logout">
-            <div className="logout__content">
-                <h1 className="logout__service_title">Tiny Trello</h1>
-                <h1 className="logout__modal_title">{text}</h1>
-                <div className="logout__control_block">
-                    <button className="button" onClick={cancelHandler}>Отмена</button>
-                    <button className="button" onClick={acceptHandler}>{buttonLabel}</button>
+        <div className="confirm">
+            <div className="confirm__content">
+                <h1 className="confirm__title">Tiny Trello</h1>
+                <p className="confirm__modal_title">{text}</p>
+                <div className="confirm__control_block">
+                    {/* В кнопки мы вставляем функции, полученные извне*/}
+                    <button className="confirm__button" onClick={cancelHandler}>Отмена</button>
+                    <button className="confirm__button" onClick={acceptHandler}>{buttonLabel}</button>
                 </div>
             </div>
         </div>

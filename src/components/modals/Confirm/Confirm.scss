@@ -1,124 +1,26 @@
-@import '../../../sass/import';
+.confirm {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  width: 200px;
+  z-index: 5000;
+  transform: translate(-50%,-50%);
+  background-color: #5E6C84;
+  color: white;
+  padding: 0.5em;
+}
 
-.logout {
-  @include modal();
+.confirm__content {
+  display: flex;
+  flex-direction: column;
+  row-gap: 5px;
+}
 
-  &__btn_return {
-    @include btn-return();
-
-    img {
-      width: 50px;
-    }
-  }
-
-  &__logo  {
-    @include modal-logo();
-  }
-
-  &__content {
-    @include modal-content();   
-  }
-
-  &__content_logo {
-    @include modal-content-logo();
-  }
-
-  &__user_block {
-    @include flex(_, center);
-    width: 100%;
-    padding: 5px 0;
-  }
-
-  &__user_img {
-    margin-right: 10px;
-  }
-
-  &__user_names {
-    max-width: 300px;
-    color: $gray;
-
-    :nth-child(1) {
-      font-size: 20px;
-      line-height: 24px;      
-    }
-
-    :nth-child(2) {      
-      font-size: 18px;
-      line-height: 20px;      
-    }
-  }    
-
-  &__btn_submit {
-    @include btn-reset();
-    @include btn-filled();
-    width: 100%;
-    height: 40px;
-    margin: 15px 0;
-    background: $blue-dark;
-    font: bold 14px/1 'Charlie Display', sans-serif;
-
-    &:hover {
-      background-color: $blue;
-    }
-  }
-
-  &__another {
-    width: 100%;
-    height: 60px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-top: 40px;
-    text-align: center;
-    border-top: 1px solid #505f79;
-  }
-
-  &__link {
-    @include modal-link();
-    font-size: 12px;
-  }
-
-  &__point {
-    margin: 0 5px;
-    font: 900 15px 'Charlie Display',sans-serif;
-    color: $gray;
-  }
-
-  &__policy {
-    width: 330px;
-    height: 28px;
-    margin-top: 15px;
-    text-align: center;
-  }
-
-  &__footer {
-    @include flex(_, center, column);
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    margin: 20px 0;
-
-    @media (max-height: $md) {
-      position: relative;
-    }
-  }
-
-  &__footer_img {
-    margin: 10px 0;
-  }
-
-  &__footer_text {
-    display: inline-block;
-    margin-top: 15px;
-    font-size: 12px;
-    color: rgb(107, 119, 140);
-  }
-
-  &__footer_img_left {
-    @include modal-footer-img-left();
-  }
-  
-  &__footer_img_right {
-    @include modal-footer-img-right();
+.confirm__control_block {
+  display: flex;
+  justify-content: center;
+  column-gap: 5px;
+  & button {
+    padding: 0.2em;
   }
 }
