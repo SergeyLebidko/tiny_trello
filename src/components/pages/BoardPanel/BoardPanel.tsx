@@ -29,7 +29,7 @@ const BoardPanel: React.FC = () => {
     const board = boards.find(board => board.id === Number(boardId));
     if (!board) return <NoMatch/>;
 
-    function dragStartHandler(card: Card, task: Task) {
+    function dragStartHandler(e:React.DragEvent<HTMLLIElement>,card: Card, task: Task) {
         setCurrentCard(card)
         setCurrentTask(task)
     }

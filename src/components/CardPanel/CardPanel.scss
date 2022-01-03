@@ -3,4 +3,14 @@
     margin: 0.5em;
     padding: 0.5em;
     background-color: whitesmoke;
+    position: relative;
+}
+.card_delete {
+    position: absolute;
+    top: 0;
+    right: 0;
+    padding: 5px;
+}
+.shadow {
+    box-shadow: 0px 3px 3px gray;
 }

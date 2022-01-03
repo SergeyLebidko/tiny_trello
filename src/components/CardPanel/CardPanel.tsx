@@ -10,17 +10,18 @@ import './CardPanel.scss';
 type CardPaneProps = {
     card: Card,
     removeCardHandler: (card: Card) => void,
-    dragStart: (card: Card, task: Task) => void,
+    dragStart: (e:React.DragEvent<HTMLLIElement>, card: Card, task: Task) => void,
     currentCard: Card | null,
     currentTask: Task | null,
 }
 
-const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart, currentTask}) => {
+const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,currentCard, currentTask}) => {
     const dispatch = useDispatch();
 
     const tasks = useTypedSelector(getTasks);
     const [edit,setEdit] = useState<boolean>(false)
     const [selected,setSelected] = useState<Importance>(Importance.Low)
+    const [newTask,setNewTask] = useState<Task | null>(null)
     const textRef = useRef<HTMLTextAreaElement>(null)
     const dateRef = useRef<HTMLInputElement>(null)
 
@@ -28,8 +29,16 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         dispatch(removeTask(task));
     }
 
+    function getNewOrder () {
+        const arr = tasks.filter(task => task.cardId === card.id);
+        if (arr.length === 0) return 0;
+        const lastElem = arr[tasks.filter(task => task.cardId === card.id).length - 1]
+        return lastElem.order + 1
+    }
+
     const addTaskHandler = () : void => {
         if (!textRef.current || !dateRef.current) return;
+
         dispatch(createTask(
             {
                 cardId: card.id as number,
@@ -37,7 +46,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                 done: false,
                 importance: selected,
                 deadline: +new Date(dateRef.current.value),
-                order: tasks.filter(task => task.cardId === card.id).length,
+                order: getNewOrder(),
             }
         ))
         setEdit(!edit)
@@ -47,9 +56,6 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
 
     function dragOverHandler(e: React.DragEvent<HTMLLIElement>) {
         e.preventDefault();
-        if (e.currentTarget.className === "task_panel") {
-            e.currentTarget.className = "task_panel shadowed"
-        }
         e.stopPropagation()
     }
 
@@ -61,67 +67,85 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         e.currentTarget.className = "task_panel"
     }
 
-    function dropHandler(e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
+    function dragEnterHandler (e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
+        e.stopPropagation()
+        e.currentTarget.className = "task_panel shadowed"
+        if (!currentTask) return;
+        // Идет проверка условия, при котором будет определяться как перетасовываются карточки
+        if (currentCard === card && task.order > currentTask.order) {
+            dispatch(patchTask({
+                ...currentTask,
+                cardId: card.id as number,
+                order: task.order + 0.1,
+            }))
+        } else {
+            dispatch(patchTask({
+                ...currentTask,
+                cardId: card.id as number,
+                order: task.order - 0.1,
+            }))
+        }
+        setNewTask(task)
+    }
+
+    function dropHandler(e: React.DragEvent<HTMLLIElement>) {
         e.preventDefault();
         e.currentTarget.className = "task_panel"
-
-        if (!currentTask) return;
-
-        dispatch(patchTask({
-            ...currentTask,
-            cardId: card.id as number,
-            order: task.order + 0.1,
-        }))
-        e.stopPropagation()
-
     }
 
-    const dropTaskHandler = (e: React.DragEvent<HTMLDivElement>, card: Card) : void => {
+    const cardTaskEnterHandler = (e: React.DragEvent<HTMLDivElement>, card: Card) : void => {
         e.preventDefault();
         e.currentTarget.className = "card_panel"
-        if (!currentTask) return;
+        if (!currentTask || !currentCard) return;
+        if (currentCard === card) return;
         dispatch(patchTask({
             ...currentTask,
             cardId: card.id as number,
-            order: tasks.filter(task => task.cardId === card.id).length + 0.1,
+            order: getNewOrder(),
         }))
     }
 
-    function dropTaskOverHandler(e: React.DragEvent<HTMLDivElement>) {
+    function cardTaskOverHandler(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault();
+        // Добавление эффектов
         if (e.currentTarget.className === "card_panel") {
-            e.currentTarget.className = "card_panel shadowed"
+            e.currentTarget.className = "card_panel shadow"
         }
     }
 
-    function dropTaskLeaveHandler(e: React.DragEvent<HTMLDivElement>) {
+    function cardTaskLeaveHandler(e: React.DragEvent<HTMLDivElement>) {
         e.currentTarget.className = "card_panel"
     }
 
-    function dropTaskEndHandler(e: React.DragEvent<HTMLDivElement>) {
+    function cardTaskEndHandler(e: React.DragEvent<HTMLDivElement>) {
         e.currentTarget.className = "card_panel"
     }
 
+    function cardDropHandler(e: React.DragEvent<HTMLDivElement>) {
+        e.currentTarget.className = "card_panel"
+    }
+    // Очередь обновляется при каждой новой замененной таске (возможно костьльно, так как не нашел способа избежать ререндера)
     useEffect(() => {
+        if (!currentTask) return;
         tasks.filter(task => task.cardId === card.id).sort((a, b) => a.order - b.order).map((task,i) => {
             return  dispatch(patchTask({
                 ...task,
                 order: i,
             }))
         })
-    },[tasks.filter(task => task.cardId === card.id).length])
-
+    },[newTask])
 
     return (
         <div
             className="card_panel"
-            onDrop={(e: React.DragEvent<HTMLDivElement>) => dropTaskHandler(e,card)}
-            onDragOver={(e: React.DragEvent<HTMLDivElement>) => dropTaskOverHandler(e)}
-            onDragLeave={(e: React.DragEvent<HTMLDivElement>) => dropTaskLeaveHandler(e)}
-            onDragEnd={(e: React.DragEvent<HTMLDivElement>) => dropTaskEndHandler(e)}
+            onDragEnter={(e: React.DragEvent<HTMLDivElement>) => cardTaskEnterHandler(e,card)}
+            onDragOver={(e: React.DragEvent<HTMLDivElement>) => cardTaskOverHandler(e)}
+            onDragLeave={(e: React.DragEvent<HTMLDivElement>) => cardTaskLeaveHandler(e)}
+            onDragEnd={(e: React.DragEvent<HTMLDivElement>) => cardTaskEndHandler(e)}
+            onDrop={(e: React.DragEvent<HTMLDivElement>) => cardDropHandler(e)}
         >
             <h1>{title}</h1>
-            <button onClick={() => removeCardHandler(card)}>Удалить карточку</button>
+            <button className="card_delete" onClick={() => removeCardHandler(card)}>x</button>
             <ul>
                 {tasks
                     .filter(task => task.cardId === id)
@@ -136,7 +160,8 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                             dragLeave={(e: React.DragEvent<HTMLLIElement>) => dragLeaveHandler(e)}
                             dragEnd={(e: React.DragEvent<HTMLLIElement>) => dragEndHandler(e)}
                             dragStart={dragStart}
-                            drop={(e: React.DragEvent<HTMLLIElement>) => dropHandler(e, card, task)}
+                            drop={(e: React.DragEvent<HTMLLIElement>) => dropHandler(e)}
+                            dragEnter={(e: React.DragEvent<HTMLLIElement>) => dragEnterHandler(e, card, task)}
                         />
                     )
                 }
