@@ -1,7 +1,6 @@
 import React from 'react';
 import {useDispatch} from 'react-redux';
 import {logoutUserAction} from '../../../store/user/actions';
-import './Logout.scss';
 
 type LogoutProps = {
     closeHandler: () => void
