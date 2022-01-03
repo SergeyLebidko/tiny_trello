@@ -2,11 +2,12 @@ import React from 'react';
 import {Importance, Task} from '../../store/task/types';
 import './TaskPanel.scss';
 import {Card} from "../../store/card/types";
+import {removeTask} from "../../store/task/actions";
+import {useDispatch} from "react-redux";
 
 type TaskPanelProps = {
     task: Task,
     card: Card,
-    removeTaskHandler: (task: Task) => void,
     dragOver: (e:React.DragEvent<HTMLLIElement>) => void,
     dragLeave: (e:React.DragEvent<HTMLLIElement>) => void,
     dragEnd: (e:React.DragEvent<HTMLLIElement>) => void,
@@ -15,8 +16,9 @@ type TaskPanelProps = {
     dragEnter: (e:React.DragEvent<HTMLLIElement>, card: Card, task: Task) => void,
 }
 
-const TaskPanel: React.FC<TaskPanelProps> = ({task, card, removeTaskHandler,dragOver,dragLeave,dragEnd,dragStart,drop,dragEnter}) => {
+const TaskPanel: React.FC<TaskPanelProps> = ({task, card,dragOver,dragLeave,dragEnd,dragStart,drop,dragEnter}) => {
 
+    const dispatch = useDispatch()
     const IMPORTANCE_TEXT_SELECTOR = {
         [Importance.Low]: 'Не высокая',
         [Importance.Medium]: 'Средняя',
@@ -29,6 +31,10 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, removeTaskHandler,drag
         const m = date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
         const y = date.getFullYear();
         return `${d}.${m}.${y}`
+    }
+
+    const removeTaskHandler = (task: Task): void => {
+        dispatch(removeTask(task));
     }
 
     const {text, done, importance, deadline, order} = task;

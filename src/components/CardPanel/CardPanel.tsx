@@ -25,15 +25,10 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
     const textRef = useRef<HTMLTextAreaElement>(null)
     const dateRef = useRef<HTMLInputElement>(null)
 
-    const removeTaskHandler = (task: Task): void => {
-        dispatch(removeTask(task));
-    }
+
 
     function getNewOrder () {
-        const arr = tasks.filter(task => task.cardId === card.id);
-        if (arr.length === 0) return 0;
-        const lastElem = arr[tasks.filter(task => task.cardId === card.id).length - 1]
-        return lastElem.order + 1
+        return tasks.filter(task => task.cardId === card.id).length
     }
 
     const addTaskHandler = () : void => {
@@ -155,7 +150,6 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                             key={task.id}
                             task={task}
                             card={card}
-                            removeTaskHandler={removeTaskHandler}
                             dragOver={(e: React.DragEvent<HTMLLIElement>) => dragOverHandler(e)}
                             dragLeave={(e: React.DragEvent<HTMLLIElement>) => dragLeaveHandler(e)}
                             dragEnd={(e: React.DragEvent<HTMLLIElement>) => dragEndHandler(e)}
