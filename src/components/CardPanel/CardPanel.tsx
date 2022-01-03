@@ -29,6 +29,13 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
     const textRef = useRef<HTMLTextAreaElement>(null)
     const dateRef = useRef<HTMLInputElement>(null)
 
+    const getToday = (): string => {
+        const date = new Date(Date.now());
+        const d = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
+        const m = date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
+        const y = date.getFullYear();
+        return `${y}-${m}-${d}`
+    }
 
     function getNewOrder() {
         return tasks.filter(task => task.cardId === card.id).length
@@ -181,7 +188,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                             <option value={Importance.Medium}>Средняя</option>
                             <option value={Importance.High}>Высокая</option>
                         </select>
-                        <input type="date" ref={dateRef} defaultValue={+new Date(Date.now())}/>
+                        <input type="date" ref={dateRef} defaultValue={getToday()}/>
                         <button
                             onClick={addTaskHandler}
                             style={{width: 200, border: '1px solid black'}}
