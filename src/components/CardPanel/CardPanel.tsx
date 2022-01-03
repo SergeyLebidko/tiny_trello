@@ -6,32 +6,35 @@ import {Importance, Task} from '../../store/task/types';
 import {useDispatch} from 'react-redux';
 import {createTask, patchTask, removeTask} from '../../store/task/actions';
 import './CardPanel.scss';
+import Confirm from "../modals/Confirm/Confirm";
 
 type CardPaneProps = {
     card: Card,
     removeCardHandler: (card: Card) => void,
-    dragStart: (e:React.DragEvent<HTMLLIElement>, card: Card, task: Task) => void,
+    dragStart: (e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) => void,
     currentCard: Card | null,
     currentTask: Task | null,
 }
 
-const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,currentCard, currentTask}) => {
+const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart, currentCard, currentTask}) => {
     const dispatch = useDispatch();
 
     const tasks = useTypedSelector(getTasks);
-    const [edit,setEdit] = useState<boolean>(false)
-    const [selected,setSelected] = useState<Importance>(Importance.Low)
-    const [newTask,setNewTask] = useState<Task | null>(null)
+
+    const [edit, setEdit] = useState<boolean>(false)
+    const [selected, setSelected] = useState<Importance>(Importance.Low)
+    const [newTask, setNewTask] = useState<Task | null>(null)
+    const [modalMode, setModalMode] = useState<boolean>(false);
+
     const textRef = useRef<HTMLTextAreaElement>(null)
     const dateRef = useRef<HTMLInputElement>(null)
 
 
-
-    function getNewOrder () {
+    function getNewOrder() {
         return tasks.filter(task => task.cardId === card.id).length
     }
 
-    const addTaskHandler = () : void => {
+    const addTaskHandler = (): void => {
         if (!textRef.current || !dateRef.current) return;
 
         dispatch(createTask(
@@ -47,8 +50,6 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         setEdit(!edit)
     }
 
-    const {id, title} = card;
-
     function dragOverHandler(e: React.DragEvent<HTMLLIElement>) {
         e.preventDefault();
         e.stopPropagation()
@@ -62,7 +63,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         e.currentTarget.className = "task_panel"
     }
 
-    function dragEnterHandler (e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
+    function dragEnterHandler(e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
         e.stopPropagation()
         e.currentTarget.className = "task_panel shadowed"
         if (!currentTask) return;
@@ -88,7 +89,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         e.currentTarget.className = "task_panel"
     }
 
-    const cardTaskEnterHandler = (e: React.DragEvent<HTMLDivElement>, card: Card) : void => {
+    const cardTaskEnterHandler = (e: React.DragEvent<HTMLDivElement>, card: Card): void => {
         e.preventDefault();
         e.currentTarget.className = "card_panel"
         if (!currentTask || !currentCard) return;
@@ -119,28 +120,38 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
     function cardDropHandler(e: React.DragEvent<HTMLDivElement>) {
         e.currentTarget.className = "card_panel"
     }
+
     // Очередь обновляется при каждой новой замененной таске (возможно костьльно, так как не нашел способа избежать ререндера)
     useEffect(() => {
         if (!currentTask) return;
-        tasks.filter(task => task.cardId === card.id).sort((a, b) => a.order - b.order).map((task,i) => {
-            return  dispatch(patchTask({
+        tasks.filter(task => task.cardId === card.id).sort((a, b) => a.order - b.order).map((task, i) => {
+            return dispatch(patchTask({
                 ...task,
                 order: i,
             }))
         })
-    },[newTask])
+    }, [newTask])
+
+    const {id, title} = card;
 
     return (
         <div
             className="card_panel"
-            onDragEnter={(e: React.DragEvent<HTMLDivElement>) => cardTaskEnterHandler(e,card)}
+            onDragEnter={(e: React.DragEvent<HTMLDivElement>) => cardTaskEnterHandler(e, card)}
             onDragOver={(e: React.DragEvent<HTMLDivElement>) => cardTaskOverHandler(e)}
             onDragLeave={(e: React.DragEvent<HTMLDivElement>) => cardTaskLeaveHandler(e)}
             onDragEnd={(e: React.DragEvent<HTMLDivElement>) => cardTaskEndHandler(e)}
             onDrop={(e: React.DragEvent<HTMLDivElement>) => cardDropHandler(e)}
         >
             <h1>{title}</h1>
-            <button className="card_delete" onClick={() => removeCardHandler(card)}>x</button>
+            <button className="card_delete" onClick={() => setModalMode(true)}>x</button>
+            {modalMode &&
+            <Confirm
+                text={`Действительно удалить список "${title}"?`}
+                buttonLabel={'Удалить'}
+                cancelHandler={() => setModalMode(false)}
+                acceptHandler={() => removeCardHandler(card)}
+            />}
             <ul>
                 {tasks
                     .filter(task => task.cardId === id)
@@ -160,18 +171,28 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                     )
                 }
                 {/*Переключатель режима создания таски*/}
-                { edit?
+                {edit ?
                     <li style={{width: 200, height: 150, border: '1px solid black'}}>
                         <p>Введите текст задачи</p>
                         <textarea ref={textRef} autoFocus></textarea>
-                        <select value={selected} onChange={(e:React.ChangeEvent<HTMLSelectElement>) => setSelected(e.currentTarget.value as Importance)}>
+                        <select value={selected}
+                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelected(e.currentTarget.value as Importance)}>
                             <option value={Importance.Low}>Низкая</option>
                             <option value={Importance.Medium}>Средняя</option>
                             <option value={Importance.High}>Высокая</option>
                         </select>
-                        <input type="date" ref={dateRef}/>
-                        <button onClick={addTaskHandler}>
+                        <input type="date" ref={dateRef} defaultValue={+new Date(Date.now())}/>
+                        <button
+                            onClick={addTaskHandler}
+                            style={{width: 200, border: '1px solid black'}}
+                        >
                             Создать задачу
+                        </button>
+                        <button
+                            style={{width: 200, border: '1px solid black'}}
+                            onClick={() => setEdit(!edit)}
+                        >
+                            Отмена
                         </button>
                     </li>
                     :
@@ -182,6 +203,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                         >
                             Создать задачу
                         </button>
+
                     </li>
                 }
             </ul>

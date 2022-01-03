@@ -2,11 +2,13 @@ import React, {useEffect, useRef, useState} from 'react';
 import {Link} from 'react-router-dom';
 import Register from '../../modals/Register/Register';
 import Login from '../../modals/Login/Login';
-import Logout from '../../modals/Logout/Logout';
 import {getLoggedUser, useTypedSelector} from '../../../store/selectors';
 import * as logoImage from '../../../content/images/logo.png';
 import * as heroImage from '../../../content/images/hero-img.png';
 import './Main.scss';
+import Confirm from "../../modals/Confirm/Confirm";
+import {logoutUserAction} from "../../../store/user/actions";
+import {useDispatch} from "react-redux";
 
 enum ModalMode {
     NoModal,
@@ -17,6 +19,7 @@ enum ModalMode {
 
 const Main: React.FC = () => {
     const loggedUser = useTypedSelector(getLoggedUser);
+    const dispatch = useDispatch();
 
     const [modalMode, setModalMode] = useState<ModalMode>(ModalMode.NoModal);
     const headerRef = useRef<HTMLElement>(null);
@@ -33,20 +36,29 @@ const Main: React.FC = () => {
 
         window.addEventListener('scroll', scrollListener);
 
-        return () => window.removeEventListener('acroll', scrollListener);
+        return () => window.removeEventListener('scroll', scrollListener);
     }, []);
 
     const showRegister = (): void => setModalMode(ModalMode.RegisterModal);
     const showLogin = (): void => setModalMode(ModalMode.LoginModal);
     const showLogout = (): void => setModalMode(ModalMode.LogoutModal);
-
     const closeModal = (): void => setModalMode(ModalMode.NoModal);
+
+    const exitHandler = (): void => {
+        dispatch(logoutUserAction());
+        closeModal()
+    };
 
     return (
         <main className="main">
             {modalMode === ModalMode.RegisterModal && <Register closeHandler={closeModal}/>}
             {modalMode === ModalMode.LoginModal && <Login closeHandler={closeModal}/>}
-            {modalMode === ModalMode.LogoutModal && <Logout closeHandler={closeModal}/>}
+            {modalMode === ModalMode.LogoutModal && <Confirm
+                text={`Действительно выйти из профиля?`}
+                buttonLabel={'Выйти'}
+                cancelHandler={closeModal}
+                acceptHandler={() => exitHandler()}
+            />}
 
             <header className="main__header main__header_transparent" ref={headerRef}>
                 <span className="main__logo"><img src={logoImage.default}/>Tiny Trello</span>
