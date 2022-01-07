@@ -13,7 +13,7 @@ type LogoutProps = {
 
 const Logout: React.FC<LogoutProps> = ({closeHandler, removeOverflowHidden, firstName, lastName}) => {
     const dispatch = useDispatch();
-    const { modalImg } = useImage();
+    const { modalImg, icons } = useImage();
 
     const exitHandler = (): void => {
         dispatch(logoutUserAction());
@@ -28,7 +28,7 @@ const Logout: React.FC<LogoutProps> = ({closeHandler, removeOverflowHidden, firs
                 className="logout__btn_return" 
                 onClick={ () => {closeHandler(); removeOverflowHidden()} }
             >
-                <img src={modalImg.iconReturn} alt="back"/>
+                <img src={icons.iconReturn} alt="back"/>
             </button>
             <img className="logout__logo" src={modalImg.modalHeaderLogo} alt="logo" />
 

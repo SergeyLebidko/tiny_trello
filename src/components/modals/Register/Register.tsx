@@ -13,7 +13,7 @@ type RegisterProps = {
 
 const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden}) => {
     const dispatch = useDispatch();
-    const { modalImg } = useImage();
+    const { modalImg, icons } = useImage();
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -96,7 +96,7 @@ const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden})
             className="register__btn_return" 
             onClick={() => {closeHandler(); removeOverflowHidden()}}
         >
-            <img src={modalImg.iconReturn} alt="back"/>
+            <img src={icons.iconReturn} alt="back"/>
         </button>                    
         <img className="register__logo" src={modalImg.modalHeaderLogo} alt="logo" />
 
@@ -131,7 +131,7 @@ const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden})
                         />
                         <img 
                             className="register__password_look"
-                            src={showPassword ? modalImg.iconShow : modalImg.iconHide} 
+                            src={showPassword ? icons.iconShow : icons.iconHide} 
                             alt="show/hide-pass" 
                             onClick={showPasswordHandler}
                         />                            
@@ -145,7 +145,7 @@ const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden})
                         />
                         <img 
                             className="register__password_look"
-                            src={showPassword ? modalImg.iconShow : modalImg.iconHide} 
+                            src={showPassword ? icons.iconShow : icons.iconHide} 
                             alt="show/hide-pass" 
                             onClick={showPasswordHandler}
                         />                            
@@ -164,15 +164,15 @@ const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden})
             <p className="register__or">ИЛИ</p>
 
             <button className="register__btn_out">
-                <img className="register__btn_img" src={modalImg.iconGoogle} alt="google" />
+                <img className="register__btn_img" src={icons.iconGoogle} alt="google" />
                 <span className="register__btn_text">Войти через Google</span>
             </button>
             <button className="register__btn_out">
-                <img className="register__btn_img" src={modalImg.iconMs} alt="ms" />
+                <img className="register__btn_img" src={icons.iconMs} alt="ms" />
                 <span className="register__btn_text">Войти через Microsoft</span>
             </button>
             <button className="register__btn_out">
-                <img className="register__btn_img" src={modalImg.iconApple} alt="apple" />
+                <img className="register__btn_img" src={icons.iconApple} alt="apple" />
                 <span className="register__btn_text">Войти через Apple</span>
             </button>            
         </div>

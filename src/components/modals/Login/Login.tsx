@@ -12,7 +12,7 @@ type LoginProps = {
 
 const Login: React.FC<LoginProps> = ({closeHandler, removeOverflowHidden}) => {
     const dispatch = useDispatch();
-    const { modalImg } = useImage();
+    const { modalImg, icons } = useImage();
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -53,7 +53,7 @@ const Login: React.FC<LoginProps> = ({closeHandler, removeOverflowHidden}) => {
                 className="login__btn_return" 
                 onClick={() => {closeHandler(); removeOverflowHidden()}}
             >
-                <img src={modalImg.iconReturn} alt="return"/>
+                <img src={icons.iconReturn} alt="return"/>
             </button>                    
             <img className="login__logo" src={modalImg.modalHeaderLogo} alt="logo" />
 
@@ -75,7 +75,7 @@ const Login: React.FC<LoginProps> = ({closeHandler, removeOverflowHidden}) => {
                             />
                             <img 
                                 className="login__password_look"
-                                src={showPassword ? modalImg.iconShow : modalImg.iconHide} 
+                                src={showPassword ? icons.iconShow : icons.iconHide} 
                                 alt="show/hide-pass" 
                                 onClick={showPasswordHandler}
                             />                            
@@ -86,15 +86,15 @@ const Login: React.FC<LoginProps> = ({closeHandler, removeOverflowHidden}) => {
                 <p className="login__or">ИЛИ</p>
 
                 <button className="login__btn_out">
-                    <img className="login__btn_img" src={modalImg.iconGoogle} alt="google" />
+                    <img className="login__btn_img" src={icons.iconGoogle} alt="google" />
                     <p className="login__btn_text">Войти через Google</p>
                 </button>
                 <button className="login__btn_out">
-                    <img className="login__btn_img" src={modalImg.iconMs} alt="ms" />
+                    <img className="login__btn_img" src={icons.iconMs} alt="ms" />
                     <p className="login__btn_text">Войти через Microsoft</p>
                 </button>
                 <button className="login__btn_out">
-                    <img className="login__btn_img" src={modalImg.iconApple} alt="apple" />
+                    <img className="login__btn_img" src={icons.iconApple} alt="apple" />
                     <p className="login__btn_text">Войти через Apple</p>
                 </button>
 
