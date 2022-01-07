@@ -5,8 +5,9 @@ import TaskPanel from '../TaskPanel/TaskPanel';
 import {Importance, Task} from '../../store/task/types';
 import {useDispatch} from 'react-redux';
 import {createTask, patchTask} from '../../store/task/actions';
-import './CardPanel.scss';
 import Confirm from "../modals/Confirm/Confirm";
+import { useImage } from '../../utils/hooks';
+import './CardPanel.scss';
 
 type CardPaneProps = {
     card: Card,
@@ -18,6 +19,8 @@ type CardPaneProps = {
 
 const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart, currentCard, currentTask}) => {
     const dispatch = useDispatch();
+    const { icons } = useImage();
+    const parentElem = useRef<HTMLDivElement>(null);
 
     const tasks = useTypedSelector(getTasks);
 
@@ -67,18 +70,18 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
     }
 
     function dragLeaveHandler(e: React.DragEvent<HTMLLIElement>) {
-        e.currentTarget.className = "task_panel"
+        e.currentTarget.className = "taskPanel"
     }
 
     function dragEndHandler(e: React.DragEvent<HTMLLIElement>) {
-        e.currentTarget.className = "task_panel"
+        e.currentTarget.className = "taskPanel"
     }
 
     function dragEnterHandler(e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
         // Обязательно предотвращаем всплытие
         e.stopPropagation()
         // Добавление эффектов при наведении на задачу
-        e.currentTarget.className = "task_panel shadowed"
+        e.currentTarget.className = "taskPanel shadowed"
         // Идет проверка условия, при котором будет определяться как перетасовываются карточки
         if (!currentTask) return;
         if (currentCard === card && task.order > currentTask.order) {
@@ -99,12 +102,12 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
 
     function dropHandler(e: React.DragEvent<HTMLLIElement>) {
         e.preventDefault();
-        e.currentTarget.className = "task_panel"
+        e.currentTarget.className = "taskPanel"
     }
 
     const cardTaskEnterHandler = (e: React.DragEvent<HTMLDivElement>, card: Card): void => {
         e.preventDefault();
-        e.currentTarget.className = "card_panel"
+        e.currentTarget.className = "cardPanel"
         if (!currentTask || !currentCard) return;
         if (currentCard === card) return;
         dispatch(patchTask({
@@ -117,21 +120,21 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
     function cardTaskOverHandler(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault();
         // Добавление эффектов при наведении на список
-        if (e.currentTarget.className === "card_panel") {
-            e.currentTarget.className = "card_panel shadow"
+        if (e.currentTarget.className === "cardPanel") {
+            e.currentTarget.className = "cardPanel shadow"
         }
     }
 
     function cardTaskLeaveHandler(e: React.DragEvent<HTMLDivElement>) {
-        e.currentTarget.className = "card_panel"
+        e.currentTarget.className = "cardPanel"
     }
 
     function cardTaskEndHandler(e: React.DragEvent<HTMLDivElement>) {
-        e.currentTarget.className = "card_panel"
+        e.currentTarget.className = "cardPanel"
     }
 
     function cardDropHandler(e: React.DragEvent<HTMLDivElement>) {
-        e.currentTarget.className = "card_panel"
+        e.currentTarget.className = "cardPanel"
     }
 
     // Очередь обновляется при каждой новой замененной таске
@@ -147,26 +150,42 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
 
     const {id, title} = card;
 
+    // Обертка для анимации при удалении Card
+    const removeCardHandlerWrap = (card: Card): void => {
+        setModalMode(false);
+        parentElem.current?.classList.add('animation_delete');
+        setTimeout(() => removeCardHandler(card), 450);       
+    }
+
     return (
         // Обработчики списка
         <div
-            className="card_panel"
+            className="cardPanel"
+            ref={parentElem}
             onDragEnter={(e: React.DragEvent<HTMLDivElement>) => cardTaskEnterHandler(e, card)}
             onDragOver={(e: React.DragEvent<HTMLDivElement>) => cardTaskOverHandler(e)}
             onDragLeave={(e: React.DragEvent<HTMLDivElement>) => cardTaskLeaveHandler(e)}
             onDragEnd={(e: React.DragEvent<HTMLDivElement>) => cardTaskEndHandler(e)}
             onDrop={(e: React.DragEvent<HTMLDivElement>) => cardDropHandler(e)}
         >
-            <h1>{title}</h1>
-            <button className="card_delete" onClick={() => setModalMode(true)}>x</button>
+            <p className="cardPanel__name">{title}</p>
+            <button className="cardPanel__delete" onClick={() => setModalMode(true)}>
+                <img
+                    className="cardPanel__icon_delete"
+                    src={icons.iconRemove}
+                    alt="delete" 
+                />
+            </button>
+
             {/* Модальная форма подтверждения удаления*/}
             {modalMode &&
             <Confirm
-                text={`Действительно удалить список "${title}"?`}
+                text={`Удалить список "${title}"?`}
                 buttonLabel={'Удалить'}
                 cancelHandler={() => setModalMode(false)}
-                acceptHandler={() => removeCardHandler(card)}
+                acceptHandler={() => removeCardHandlerWrap(card)}
             />}
+
             <ul>
                 {tasks
                     .filter(task => task.cardId === id)
@@ -188,37 +207,59 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                 }
                 {/*Переключатель режима создания таски*/}
                 {edit ?
-                    <li style={{width: 200, height: 150, border: '1px solid black'}}>
-                        <p>Введите текст задачи</p>
-                        <textarea ref={textRef} autoFocus></textarea>
-                        <select value={selected}
-                                onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelected(e.currentTarget.value as Importance)}>
+                    <li className="taskPanel">
+                        <p className="taskPanel__name">Введите текст задачи</p>
+                        <textarea 
+                            className="taskPanel__area"
+                            ref={textRef} 
+                            autoFocus 
+                        />
+                        <select 
+                            className="taskPanel__select"
+                            value={selected}
+                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelected(e.currentTarget.value as Importance)}
+                        >
                             <option value={Importance.Low}>Низкая</option>
                             <option value={Importance.Medium}>Средняя</option>
                             <option value={Importance.High}>Высокая</option>
-                        </select>
-                        <input type="date" ref={dateRef} defaultValue={getToday()}/>
+                        </select>                        
+                        <input 
+                            className="taskPanel__date"
+                            type="date" 
+                            ref={dateRef} 
+                            defaultValue={getToday()}
+                        />
                         <button
+                            className="taskPanel__btn_confirm"
                             onClick={addTaskHandler}
-                            style={{width: 200, border: '1px solid black'}}
                         >
-                            Создать задачу
+                            <img 
+                                className="taskPanel__icon_confirm"
+                                src={icons.iconConfirm} 
+                                alt="confirm" 
+                            />
                         </button>
                         <button
-                            style={{width: 200, border: '1px solid black'}}
+                            className="taskPanel__btn_cancel"
                             onClick={() => setEdit(!edit)}
                         >
-                            Отмена
+                            <img 
+                                className="taskPanel__icon_cancel"
+                                src={icons.iconCancel} 
+                                alt="cancel" 
+                            />
                         </button>
                     </li>
                     :
-                    <li>
-                        <button
-                            style={{width: 200, border: '1px solid black'}}
-                            onClick={() => setEdit(!edit)}
-                        >
-                            Создать задачу
-                        </button>
+                    <li 
+                        className="cardPanel__btn_add"
+                        onClick={() => setEdit(!edit)}
+                    >   
+                        <img 
+                            className="cardPanel__icon_add"
+                            src={icons.iconAddTask} 
+                            alt="add" 
+                        />
                     </li>
                 }
             </ul>

@@ -1,10 +1,11 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {Importance, Task} from '../../store/task/types';
-import './TaskPanel.scss';
 import {Card} from "../../store/card/types";
 import {removeTask} from "../../store/task/actions";
 import {useDispatch} from "react-redux";
 import Confirm from "../modals/Confirm/Confirm";
+import { useImage } from '../../utils/hooks';
+import './TaskPanel.scss';
 
 type TaskPanelProps = {
     task: Task,
@@ -18,13 +19,14 @@ type TaskPanelProps = {
 }
 
 const TaskPanel: React.FC<TaskPanelProps> = ({task, card, dragOver, dragLeave, dragEnd, dragStart, drop, dragEnter}) => {
-
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
+    const { icons } = useImage();
+    const parentElem = useRef<HTMLLIElement>(null);
 
     const IMPORTANCE_TEXT_SELECTOR = {
-        [Importance.Low]: 'Не высокая',
-        [Importance.Medium]: 'Средняя',
-        [Importance.High]: 'Высокая'
+        [Importance.Low]:    <span className="taskPanel__text_low">Низкая</span>,
+        [Importance.Medium]: <span className="taskPanel__text_medium">Средняя</span>,
+        [Importance.High]:   <span className="taskPanel__text_high">Высокая</span>
     }
 
     const [modalMode, setModalMode] = useState<boolean>(false);
@@ -37,13 +39,17 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, dragOver, dragLeave, d
         return `${d}.${m}.${y}`
     }
 
-    const removeTaskHandler = (task: Task): void => {
-        dispatch(removeTask(task));
+    // Анимация при удаление Task
+    const removeTaskHandler = (e: any, task: Task): void => {
+        setModalMode(false);
+        parentElem.current?.classList.add('animation_delete');
+        setTimeout(() => dispatch(removeTask(task)), 400);        
     }
 
     const {text, done, importance, deadline, order} = task;
     return (
-        <li className="task_panel"
+        <li className="taskPanel"
+            ref={parentElem}
             draggable={true}
             onDragOver={dragOver}
             onDragLeave={dragLeave}
@@ -55,17 +61,37 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, dragOver, dragLeave, d
             {/* Модальная форма подтверждения удаления*/}
             {modalMode &&
             <Confirm
-                text={`Действительно удалить задачу "${text}"?`}
+                text={`Удалить задачу "${text}"?`}
                 buttonLabel={'Удалить'}
                 cancelHandler={() => setModalMode(false)}
-                acceptHandler={() => removeTaskHandler(task)}
+                acceptHandler={() => removeTaskHandler(event, task)}
             />}
-            <button className='task_delete' onClick={() => setModalMode(true)}>x</button>
-            <h1 className="task_header">{text}</h1>
-            <h2>{done ? 'Выполнено' : 'Не выполнено'}</h2>
-            <h2>Важность: {IMPORTANCE_TEXT_SELECTOR[importance]}</h2>
-            <h2>Срок: {getFormattedDate(deadline)}</h2>
-            <p>Очередь {order}</p>
+            <button 
+                className="taskPanel__btn_delete"
+                onClick={() => setModalMode(true)}
+            >
+                <img 
+                    className="taskPanel__icon_delete"
+                    src={icons.iconRemoveTask} 
+                    alt="delete" 
+                />
+            </button>
+            <p className="taskPanel__name">{text}</p>
+                {done 
+                    ? <p className="taskPanel__done">Выполнено</p> 
+                    : <p className="taskPanel__notDone">Не выполнено!</p>
+                }
+            <p className="taskPanel__text_block">
+                <div>Важность</div>
+                <div>{IMPORTANCE_TEXT_SELECTOR[importance]}</div></p>
+            <p className="taskPanel__text_block">
+                <div>Срок</div>
+                <div>{getFormattedDate(deadline)}</div>
+            </p>
+            <p className="taskPanel__text_block">
+                <div>Очередь</div>
+                <div>{order}</div>
+            </p>
         </li>
     );
 };

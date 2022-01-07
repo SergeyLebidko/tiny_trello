@@ -5,11 +5,29 @@ $xxl: 1500px;
 
 //colors
 $white: #fff;
+$black: #000;
 $gray: #495057;
+$gray-low-light: #878c90;
 $gray-light: #ced4da;
 $gray-ultra-light: #f9fafc;
 $green: #5AAC44;
+$green-dark: #2d5522;
+$green-light: #a6ee92;
+$green-low-light: #65c2ab;
 $blue: #0065ff;
 $blue-light: #0066ff34;
+$blue-ultra-light: #0198ff;
+$blue-gray: rgb(128, 175, 236);
 $blue-dark: #0051cc;
 $red: #eb5a46;
+$red-dark: #bd2a16;
+$purple-ultra-light: #eae6ff;
+
+//fonts
+$public: 'PublicSans';
+$public-sans: 'PublicSans', sans-seri;
+$roboto: 'Roboto';
+$roboto-serif: 'Roboto', sans-serif;
+$satisfy-serif: 'Satisfy', sans-serif;
+$satisfy-cursive: 'Satisfy', cursive;
+$kaushan: 'KaushanScript-Regular';

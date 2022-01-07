@@ -1,6 +1,8 @@
 import React, {FC, useState} from 'react';
 import {Link} from "react-router-dom";
 import {Board} from "../../store/board/types";
+import { useImage } from '../../utils/hooks';
+import './BoardItem.scss';
 
 interface IBoardItem {
     board: Board,
@@ -9,7 +11,14 @@ interface IBoardItem {
 }
 
 const BoardItem: FC<IBoardItem> = ({board, remove, rename}) => {
-    const [edit, setEdit] = useState<boolean>(false)
+    const [edit, setEdit] = useState<boolean>(false);
+    const { icons } = useImage();
+
+    // Анимация при удаление Board
+    const onclickHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
+        e.currentTarget.parentElement?.classList.add('animation_delete')
+        setTimeout(() => remove(), 300);
+    }
 
     // Автовыделение
     const selectTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,12 +49,12 @@ const BoardItem: FC<IBoardItem> = ({board, remove, rename}) => {
         }
     }
 
-
-    return (
-        <li style={{position: "relative", width: 200, height: 100, border: '1px solid black'}}>
+    return (        
+        <li className="boardItem">
             {/*Здесь мы переключаем режим изменения названия доски*/}
             {edit
                 ? <input
+                    className="boardItem__name"
                     type="text"
                     autoFocus
                     defaultValue={board.title}
@@ -53,12 +62,36 @@ const BoardItem: FC<IBoardItem> = ({board, remove, rename}) => {
                     onBlur={getTitle}
                     onKeyDown={getTitleEnter}
                 />
-                : <h2 onClick={() => setEdit(!edit)}>{board.title}</h2>
+                : <p 
+                    className="boardItem__name"                    
+                >
+                    {board.title}
+                    <img 
+                        className="boardItem__btn_edit"
+                        onClick={() => setEdit(!edit)}
+                        src={icons.iconEdit} 
+                        alt="edit" 
+                    />
+                </p>
             }
-            <Link to={`/board/${board.id}`}>
-                Перейти на доску
+            <button 
+                className="boardItem__btn_remove"
+                onClick={onclickHandler} 
+            >
+                <img 
+                    className="boardItem__icon_remove"
+                    src={icons.iconRemove} 
+                    alt="remove" 
+                />
+            </button>
+            {/* {modalMode === ModalMode.ConfirmModal && <Confirm closeHandler={closeModal}/>} */}
+            <Link className="boardItem__link" to={`/board/${board.id}`}>
+                <img
+                    className="boardItem__icon_up" 
+                    src={icons.iconUp} 
+                    alt="go" 
+                />
             </Link>
-            <button onClick={() => remove()} style={{position: "absolute", top: 0, right: 0, padding: 5}}>х</button>
         </li>
     );
 };

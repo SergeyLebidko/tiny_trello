@@ -1,26 +1,44 @@
+@import '../../../sass/import';
+
 .confirm {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  width: 200px;
-  z-index: 5000;
-  transform: translate(-50%,-50%);
-  background-color: #5E6C84;
-  color: white;
-  padding: 0.5em;
-}
+  @include flex(_, center, column);
+  @include block-format(absolute, 100%, 100%, 0, 5px, $blue-ultra-light);
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0.95;
+  z-index: 100;
+  animation: scale-in-center 0.3s 1 linear;
 
-.confirm__content {
-  display: flex;
-  flex-direction: column;
-  row-gap: 5px;
-}
+  &__title {
+    @include animation-logo;
+    @include text-format(20px, bold, $kaushan, $red);
+    margin-bottom: 10px;
+  }
 
-.confirm__control_block {
-  display: flex;
-  justify-content: center;
-  column-gap: 5px;
-  & button {
-    padding: 0.2em;
+  &__text {
+    @include text-format(18px, bold, $roboto-serif);
+    max-width: 190px;    
+    margin-bottom: 5px;
+  }
+
+  &__btn_block {
+    @include flex(space-around);
+    @include block-format(_, 100%, 30px);
+  }
+
+  &__btn_cancel {
+    @include btn-reset();
+  }
+
+  &__btn_confirm {
+    @include btn-reset();
+  }
+
+  &__icon_cancel,
+  &__icon_confirm {
+    @include animation-icon;
+    width: 25px;   
   }
 }
+
