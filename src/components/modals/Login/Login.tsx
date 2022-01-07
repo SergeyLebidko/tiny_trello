@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {createRandomString} from '../../../utils/common';
-import {useModalError} from '../../../utils/hooks';
+import {useImage, useModalError} from '../../../utils/hooks';
 import {useDispatch} from 'react-redux';
 import {loginUserAction} from '../../../store/user/actions';
 import './Login.scss';
@@ -12,6 +12,7 @@ type LoginProps = {
 
 const Login: React.FC<LoginProps> = ({closeHandler, removeOverflowHidden}) => {
     const dispatch = useDispatch();
+    const { modalImg } = useImage();
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -52,9 +53,9 @@ const Login: React.FC<LoginProps> = ({closeHandler, removeOverflowHidden}) => {
                 className="login__btn_return" 
                 onClick={() => {closeHandler(); removeOverflowHidden()}}
             >
-                <img src="icons/back.svg" alt="return"/>
+                <img src={modalImg.iconReturn} alt="return"/>
             </button>                    
-            <img className="login__logo" src="img/login-logo.png" alt="logo" />
+            <img className="login__logo" src={modalImg.modalHeaderLogo} alt="logo" />
 
             <div className="login__content">
                 {error && <p className="login__danger">{error}</p>}
@@ -74,7 +75,7 @@ const Login: React.FC<LoginProps> = ({closeHandler, removeOverflowHidden}) => {
                             />
                             <img 
                                 className="login__password_look"
-                                src={showPassword ? 'icons/show-pass.png' : 'icons/hide-pass.png'} 
+                                src={showPassword ? modalImg.iconShow : modalImg.iconHide} 
                                 alt="show/hide-pass" 
                                 onClick={showPasswordHandler}
                             />                            
@@ -85,15 +86,15 @@ const Login: React.FC<LoginProps> = ({closeHandler, removeOverflowHidden}) => {
                 <p className="login__or">ИЛИ</p>
 
                 <button className="login__btn_out">
-                    <img className="login__btn_img" src="icons/google-logo.png" alt="google" />
+                    <img className="login__btn_img" src={modalImg.iconGoogle} alt="google" />
                     <p className="login__btn_text">Войти через Google</p>
                 </button>
                 <button className="login__btn_out">
-                    <img className="login__btn_img" src="icons/ms-logo.png" alt="ms" />
+                    <img className="login__btn_img" src={modalImg.iconMs} alt="ms" />
                     <p className="login__btn_text">Войти через Microsoft</p>
                 </button>
                 <button className="login__btn_out">
-                    <img className="login__btn_img" src="icons/apple-logo.png" alt="apple" />
+                    <img className="login__btn_img" src={modalImg.iconApple} alt="apple" />
                     <p className="login__btn_text">Войти через Apple</p>
                 </button>
 
@@ -115,11 +116,11 @@ const Login: React.FC<LoginProps> = ({closeHandler, removeOverflowHidden}) => {
             </div>
 
             <div className="login__lang">
-                <img src="img/input-img.png" alt="lang" />
+                <img src={modalImg.input} alt="lang" />
             </div>
 
             <div className="login__footer">
-                <img className="login__footer_img" src="img/login-footer-img.png" alt="Atlassian" />
+                <img className="login__footer_img" src={modalImg.modalFooterLogo} alt="Atlassian" />
                 <ul className="login__footer_list">
                     <li><a href="#">Шаблоны</a></li>
                     <li><a href="#">Цены</a></li>
@@ -133,8 +134,8 @@ const Login: React.FC<LoginProps> = ({closeHandler, removeOverflowHidden}) => {
                 </ul>
             </div>
             
-            <img className="login__footer_img_left" src="img/modal-img-l.png" alt="bg-l" />
-            <img className="login__footer_img_right" src="img/modal-img-r.png" alt="bg-r" />
+            <img className="login__footer_img_left" src={modalImg.modalFooterLeft} alt="bg-l" />
+            <img className="login__footer_img_right" src={modalImg.modalFooterRight} alt="bg-r" />
         </div>
     );
 }

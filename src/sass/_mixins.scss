@@ -7,6 +7,56 @@
     flex-direction: $fd;
 }
 
+@mixin block-format(
+    $position: relative,
+    $width: auto, 
+    $height: auto, 
+    $margin: 0, 
+    $padding: 0, 
+    $bg : inherit,
+) {
+    position: $position;
+    width: $width;
+    min-width: $width;
+    height: $height;
+    min-height: $height;
+    margin: $margin;
+    padding: $padding;
+    background: $bg;
+    box-sizing: border-box;
+    overflow: hidden;
+    outline: none;
+    border: none;
+}
+
+@mixin text-format(
+    $size, 
+    $weight,
+    $famaly: $public,
+    $color: $black,
+    $text-aligh: center,
+    $letter-spacing: 1px,
+) {
+    font: $weight $size $famaly;
+    color: $color;
+    text-align: $text-aligh;
+    letter-spacing: $letter-spacing;
+    overflow-wrap: break-word;
+    text-decoration: none;
+}
+
+@mixin animation-icon {
+    &:hover {
+        animation: jello-horizontal 0.3s 1 linear;
+    }
+}
+
+@mixin animation-logo {
+    &:hover {      
+        animation: jello-horizontal 0.5s 1 linear;
+    }
+}
+
 @mixin btn-reset() {
     border: none;
     background: none;
@@ -223,4 +273,22 @@
     @media (max-width: $md) {
         display: none;
     }
+}
+
+@mixin triangle-left($color) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-style: solid;
+    border-width: 50px 50px 50px 0;
+    border-color: transparent $color transparent transparent;
+}
+
+@mixin triangle-right($color) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-style: solid;
+    border-width: 50px 0 50px 50px;
+    border-color: transparent transparent transparent $color;
 }

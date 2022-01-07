@@ -3,11 +3,14 @@ import {getBoards, getLoggedUser, useTypedSelector} from '../../../store/selecto
 import {useDispatch} from 'react-redux';
 import {createBoard, patchBoard, removeBoard} from '../../../store/board/actions';
 import {Board} from '../../../store/board/types';
-import './BoardList.scss';
 import BoardItem from "../../BoardItem/BoardItem";
+import { useImage } from '../../../utils/hooks';
+import { Link } from 'react-router-dom';
+import './BoardList.scss';
 
 const BoardList: React.FC = () => {
     const dispatch = useDispatch();
+    const { icons } = useImage();
 
     const loggedUser = useTypedSelector(getLoggedUser);
     const boards = useTypedSelector(getBoards);
@@ -42,55 +45,90 @@ const BoardList: React.FC = () => {
             addBoardHandler();
             setEdit(!edit);
         }
-
     }
 
     return (
         loggedUser ? (
-                <div>
-                    <h1>
-                        Здесь будет список досок пользователя {loggedUser.firstName} {loggedUser.lastName}
-                    </h1>
-                    <ul style={{display: 'inline-flex'}}>
-                        {boards.map((board) =>
-                            <BoardItem
-                                key={board.id}
-                                board={board}
-                                remove={() => removeBoardHandler(board)}
-                                rename={renameBoardHandler}
-                            />)
-                        }
-                        {/*Переключатель режима создания доски*/}
-                        { edit?
-                            <li style={{width: 200, height: 100, border: '1px solid black'}}>
-                                <p>Введите название доски</p>
-                                <input type="text" ref={inputRef} autoFocus onKeyDown={getTitleEnter}/>
-                                <button onClick={addBoardHandler}>
-                                    Создать доску
-                                </button>
-                                <button
-                                    style={{width: 200, border: '1px solid black'}}
-                                    onClick={() => setEdit(!edit)}
-                                >
-                                    Отмена
-                                </button>
-                            </li>
-
-                            :
-                            <li>
-                                <button
-                                    style={{width: 200, height: 100, border: '1px solid black'}}
-                                    onClick={() => setEdit(!edit)}
-                                >
-                                    Создать доску
-                                </button>
-
-                            </li>
-                        }
-                    </ul>
+            <div className="boardList">
+                <div className="boardList__header">
+                    
+                    <div className="boardList__header_block">
+                        <div className="boardList__header_left">
+                            <div className="boardList__header_left_item"></div>
+                        </div>
+                        <div className="boardList__header_middle">
+                            <div className="boardList__header__triangle_left"></div>
+                            <div className="boardList__header__triangle_right"></div>
+                            <Link className="boardList__logo" to="/">Tiny-trello</Link>
+                            <div className="boardList__user">
+                                <p>{loggedUser.firstName} {loggedUser.lastName} :</p>
+                                <p>Список досок</p>
+                            </div>
+                        </div>
+                        <div className="boardList__header_right">
+                            <div className="boardList__header_right_item"></div>
+                        </div>                       
+                    </div>
                 </div>
-            )
-            : null
+                
+                <ul className="boardList__content" style={{display: 'inline-flex'}}>
+                    {boards.map((board) =>
+                        <BoardItem
+                            key={board.id}
+                            board={board}
+                            remove={() => removeBoardHandler(board)}
+                            rename={renameBoardHandler}
+        
+                        />)
+                    }
+                    {/*Переключатель режима создания доски*/}
+                    { edit?
+                        <li className="boardItem">
+                            <p className="boardItem__logo">Введите название доски</p>
+                            <input 
+                                className="boardItem__name"
+                                type="text"
+                                ref={inputRef} 
+                                autoFocus 
+                                onKeyDown={getTitleEnter}
+                            />
+                            <button 
+                                className="boardItem__btn_confirm"
+                                onClick={addBoardHandler}
+                            >
+                                <img 
+                                    className="boardItem__icon_confirm"
+                                    src={icons.iconConfirm} 
+                                    alt="confirm" 
+                                />
+                            </button>
+                            <button 
+                                onClick={() => setEdit(!edit)}
+                                className="boardItem__btn_cancel"
+                            >
+                                <img 
+                                    className="boardItem__icon_cancel"
+                                    src={icons.iconRemove} 
+                                    alt="cancel" 
+                                />
+                            </button>
+                        </li>
+
+                        :
+                        <li className="boardList__list_btn_block" onClick={() => setEdit(!edit)}> 
+                            <img                                
+                                className="boardList__btn_add"
+                                src={icons.iconAdd} 
+                                alt="add" 
+                            />
+                        </li>
+                    }
+                </ul>
+
+                <footer className="boardList__footer">Свои предложения по развитию сайта и переводу присылайте на почту kk309@mail.ru</footer>              
+            </div>
+        )
+        : null
     )
 }
 
