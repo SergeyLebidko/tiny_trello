@@ -34,12 +34,6 @@ import input from '../content/images/modals/input-fake.png';
 import modalFooterLogo from '../content/images/modals/modal-footer-logo.png';
 import modalFooterLeft from '../content/images/modals/modal-footer-left.png';
 import modalFooterRight from '../content/images/modals/modal-footer-right.png';
-import iconReturn from '../content/icons/return.svg';
-import iconGoogle from '../content/icons/google-logo.png';
-import iconHide from '../content/icons/hide-pass.png';
-import iconMs from '../content/icons/ms-logo.png';
-import iconShow from '../content/icons/show-pass.png';
-import iconApple from '../content/icons/apple-logo.png';
 
 // icons
 import iconAdd from '../content/icons/btn-add.png';
@@ -53,6 +47,12 @@ import iconConfirm from '../content/icons/btn-confirm.svg';
 import iconBack from '../content/icons/btn-back.png';
 import iconCancel from '../content/icons/btn-cancel.svg';
 import iconSelect from '../content/icons/btn-select.svg';
+import iconReturn from '../content/icons/btn-back.svg';
+import iconGoogle from '../content/icons/google-logo.png';
+import iconHide from '../content/icons/hide-pass.png';
+import iconMs from '../content/icons/ms-logo.png';
+import iconShow from '../content/icons/show-pass.png';
+import iconApple from '../content/icons/apple-logo.png';
 
 type useImage = {
     mainImg: {[key: string]: string},
