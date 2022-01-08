@@ -22,6 +22,16 @@ export function isError(e: unknown): e is Error {
     return e instanceof Error;
 }
 
+// Защита типа для определения Card
+export function isCard(e: Task | Card | null): e is Card {
+    return e !== null && ('boardId' in e);
+}
+
+// Защита типа для определения Task
+export function isTask(e: Task | Card | null): e is Task {
+    return e !== null && ('cardId' in e);
+}
+
 // Функция получения следующего значения поля порядка
 export function getNextOrder<T extends Card | Task>(objects: Array<T>): number {
     let result = 0;
@@ -31,6 +41,7 @@ export function getNextOrder<T extends Card | Task>(objects: Array<T>): number {
     return result;
 }
 
+// Функция возвращает массив с частями даты (день, месяц, год) для переданного timestamp
 export function getDateParts (timestamp: number): Array<string> {
     const date = new Date(timestamp);
     const d = '' + (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
