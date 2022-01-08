@@ -1,4 +1,5 @@
 import React, {FC} from 'react';
+import { useImage } from '../../../utils/hooks';
 import './Confirm.scss';
 
 interface IConfirm {
@@ -9,17 +10,28 @@ interface IConfirm {
 }
 
 const Confirm: FC<IConfirm> = ({text, buttonLabel, cancelHandler, acceptHandler}) => {
+    const { icons } = useImage();
 
     return (
         <div className="confirm">
-            <div className="confirm__content">
-                <h1 className="confirm__title">Tiny Trello</h1>
-                <p className="confirm__modal_title">{text}</p>
-                <div className="confirm__control_block">
-                    {/* В кнопки мы вставляем функции, полученные извне*/}
-                    <button className="confirm__button" onClick={cancelHandler}>Отмена</button>
-                    <button className="confirm__button" onClick={acceptHandler}>{buttonLabel}</button>
-                </div>
+            <p className="confirm__title">Tiny Trello</p>
+            <p className="confirm__text">{text}</p>
+            <div className="confirm__btn_block">
+                {/* В кнопки мы вставляем функции, полученные извне*/}
+                <button className="confirm__btn_confirm" onClick={acceptHandler}>
+                <img 
+                    className="confirm__icon_confirm"
+                    src={icons.iconConfirm} 
+                    alt="confirm" 
+                />
+                </button>
+                <button className="confirm__btn_cancel" onClick={cancelHandler}>
+                <img 
+                    className="confirm__icon_cancel"
+                    src={icons.iconCancel} 
+                    alt="cancel" 
+                />
+                </button>
             </div>
         </div>
     );

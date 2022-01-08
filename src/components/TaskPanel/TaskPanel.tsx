@@ -1,10 +1,12 @@
-import React, {useState} from 'react';
+import React, {useRef, useState} from 'react';
 import {Importance, Task} from '../../store/task/types';
+import {Card} from '../../store/card/types';
+import {patchTask, removeTask} from '../../store/task/actions';
+import {useDispatch} from 'react-redux';
+import Confirm from '../modals/Confirm/Confirm';
+import {useImage} from '../../utils/hooks';
+import {getDateParts} from '../../utils/common';
 import './TaskPanel.scss';
-import {Card} from "../../store/card/types";
-import {removeTask} from "../../store/task/actions";
-import {useDispatch} from "react-redux";
-import Confirm from "../modals/Confirm/Confirm";
 
 type TaskPanelProps = {
     task: Task,
@@ -17,33 +19,58 @@ type TaskPanelProps = {
     dragEnter: (e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) => void,
 }
 
-const TaskPanel: React.FC<TaskPanelProps> = ({task, card, dragOver, dragLeave, dragEnd, dragStart, drop, dragEnter}) => {
-
-    const dispatch = useDispatch()
+const TaskPanel: React.FC<TaskPanelProps> = (props) => {
+    const {task, card, dragOver, dragLeave, dragEnd, dragStart, drop, dragEnter} = props;
+    const dispatch = useDispatch();
+    const {icons} = useImage();
+    const parentElem = useRef<HTMLLIElement>(null);
 
     const IMPORTANCE_TEXT_SELECTOR = {
-        [Importance.Low]: 'Не высокая',
-        [Importance.Medium]: 'Средняя',
-        [Importance.High]: 'Высокая'
+        [Importance.Low]: <span className="taskPanel__text_low">Низкая</span>,
+        [Importance.Medium]: <span className="taskPanel__text_medium">Средняя</span>,
+        [Importance.High]: <span className="taskPanel__text_high">Высокая</span>
     }
 
-    const [modalMode, setModalMode] = useState<boolean>(false);
+    const NEXT_IMPORTANCE_SELECTOR = {
+        [Importance.Low]: Importance.Medium,
+        [Importance.Medium]: Importance.High,
+        [Importance.High]: Importance.Low
+    }
+
+    const [hasShowConfirmModal, setHasShowConfirmModal] = useState<boolean>(false);
+    const openConfirmModal = (): void => setHasShowConfirmModal(true);
+    const closeConfirmModal = (): void => setHasShowConfirmModal(false);
 
     const getFormattedDate = (timestamp: number): string => {
-        const date = new Date(timestamp);
-        const d = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-        const m = date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-        const y = date.getFullYear();
-        return `${d}.${m}.${y}`
+        const [d, m, y] = getDateParts(timestamp);
+        return `${d}.${m}.${y}`;
     }
 
-    const removeTaskHandler = (task: Task): void => {
-        dispatch(removeTask(task));
+    // Анимация при удаление Task
+    const removeTaskHandler = (e: any, task: Task): void => {
+        closeConfirmModal();
+        parentElem.current?.classList.add('animation_delete');
+        setTimeout(() => dispatch(removeTask(task)), 400);
     }
 
-    const {text, done, importance, deadline, order} = task;
+    const changeDoneHandler = (): void => {
+        dispatch(patchTask({
+            ...task,
+            done: !task.done
+        }));
+    }
+
+    const changeImportanceHandler = (): void => {
+        dispatch(patchTask({
+            ...task,
+            importance: NEXT_IMPORTANCE_SELECTOR[task.importance]
+        }))
+    }
+
+    const {text, done, importance, deadline} = task;
     return (
-        <li className="task_panel"
+        <li className="taskPanel"
+            ref={parentElem}
             draggable={true}
             onDragOver={dragOver}
             onDragLeave={dragLeave}
@@ -52,20 +79,34 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, dragOver, dragLeave, d
             onDrop={drop}
             onDragEnter={(e: React.DragEvent<HTMLLIElement>) => dragEnter(e, card, task)}
         >
-            {/* Модальная форма подтверждения удаления*/}
-            {modalMode &&
+            {hasShowConfirmModal &&
             <Confirm
-                text={`Действительно удалить задачу "${text}"?`}
+                text={`Удалить задачу "${text}"?`}
                 buttonLabel={'Удалить'}
-                cancelHandler={() => setModalMode(false)}
-                acceptHandler={() => removeTaskHandler(task)}
+                cancelHandler={closeConfirmModal}
+                acceptHandler={() => removeTaskHandler(event, task)}
             />}
-            <button className='task_delete' onClick={() => setModalMode(true)}>x</button>
-            <h1 className="task_header">{text}</h1>
-            <h2>{done ? 'Выполнено' : 'Не выполнено'}</h2>
-            <h2>Важность: {IMPORTANCE_TEXT_SELECTOR[importance]}</h2>
-            <h2>Срок: {getFormattedDate(deadline)}</h2>
-            <p>Очередь {order}</p>
+            <button className="taskPanel__btn_delete" onClick={openConfirmModal}>
+                <img
+                    className="taskPanel__icon_delete"
+                    src={icons.iconRemoveTask}
+                    alt="delete"
+                />
+            </button>
+            <p className="taskPanel__name">{text}</p>
+            <p className={done ? "taskPanel__done" : "taskPanel__notDone"} onClick={changeDoneHandler}>
+                {done ? "Выполнено" : "Не выполнено"}
+            </p>
+            <p className="taskPanel__text_block">
+                <div>Важность</div>
+                <div onClick={changeImportanceHandler} style={{cursor: 'pointer'}}>
+                    {IMPORTANCE_TEXT_SELECTOR[importance]}
+                </div>
+            </p>
+            <p className="taskPanel__text_block">
+                <div>Срок</div>
+                <div>{getFormattedDate(deadline)}</div>
+            </p>
         </li>
     );
 };

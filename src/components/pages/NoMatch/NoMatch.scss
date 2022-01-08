@@ -1,0 +1,23 @@
+@import '../../../sass/import';
+
+.noMatch {
+  @include block-format(_ 100%, 100vh);
+  width: 100%;
+  min-height: 100vh;
+  background: linear-gradient(-45deg, $white, $purple-ultra-light 100%);
+
+  &__text {
+    position: absolute;
+    top: 10%;
+    left: 10%;
+    font: 30px/1.2 $satisfy-serif;
+
+    :nth-child(1) {
+      font: bold 40px/1.2 $satisfy-serif;
+    }
+
+    :nth-child(3) {
+      font: italic 600 30px/2 $satisfy-serif;
+    }
+  }
+}

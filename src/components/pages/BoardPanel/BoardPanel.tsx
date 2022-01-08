@@ -1,69 +1,80 @@
-import React, {useRef, useState} from 'react';
+import React, {useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import {Board} from '../../../store/board/types';
 import CardPanel from '../../CardPanel/CardPanel';
+import CardCreateForm from '../../forms/CardCreateForm/CardCreateForm';
 import NoMatch from '../NoMatch/NoMatch';
 import {getBoards, getCards, useTypedSelector} from '../../../store/selectors';
 import {Card} from '../../../store/card/types';
 import {useDispatch} from 'react-redux';
-import {createCard, removeCard} from '../../../store/card/actions';
+import {removeCard} from '../../../store/card/actions';
+import {Task} from '../../../store/task/types';
+import {useImage} from '../../../utils/hooks';
 import './BoardPanel.scss';
-import {Importance, Task} from "../../../store/task/types";
-import {createTask} from "../../../store/task/actions";
 
 const BoardPanel: React.FC = () => {
     const dispatch = useDispatch();
-
     const boards: Array<Board> = useTypedSelector(getBoards);
     const cards: Array<Card> = useTypedSelector(getCards);
 
+    const [currentCard, setCurrentCard] = useState<Card | null>(null);
+    const [currentTask, setCurrentTask] = useState<Task | null>(null);
 
-    const {boardId} = useParams();
+    const [hasCreateForm, setHasCreateForm] = useState<boolean>(false);
+
+    const openCreateForm = (): void => setHasCreateForm(true);
+    const closeCreateFrom = (): void => setHasCreateForm(false);
+
+    const {icons} = useImage();
 
     const removeCardHandler = (card: Card): void => {
         dispatch(removeCard(card));
     }
 
-    const [currentCard,setCurrentCard] = useState<Card | null>(null)
-    const [currentTask,setCurrentTask] = useState<Task | null>(null)
-    const [edit, setEdit] = useState<boolean>(false)
-    const inputRef = useRef<HTMLInputElement>(null)
-
-    // Ищем доску, соответствующую переданному id. Если доски с таким идентификатором не нашлось - выводим страницу NoMatch
-    const board = boards.find(board => board.id === Number(boardId));
-
-    if (!board) return <NoMatch/>;
-
-    function dragStartHandler(e:React.DragEvent<HTMLLIElement>,card: Card, task: Task) {
+    function dragStartHandler(e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
         setCurrentCard(card)
         setCurrentTask(task)
     }
 
-    const addCardHandler = (): void => {
-        if (!inputRef.current) return;
-        dispatch(createCard(
-            {
-                boardId: board.id as number,
-                title: inputRef.current.value,
-                order: getNewOrder() as number,
-            }
-        ))
-        setEdit(!edit)
-    }
-    // В зависимости от длины массива карт получаем новую позицию
-    function getNewOrder() {
-        if (!board) return;
-        return cards.filter(card => card.boardId === board.id).length
-    }
+    const {boardId} = useParams();
+    // Ищем доску, по id из url. Если доски с таким id не нашлось - будет выведена страница NoMatch
+    const board = boards.find(board => board.id === Number(boardId));
+
+    if (!board) return <NoMatch/>;
 
     return (
-        <div>
-            <h1>Доска: {board.title}</h1>
-            <ul>
-                <li><Link to="/">На главную страницу</Link></li>
-                <li><Link to="/board_list">К списку досок</Link></li>
-            </ul>
-            <ul className="board_panel__card_list">
+        <div className="boardPanel">
+
+            <div className="boardPanel__back">
+                <Link to="/board_list">
+                    <img
+                        className="boardPanel__icon_back"
+                        src={icons.iconBack}
+                        alt="back"
+                    />
+                </Link>
+            </div>
+
+            <div className="boardPanel__header">
+                <div className="boardPanel__header_block">
+                    <div className="boardPanel__header_left">
+                        <div className="boardPanel__header_left_item"/>
+                    </div>
+                    <div className="boardPanel__header_middle">
+                        <div className="boardPanel__header__triangle_left"/>
+                        <div className="boardPanel__header__triangle_right"/>
+                        <Link className="boardPanel__logo" to="/">Tiny-trello</Link>
+                        <div className="boardPanel__title">
+                            {board.title}
+                        </div>
+                    </div>
+                    <div className="boardPanel__header_right">
+                        <div className="boardPanel__header_right_item"/>
+                    </div>
+                </div>
+            </div>
+
+            <ul className="boardPanel__content">
                 {cards
                     .filter(card => card.boardId === board.id)
                     .sort((a, b) => a.order - b.order)
@@ -77,35 +88,22 @@ const BoardPanel: React.FC = () => {
                             removeCardHandler={removeCardHandler}
                         />)
                 }
-                {/*когда мы создаем новый список, появляется форма*/}
-                {edit ?
-                    <li style={{width: 200, height: 150, border: '1px solid black'}}>
-                        <p>Введите название списка</p>
-                        <input ref={inputRef} autoFocus></input>
-                        <button
-                            onClick={addCardHandler}
-                            style={{width: 200, border: '1px solid black'}}
-                        >
-                            Создать список
-                        </button>
-                        <button
-                            style={{width: 200, border: '1px solid black'}}
-                            onClick={() => setEdit(!edit)}
-                        >
-                            Отмена
-                        </button>
-                    </li>
+                {hasCreateForm ?
+                    <CardCreateForm board={board} closeHandler={closeCreateFrom}/>
                     :
-                    <li>
-                        <button
-                            style={{width: 200, border: '1px solid black'}}
-                            onClick={() => setEdit(!edit)}
-                        >
-                            Создать список
-                        </button>
-                    </li>
+                    <button className="boardPanel__btn_addCard" onClick={openCreateForm}>
+                        <img
+                            className="boardPanel__icon_addCard"
+                            src={icons.iconAddCard}
+                            alt="addCard"
+                        />
+                    </button>
                 }
             </ul>
+
+            <footer className="boardList__footer">Свои предложения по развитию сайта и переводу присылайте на почту
+                kk309@mail.ru
+            </footer>
         </div>
     );
 }

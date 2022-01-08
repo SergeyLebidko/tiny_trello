@@ -1,64 +1,57 @@
 import React, {FC, useState} from 'react';
-import {Link} from "react-router-dom";
-import {Board} from "../../store/board/types";
+import {Link} from 'react-router-dom';
+import {Board} from '../../store/board/types';
+import {useImage} from '../../utils/hooks';
+import BoardItemEditForm from '../forms/BoardItemEditForm/BoardItemEditForm';
+import './BoardItem.scss';
 
 interface IBoardItem {
     board: Board,
-    remove: () => void,
+    remove: (board: Board) => void,
     rename: (board: Board) => void,
 }
 
 const BoardItem: FC<IBoardItem> = ({board, remove, rename}) => {
-    const [edit, setEdit] = useState<boolean>(false)
+    const [hasEditForm, setHasEditForm] = useState<boolean>(false);
+    const openEditForm = (): void => setHasEditForm(true);
+    const closeEditForm = (): void => setHasEditForm(false);
 
-    // Автовыделение
-    const selectTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
-        e.currentTarget.select()
+    const {icons} = useImage();
+
+    // Анимация при удаление Board
+    const onclickHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
+        e.currentTarget.parentElement?.classList.add('animation_delete')
+        setTimeout(() => remove(board), 300);
     }
-
-    // Если теряем фокус, срабатывает событие
-    const getTitle = (e: React.FocusEvent<HTMLInputElement>): void => {
-        rename(
-            {
-                ...board,
-                title: e.currentTarget.value,
-            }
-        )
-        setEdit(!edit)
-    }
-    // Если нажимаем Enter, срабатывает событие
-    const getTitleEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-
-        if (e.code === 'Enter') {
-            rename(
-                {
-                    ...board,
-                    title: e.currentTarget.value,
-                }
-            )
-            setEdit(!edit)
-        }
-    }
-
 
     return (
-        <li style={{position: "relative", width: 200, height: 100, border: '1px solid black'}}>
-            {/*Здесь мы переключаем режим изменения названия доски*/}
-            {edit
-                ? <input
-                    type="text"
-                    autoFocus
-                    defaultValue={board.title}
-                    onFocus={selectTitle}
-                    onBlur={getTitle}
-                    onKeyDown={getTitleEnter}
-                />
-                : <h2 onClick={() => setEdit(!edit)}>{board.title}</h2>
+        <li className='boardItem'>
+            {hasEditForm
+                ? <BoardItemEditForm board={board} rename={rename} closeHandler={closeEditForm}/>
+                : <p className='boardItem__name'>
+                    {board.title}
+                    <img
+                        className='boardItem__btn_edit'
+                        onClick={openEditForm}
+                        src={icons.iconEdit}
+                        alt='edit'
+                    />
+                </p>
             }
-            <Link to={`/board/${board.id}`}>
-                Перейти на доску
+            <button className='boardItem__btn_remove' onClick={onclickHandler}>
+                <img
+                    className='boardItem__icon_remove'
+                    src={icons.iconRemove}
+                    alt='remove'
+                />
+            </button>
+            <Link className='boardItem__link' to={`/board/${board.id}`}>
+                <img
+                    className='boardItem__icon_up'
+                    src={icons.iconUp}
+                    alt='go'
+                />
             </Link>
-            <button onClick={() => remove()} style={{position: "absolute", top: 0, right: 0, padding: 5}}>х</button>
         </li>
     );
 };
