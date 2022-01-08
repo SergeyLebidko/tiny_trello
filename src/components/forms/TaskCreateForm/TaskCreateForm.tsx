@@ -4,7 +4,7 @@ import {createTask} from '../../../store/task/actions';
 import {useDispatch} from 'react-redux';
 import {Card} from '../../../store/card/types';
 import {useImage} from '../../../utils/hooks';
-import {getNextOrder} from '../../../utils/common';
+import {getDateParts, getNextOrder} from '../../../utils/common';
 import {getTasks, useTypedSelector} from '../../../store/selectors';
 import './TaskCreateForm.scss';
 
@@ -25,12 +25,8 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({card, closeHandler}) => 
 
     // Получаем дату в текстовом формате, который требует форма
     const getToday = (): string => {
-        const date = new Date(Date.now());
-        const d = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-        const m = date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-        const y = date.getFullYear();
-        // Да-да, именно так
-        return `${y}-${m}-${d}`
+        const [d, m, y] = getDateParts(Date.now());
+        return `${y}-${m}-${d}`;
     }
 
     const changeImportanceHandler = (e: React.ChangeEvent<HTMLSelectElement>): void => {

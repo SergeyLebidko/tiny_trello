@@ -30,3 +30,11 @@ export function getNextOrder<T extends Card | Task>(objects: Array<T>): number {
     }
     return result;
 }
+
+export function getDateParts (timestamp: number): Array<string> {
+    const date = new Date(timestamp);
+    const d = '' + (date.getDate() < 10 ? '0' + date.getDate() : date.getDate());
+    const m = '' + (date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1);
+    const y = '' + date.getFullYear();
+    return [d, m, y];
+}

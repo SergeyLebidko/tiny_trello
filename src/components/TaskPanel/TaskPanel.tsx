@@ -6,6 +6,7 @@ import {useDispatch} from "react-redux";
 import Confirm from "../modals/Confirm/Confirm";
 import { useImage } from '../../utils/hooks';
 import './TaskPanel.scss';
+import {getDateParts} from "../../utils/common";
 
 type TaskPanelProps = {
     task: Task,
@@ -32,11 +33,8 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, dragOver, dragLeave, d
     const [modalMode, setModalMode] = useState<boolean>(false);
 
     const getFormattedDate = (timestamp: number): string => {
-        const date = new Date(timestamp);
-        const d = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-        const m = date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-        const y = date.getFullYear();
-        return `${d}.${m}.${y}`
+        const [d, m, y] = getDateParts(timestamp);
+        return `${d}.${m}.${y}`;
     }
 
     // Анимация при удаление Task
@@ -46,7 +44,7 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, dragOver, dragLeave, d
         setTimeout(() => dispatch(removeTask(task)), 400);        
     }
 
-    const {text, done, importance, deadline, order} = task;
+    const {text, done, importance, deadline} = task;
     return (
         <li className="taskPanel"
             ref={parentElem}
@@ -58,7 +56,6 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, dragOver, dragLeave, d
             onDrop={drop}
             onDragEnter={(e: React.DragEvent<HTMLLIElement>) => dragEnter(e, card, task)}
         >
-            {/* Модальная форма подтверждения удаления*/}
             {modalMode &&
             <Confirm
                 text={`Удалить задачу "${text}"?`}
@@ -66,10 +63,7 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, dragOver, dragLeave, d
                 cancelHandler={() => setModalMode(false)}
                 acceptHandler={() => removeTaskHandler(event, task)}
             />}
-            <button 
-                className="taskPanel__btn_delete"
-                onClick={() => setModalMode(true)}
-            >
+            <button className="taskPanel__btn_delete" onClick={() => setModalMode(true)}>
                 <img 
                     className="taskPanel__icon_delete"
                     src={icons.iconRemoveTask} 
@@ -87,10 +81,6 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, dragOver, dragLeave, d
             <p className="taskPanel__text_block">
                 <div>Срок</div>
                 <div>{getFormattedDate(deadline)}</div>
-            </p>
-            <p className="taskPanel__text_block">
-                <div>Очередь</div>
-                <div>{order}</div>
             </p>
         </li>
     );
