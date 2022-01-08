@@ -17,7 +17,6 @@ const BoardCreateForm: React.FC<BoardCreateFormProps> = ({closeHandler}) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    // Функция добавления доску
     const addBoardHandler = (): void => {
         if (!loggedUser || !inputRef.current) return;
         if (loggedUser.id) {

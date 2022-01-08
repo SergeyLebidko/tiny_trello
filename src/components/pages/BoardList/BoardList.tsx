@@ -21,12 +21,10 @@ const BoardList: React.FC = () => {
     const openCreateForm = (): void => setHasCreateForm(true);
     const closeCreateForm = (): void => setHasCreateForm(false);
 
-    // Функция удаления доску
     const removeBoardHandler = (board: Board): void => {
         dispatch(removeBoard(board));
     }
 
-    // Функция изменения названия доску
     const renameBoardHandler = (board: Board): void => {
         dispatch(patchBoard(board));
     }
