@@ -1,12 +1,14 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {Card} from '../../store/card/types';
 import {getTasks, useTypedSelector} from '../../store/selectors';
+import {Card} from '../../store/card/types';
 import TaskPanel from '../TaskPanel/TaskPanel';
-import {Importance, Task} from '../../store/task/types';
+import TaskCreateForm from '../forms/TaskCreateForm/TaskCreateForm';
+import Confirm from '../modals/Confirm/Confirm';
+import {Task} from '../../store/task/types';
 import {useDispatch} from 'react-redux';
-import {createTask, patchTask} from '../../store/task/actions';
-import Confirm from "../modals/Confirm/Confirm";
-import { useImage } from '../../utils/hooks';
+import {patchTask} from '../../store/task/actions';
+import {useImage} from '../../utils/hooks';
+import {getNextOrder} from '../../utils/common';
 import './CardPanel.scss';
 
 type CardPaneProps = {
@@ -19,49 +21,20 @@ type CardPaneProps = {
 
 const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart, currentCard, currentTask}) => {
     const dispatch = useDispatch();
-    const { icons } = useImage();
+    const tasks = useTypedSelector(getTasks);
+    
+    const {icons} = useImage();
     const parentElem = useRef<HTMLDivElement>(null);
 
-    const tasks = useTypedSelector(getTasks);
+    const [newTask, setNewTask] = useState<Task | null>(null);
 
-    const [edit, setEdit] = useState<boolean>(false)
-    const [selected, setSelected] = useState<Importance>(Importance.Low)
-    const [newTask, setNewTask] = useState<Task | null>(null)
-    const [modalMode, setModalMode] = useState<boolean>(false);
+    const [hasConfirmModal, setHasConfirmModal] = useState<boolean>(false);
+    const openConfirmModal = (): void => setHasConfirmModal(true);
+    const closeConfirmModal = (): void => setHasConfirmModal(false);
 
-    const textRef = useRef<HTMLTextAreaElement>(null)
-    const dateRef = useRef<HTMLInputElement>(null)
-
-    // Получаем дату в текстовом формате, который требует форма
-    const getToday = (): string => {
-        const date = new Date(Date.now());
-        const d = date.getDate() < 10 ? '0' + date.getDate() : date.getDate();
-        const m = date.getMonth() < 9 ? '0' + (date.getMonth() + 1) : date.getMonth() + 1;
-        const y = date.getFullYear();
-        // Да-да, именно так
-        return `${y}-${m}-${d}`
-    }
-
-    // Определяем очередь среди тасок
-    function getNewOrder() {
-        return tasks.filter(task => task.cardId === card.id).length
-    }
-
-    const addTaskHandler = (): void => {
-        if (!textRef.current || !dateRef.current) return;
-
-        dispatch(createTask(
-            {
-                cardId: card.id as number,
-                text: textRef.current.value,
-                done: false,
-                importance: selected,
-                deadline: +new Date(dateRef.current.value),
-                order: getNewOrder(),
-            }
-        ))
-        setEdit(!edit)
-    }
+    const [hasCreateForm, setHasCreateForm] = useState<boolean>(false);
+    const openCreateFrom = (): void => setHasCreateForm(true);
+    const closeCreateForm = (): void => setHasCreateForm(false);
 
     function dragOverHandler(e: React.DragEvent<HTMLLIElement>) {
         e.preventDefault();
@@ -113,8 +86,8 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         dispatch(patchTask({
             ...currentTask,
             cardId: card.id as number,
-            order: getNewOrder(),
-        }))
+            order: getNextOrder<Task>(tasks.filter(task => task.cardId === card.id)),
+        }));
     }
 
     function cardTaskOverHandler(e: React.DragEvent<HTMLDivElement>) {
@@ -148,14 +121,14 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         })
     }, [newTask])
 
-    const {id, title} = card;
-
     // Обертка для анимации при удалении Card
     const removeCardHandlerWrap = (card: Card): void => {
-        setModalMode(false);
+        closeConfirmModal();
         parentElem.current?.classList.add('animation_delete');
-        setTimeout(() => removeCardHandler(card), 450);       
+        setTimeout(() => removeCardHandler(card), 450);
     }
+
+    const {id, title} = card;
 
     return (
         // Обработчики списка
@@ -169,20 +142,19 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
             onDrop={(e: React.DragEvent<HTMLDivElement>) => cardDropHandler(e)}
         >
             <p className="cardPanel__name">{title}</p>
-            <button className="cardPanel__delete" onClick={() => setModalMode(true)}>
+            <button className="cardPanel__delete" onClick={openConfirmModal}>
                 <img
                     className="cardPanel__icon_delete"
                     src={icons.iconRemove}
-                    alt="delete" 
+                    alt="delete"
                 />
             </button>
 
-            {/* Модальная форма подтверждения удаления*/}
-            {modalMode &&
+            {hasConfirmModal &&
             <Confirm
                 text={`Удалить список "${title}"?`}
                 buttonLabel={'Удалить'}
-                cancelHandler={() => setModalMode(false)}
+                cancelHandler={closeConfirmModal}
                 acceptHandler={() => removeCardHandlerWrap(card)}
             />}
 
@@ -205,60 +177,14 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                         />
                     )
                 }
-                {/*Переключатель режима создания таски*/}
-                {edit ?
-                    <li className="taskPanel">
-                        <p className="taskPanel__name">Введите текст задачи</p>
-                        <textarea 
-                            className="taskPanel__area"
-                            ref={textRef} 
-                            autoFocus 
-                        />
-                        <select 
-                            className="taskPanel__select"
-                            value={selected}
-                            onChange={(e: React.ChangeEvent<HTMLSelectElement>) => setSelected(e.currentTarget.value as Importance)}
-                        >
-                            <option value={Importance.Low}>Низкая</option>
-                            <option value={Importance.Medium}>Средняя</option>
-                            <option value={Importance.High}>Высокая</option>
-                        </select>                        
-                        <input 
-                            className="taskPanel__date"
-                            type="date" 
-                            ref={dateRef} 
-                            defaultValue={getToday()}
-                        />
-                        <button
-                            className="taskPanel__btn_confirm"
-                            onClick={addTaskHandler}
-                        >
-                            <img 
-                                className="taskPanel__icon_confirm"
-                                src={icons.iconConfirm} 
-                                alt="confirm" 
-                            />
-                        </button>
-                        <button
-                            className="taskPanel__btn_cancel"
-                            onClick={() => setEdit(!edit)}
-                        >
-                            <img 
-                                className="taskPanel__icon_cancel"
-                                src={icons.iconCancel} 
-                                alt="cancel" 
-                            />
-                        </button>
-                    </li>
+                {hasCreateForm ?
+                    <TaskCreateForm card={card} closeHandler={closeCreateForm}/>
                     :
-                    <li 
-                        className="cardPanel__btn_add"
-                        onClick={() => setEdit(!edit)}
-                    >   
-                        <img 
+                    <li className="cardPanel__btn_add" onClick={openCreateFrom}>
+                        <img
                             className="cardPanel__icon_add"
-                            src={icons.iconAddTask} 
-                            alt="add" 
+                            src={icons.iconAddTask}
+                            alt="add"
                         />
                     </li>
                 }
