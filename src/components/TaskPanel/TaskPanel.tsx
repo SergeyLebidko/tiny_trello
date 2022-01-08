@@ -53,6 +53,7 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
         setTimeout(() => dispatch(removeTask(task)), 400);
     }
 
+    // Обработчик изменения поля "выполнено" при клике по нему
     const changeDoneHandler = (): void => {
         dispatch(patchTask({
             ...task,
@@ -60,6 +61,7 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
         }));
     }
 
+    // Обработчик изменения поля "важность" при клике по нему
     const changeImportanceHandler = (): void => {
         dispatch(patchTask({
             ...task,

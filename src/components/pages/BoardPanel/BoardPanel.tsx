@@ -36,10 +36,9 @@ const BoardPanel: React.FC = () => {
         setCurrentTask(task)
     }
 
-    const {boardId} = useParams();
     // Ищем доску, по id из url. Если доски с таким id не нашлось - будет выведена страница NoMatch
+    const {boardId} = useParams();
     const board = boards.find(board => board.id === Number(boardId));
-
     if (!board) return <NoMatch/>;
 
     return (
