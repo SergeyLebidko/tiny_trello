@@ -31,6 +31,12 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
         [Importance.High]: <span className="taskPanel__text_high">Высокая</span>
     }
 
+    const NEXT_IMPORTANCE_SELECTOR = {
+        [Importance.Low]: Importance.Medium,
+        [Importance.Medium]: Importance.High,
+        [Importance.High]: Importance.Low
+    }
+
     const [hasShowConfirmModal, setHasShowConfirmModal] = useState<boolean>(false);
     const openConfirmModal = (): void => setHasShowConfirmModal(true);
     const closeConfirmModal = (): void => setHasShowConfirmModal(false);
@@ -52,6 +58,13 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
             ...task,
             done: !task.done
         }));
+    }
+
+    const changeImportanceHandler = (): void => {
+        dispatch(patchTask({
+            ...task,
+            importance: NEXT_IMPORTANCE_SELECTOR[task.importance]
+        }))
     }
 
     const {text, done, importance, deadline} = task;
@@ -86,7 +99,9 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
             </p>
             <p className="taskPanel__text_block">
                 <div>Важность</div>
-                <div>{IMPORTANCE_TEXT_SELECTOR[importance]}</div>
+                <div onClick={changeImportanceHandler} style={{cursor: 'pointer'}}>
+                    {IMPORTANCE_TEXT_SELECTOR[importance]}
+                </div>
             </p>
             <p className="taskPanel__text_block">
                 <div>Срок</div>
