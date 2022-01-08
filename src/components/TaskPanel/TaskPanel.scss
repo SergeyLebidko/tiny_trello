@@ -85,13 +85,15 @@
   &__done {
     width: 100%;
     @include text-format(35px/1.5, 600, $roboto, $blue-dark);
-    text-shadow: 0px 0px 3px $white; 
+    text-shadow: 0px 0px 3px $white;
+    cursor: pointer;
   }
 
   &__notDone {
     width: 100%;
     @include text-format(35px/1.5, 600, $roboto, $red-dark);
-    text-shadow: 0px 0px 2px $white; 
+    text-shadow: 0px 0px 2px $white;
+    cursor: pointer;
   }
 
   &__text_block {
