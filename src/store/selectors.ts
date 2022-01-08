@@ -11,3 +11,5 @@ export const getLoggedUser = (state: RootState): User | null => state.user;
 export const getBoards = (state: RootState): Array<Board> => state.boards;
 export const getCards = (state: RootState): Array<Card> => state.cards;
 export const getTasks = (state: RootState): Array<Task> => state.tasks;
+
+export const getDNDObject = (state: RootState): Card | Task | null => state.dndObject;
