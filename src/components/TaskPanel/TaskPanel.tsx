@@ -30,7 +30,9 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, dragOver, dragLeave, d
         [Importance.High]:   <span className="taskPanel__text_high">Высокая</span>
     }
 
-    const [modalMode, setModalMode] = useState<boolean>(false);
+    const [hasShowConfirmModal, setHasShowConfirmModal] = useState<boolean>(false);
+    const openConfirmModal = (): void => setHasShowConfirmModal(true);
+    const closeConfirmModal = (): void => setHasShowConfirmModal(false);
 
     const getFormattedDate = (timestamp: number): string => {
         const [d, m, y] = getDateParts(timestamp);
@@ -39,7 +41,7 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, dragOver, dragLeave, d
 
     // Анимация при удаление Task
     const removeTaskHandler = (e: any, task: Task): void => {
-        setModalMode(false);
+        closeConfirmModal();
         parentElem.current?.classList.add('animation_delete');
         setTimeout(() => dispatch(removeTask(task)), 400);        
     }
@@ -56,14 +58,14 @@ const TaskPanel: React.FC<TaskPanelProps> = ({task, card, dragOver, dragLeave, d
             onDrop={drop}
             onDragEnter={(e: React.DragEvent<HTMLLIElement>) => dragEnter(e, card, task)}
         >
-            {modalMode &&
+            {hasShowConfirmModal &&
             <Confirm
                 text={`Удалить задачу "${text}"?`}
                 buttonLabel={'Удалить'}
-                cancelHandler={() => setModalMode(false)}
+                cancelHandler={closeConfirmModal}
                 acceptHandler={() => removeTaskHandler(event, task)}
             />}
-            <button className="taskPanel__btn_delete" onClick={() => setModalMode(true)}>
+            <button className="taskPanel__btn_delete" onClick={openConfirmModal}>
                 <img 
                     className="taskPanel__icon_delete"
                     src={icons.iconRemoveTask} 
