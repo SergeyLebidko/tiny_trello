@@ -3,7 +3,7 @@ import './CardTitleEditForm.scss';
 
 const CardTitleEditForm: React.FC = () => {
     return (
-
+        <div/>
     );
 }
 
