@@ -1,22 +1,24 @@
 import React, {useRef} from 'react';
 import {Board} from '../../../store/board/types';
+import {useDispatch} from 'react-redux';
+import {patchBoard} from '../../../store/board/actions';
 import './BoardItemEditForm.scss';
 
 type BoardItemEditFormProps = {
     board: Board
-    rename: (board: Board) => void
     closeHandler: () => void
 }
 
-const BoardItemEditForm: React.FC<BoardItemEditFormProps> = ({board, rename, closeHandler}) => {
+const BoardItemEditForm: React.FC<BoardItemEditFormProps> = ({board, closeHandler}) => {
+    const dispatch = useDispatch();
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const executeRename = (): void => {
+    const rename = (): void => {
         if (inputRef.current !== null) {
-            rename({
+            dispatch(patchBoard({
                 ...board,
                 title: inputRef.current.value,
-            });
+            }));
             closeHandler();
         }
     }
@@ -28,13 +30,13 @@ const BoardItemEditForm: React.FC<BoardItemEditFormProps> = ({board, rename, clo
 
     // При потере фокуса - сразу же переименовываем элемент (доску)
     const blurHandler = (): void => {
-        executeRename();
+        rename();
     }
 
     // Перехватываем нажатие Enter и сразу же переименовываем доску
     const keyDownHandler = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-        if (e.code === 'Enter') {
-            executeRename();
+        if (e.code === 'Enter' || e.code === 'NumpadEnter') {
+            rename();
         }
     }
 

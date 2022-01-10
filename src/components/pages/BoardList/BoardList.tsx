@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {getBoards, getLoggedUser, useTypedSelector} from '../../../store/selectors';
 import {useDispatch} from 'react-redux';
-import {patchBoard, removeBoard} from '../../../store/board/actions';
+import {removeBoard} from '../../../store/board/actions';
 import BoardCreateForm from '../../forms/BoardCreateForm/BoardCreateForm';
 import {Board} from '../../../store/board/types';
 import BoardItem from '../../BoardItem/BoardItem';
@@ -23,10 +23,6 @@ const BoardList: React.FC = () => {
 
     const removeBoardHandler = (board: Board): void => {
         dispatch(removeBoard(board));
-    }
-
-    const renameBoardHandler = (board: Board): void => {
-        dispatch(patchBoard(board));
     }
 
     return (
@@ -58,7 +54,6 @@ const BoardList: React.FC = () => {
                                 key={board.id}
                                 board={board}
                                 remove={removeBoardHandler}
-                                rename={renameBoardHandler}
                             />)
                         }
                         {hasCreateForm ?

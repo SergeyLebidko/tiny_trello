@@ -7,11 +7,10 @@ import './BoardItem.scss';
 
 interface IBoardItem {
     board: Board,
-    remove: (board: Board) => void,
-    rename: (board: Board) => void,
+    remove: (board: Board) => void
 }
 
-const BoardItem: FC<IBoardItem> = ({board, remove, rename}) => {
+const BoardItem: FC<IBoardItem> = ({board, remove}) => {
     const [hasEditForm, setHasEditForm] = useState<boolean>(false);
     const openEditForm = (): void => setHasEditForm(true);
     const closeEditForm = (): void => setHasEditForm(false);
@@ -27,7 +26,7 @@ const BoardItem: FC<IBoardItem> = ({board, remove, rename}) => {
     return (
         <li className='boardItem'>
             {hasEditForm
-                ? <BoardItemEditForm board={board} rename={rename} closeHandler={closeEditForm}/>
+                ? <BoardItemEditForm board={board} closeHandler={closeEditForm}/>
                 : <p className='boardItem__name' onClick={openEditForm}>{board.title}</p>
             }
             <button className='boardItem__btn_remove' onClick={onclickHandler}>
