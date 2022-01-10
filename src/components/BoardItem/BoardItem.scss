@@ -48,12 +48,6 @@
     border-radius: 5px 5px 0 0;
     cursor: pointer;
 
-    &:hover {
-      .boardItem__btn_edit {
-        opacity: 1;
-      }
-    }
-
     &:focus {
       background: $blue-light;
     }
