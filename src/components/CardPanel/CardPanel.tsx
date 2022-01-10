@@ -11,21 +11,23 @@ import {useImage} from '../../utils/hooks';
 import {getNextOrder, isCard, isTask} from '../../utils/common';
 import './CardPanel.scss';
 import ObjectEditTitleForm from "../forms/ObjectEditTitleForm/ObjectEditTitleForm";
+import {clearDNDObject} from "../../store/dnd/actions";
 
 type CardPaneProps = {
     card: Card,
     removeCardHandler: (card: Card) => void,
-    dragStart: (e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) => void,
+    dragStart: (e: React.DragEvent<HTMLLIElement | HTMLDivElement>, card: Card, task?: Task) => void,
 }
 
 const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart}) => {
     const dispatch = useDispatch();
     const tasks = useTypedSelector(getTasks);
-    const {dndTask,dndCard} = useTypedSelector(getDndObjects)
+    const {dndTask, dndCard} = useTypedSelector(getDndObjects)
 
     const {icons} = useImage();
     const parentElem = useRef<HTMLDivElement>(null);
 
+    // нужны для правильной обработки useEffect
     const [newTask, setNewTask] = useState<Task | null>(null);
 
     const [hasEditTitle, setHasEditTitle] = useState<boolean>(false);
@@ -40,21 +42,21 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart}
     const openCreateFrom = (): void => setHasCreateForm(true);
     const closeCreateForm = (): void => setHasCreateForm(false);
 
-    function dragOverHandler(e: React.DragEvent<HTMLLIElement>) {
+    function taskDragOverHandler(e: React.DragEvent<HTMLLIElement>) {
         e.preventDefault();
         // Обязательно предотвращаем всплытие
         e.stopPropagation()
     }
 
-    function dragLeaveHandler(e: React.DragEvent<HTMLLIElement>) {
-        e.currentTarget.className = "taskPanel"
+    function taskDragLeaveHandler(e: React.DragEvent<HTMLLIElement>) {
+        //e.currentTarget.className = "taskPanel"
     }
 
-    function dragEndHandler(e: React.DragEvent<HTMLLIElement>) {
-        e.currentTarget.className = "taskPanel"
+    function taskDragEndHandler(e: React.DragEvent<HTMLLIElement>) {
+        //e.currentTarget.className = "taskPanel"
     }
 
-    function dragEnterHandler(e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
+    function taskDragEnterHandler(e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
         // Обязательно предотвращаем всплытие
         e.stopPropagation()
         // Добавление эффектов при наведении на задачу
@@ -77,12 +79,19 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart}
         setNewTask(task)
     }
 
-    function dropHandler(e: React.DragEvent<HTMLLIElement>) {
+    function taskDropHandler(e: React.DragEvent<HTMLLIElement>) {
         e.preventDefault();
-        e.currentTarget.className = "taskPanel"
+        // Чистим обязательно объект после отпускания мыши!
+        dispatch(clearDNDObject())
     }
 
-    const cardTaskEnterHandler = (e: React.DragEvent<HTMLDivElement>, card: Card): void => {
+    // const cardDragStartHandler = (e: React.DragEvent<HTMLDivElement>, card: Card): void => {
+    //     dispatch(clearDNDObject())
+    //     dispatch(setDNDCard(card))
+    //     console.log(1)
+    // }
+
+    const cardDragEnterHandler = (e: React.DragEvent<HTMLDivElement>, card: Card): void => {
         e.preventDefault();
         e.currentTarget.className = "cardPanel"
         if (!isTask(dndTask) || !isCard(dndCard)) return;
@@ -94,24 +103,20 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart}
         }));
     }
 
-    function cardTaskOverHandler(e: React.DragEvent<HTMLDivElement>) {
+    function cardDragOverHandler(e: React.DragEvent<HTMLDivElement>) {
         e.preventDefault();
-        // Добавление эффектов при наведении на список
-        if (e.currentTarget.className === "cardPanel") {
-            e.currentTarget.className = "cardPanel shadow"
-        }
     }
 
-    function cardTaskLeaveHandler(e: React.DragEvent<HTMLDivElement>) {
-        e.currentTarget.className = "cardPanel"
+    function cardDragLeaveHandler(e: React.DragEvent<HTMLDivElement>) {
+        //e.currentTarget.className = "cardPanel"
     }
 
-    function cardTaskEndHandler(e: React.DragEvent<HTMLDivElement>) {
-        e.currentTarget.className = "cardPanel"
+    function cardDragEndHandler(e: React.DragEvent<HTMLDivElement>) {
+        //e.currentTarget.className = "cardPanel"
     }
 
     function cardDropHandler(e: React.DragEvent<HTMLDivElement>) {
-        e.currentTarget.className = "cardPanel"
+        //e.currentTarget.className = "cardPanel"
     }
 
     // Очередь обновляется при каждой новой замененной таске
@@ -139,11 +144,13 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart}
         <div
             className="cardPanel"
             ref={parentElem}
-            onDragEnter={(e: React.DragEvent<HTMLDivElement>) => cardTaskEnterHandler(e, card)}
-            onDragOver={(e: React.DragEvent<HTMLDivElement>) => cardTaskOverHandler(e)}
-            onDragLeave={(e: React.DragEvent<HTMLDivElement>) => cardTaskLeaveHandler(e)}
-            onDragEnd={(e: React.DragEvent<HTMLDivElement>) => cardTaskEndHandler(e)}
+            onDragStart={(e: React.DragEvent<HTMLLIElement | HTMLDivElement>) => dragStart(e, card)}
+            onDragEnter={(e: React.DragEvent<HTMLDivElement>) => cardDragEnterHandler(e, card)}
+            onDragOver={(e: React.DragEvent<HTMLDivElement>) => cardDragOverHandler(e)}
+            onDragLeave={(e: React.DragEvent<HTMLDivElement>) => cardDragLeaveHandler(e)}
+            onDragEnd={(e: React.DragEvent<HTMLDivElement>) => cardDragEndHandler(e)}
             onDrop={(e: React.DragEvent<HTMLDivElement>) => cardDropHandler(e)}
+            draggable={true}
         >
             {hasEditTitle
                 ? <ObjectEditTitleForm object={card} closeHandler={closeEditTitleForm}/>
@@ -176,13 +183,13 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart}
                             key={task.id}
                             task={task}
                             card={card}
-                            // Обработчики таски
-                            dragOver={(e: React.DragEvent<HTMLLIElement>) => dragOverHandler(e)}
-                            dragLeave={(e: React.DragEvent<HTMLLIElement>) => dragLeaveHandler(e)}
-                            dragEnd={(e: React.DragEvent<HTMLLIElement>) => dragEndHandler(e)}
+                            // Обработчики задачи
+                            dragOver={(e: React.DragEvent<HTMLLIElement>) => taskDragOverHandler(e)}
+                            dragLeave={(e: React.DragEvent<HTMLLIElement>) => taskDragLeaveHandler(e)}
+                            dragEnd={(e: React.DragEvent<HTMLLIElement>) => taskDragEndHandler(e)}
                             dragStart={dragStart}
-                            drop={(e: React.DragEvent<HTMLLIElement>) => dropHandler(e)}
-                            dragEnter={(e: React.DragEvent<HTMLLIElement>) => dragEnterHandler(e, card, task)}
+                            drop={(e: React.DragEvent<HTMLLIElement>) => taskDropHandler(e)}
+                            dragEnter={(e: React.DragEvent<HTMLLIElement>) => taskDragEnterHandler(e, card, task)}
                         />
                     )
                 }

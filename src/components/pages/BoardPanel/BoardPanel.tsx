@@ -11,7 +11,7 @@ import {removeCard} from '../../../store/card/actions';
 import {Task} from '../../../store/task/types';
 import {useImage} from '../../../utils/hooks';
 import './BoardPanel.scss';
-import {setDNDCard,setDNDTask} from "../../../store/dnd/actions";
+import {clearDNDObject, setDNDCard, setDNDTask} from "../../../store/dnd/actions";
 
 const BoardPanel: React.FC = () => {
     const dispatch = useDispatch();
@@ -29,9 +29,13 @@ const BoardPanel: React.FC = () => {
         dispatch(removeCard(card));
     }
 
-    function dragStartHandler(e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
-        dispatch(setDNDTask(task))
-        dispatch(setDNDCard(card))
+    function dragStartHandler(e: React.DragEvent<HTMLLIElement | HTMLDivElement>, card: Card, task?: Task) {
+        if (!task) {
+            dispatch(setDNDCard(card))
+        } else {
+            dispatch(setDNDTask(task))
+            dispatch(setDNDCard(card))
+        }
     }
 
     // Ищем доску, по id из url. Если доски с таким id не нашлось - будет выведена страница NoMatch
@@ -81,6 +85,8 @@ const BoardPanel: React.FC = () => {
                             key={card.id}
                             card={card}
                             removeCardHandler={removeCardHandler}
+                            //Обработчики перетаскивания карты
+
                         />)
                 }
                 {hasCreateForm ?
