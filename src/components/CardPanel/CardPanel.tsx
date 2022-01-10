@@ -170,7 +170,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, board, removeCardHandler, dra
             {hasEditTitle
                 ? <ObjectEditTitleForm object={card} closeHandler={closeEditTitleForm}/>
                 : <>
-                    <p className="cardPanel__name" onClick={openEditTitleForm}>{title} {card.order}</p>
+                    <p className="cardPanel__name" onClick={openEditTitleForm}>{title}</p>
                     <button className="cardPanel__delete" onClick={openConfirmModal}>
                         <img
                             className="cardPanel__icon_delete"
