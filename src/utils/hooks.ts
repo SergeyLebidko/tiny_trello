@@ -42,7 +42,6 @@ import iconAddCard from '../content/icons/btn-add-card.png';
 import iconRemove from '../content/icons/btn-remove.svg';
 import iconRemoveTask from '../content/icons/btn-remove-task.svg';
 import iconUp from '../content/icons/btn-up.svg';
-import iconEdit from '../content/icons/btn-edit.svg';
 import iconConfirm from '../content/icons/btn-confirm.svg';
 import iconBack from '../content/icons/btn-back.png';
 import iconCancel from '../content/icons/btn-cancel.svg';
@@ -80,7 +79,6 @@ export function useImage(): useImage {
         iconAdd,
         iconRemove,
         iconUp,
-        iconEdit,
         iconConfirm,
         iconAddTask,
         iconBack,
