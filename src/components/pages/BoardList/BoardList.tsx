@@ -1,16 +1,12 @@
 import React, {useState} from 'react';
 import {getBoards, getLoggedUser, useTypedSelector} from '../../../store/selectors';
-import {useDispatch} from 'react-redux';
-import {removeBoard} from '../../../store/board/actions';
 import BoardCreateForm from '../../forms/BoardCreateForm/BoardCreateForm';
-import {Board} from '../../../store/board/types';
 import BoardItem from '../../BoardItem/BoardItem';
 import {useImage} from '../../../utils/hooks';
 import {Link} from 'react-router-dom';
 import './BoardList.scss';
 
 const BoardList: React.FC = () => {
-    const dispatch = useDispatch();
     const loggedUser = useTypedSelector(getLoggedUser);
     const boards = useTypedSelector(getBoards);
 
@@ -20,10 +16,6 @@ const BoardList: React.FC = () => {
 
     const openCreateForm = (): void => setHasCreateForm(true);
     const closeCreateForm = (): void => setHasCreateForm(false);
-
-    const removeBoardHandler = (board: Board): void => {
-        dispatch(removeBoard(board));
-    }
 
     return (
         loggedUser ? (
@@ -49,13 +41,7 @@ const BoardList: React.FC = () => {
                     </div>
 
                     <ul className="boardList__content" style={{display: 'inline-flex'}}>
-                        {boards.map((board) =>
-                            <BoardItem
-                                key={board.id}
-                                board={board}
-                                remove={removeBoardHandler}
-                            />)
-                        }
+                        {boards.map((board) => <BoardItem key={board.id} board={board}/>)}
                         {hasCreateForm ?
                             <BoardCreateForm closeHandler={closeCreateForm}/>
                             :

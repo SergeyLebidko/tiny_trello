@@ -3,14 +3,16 @@ import {Link} from 'react-router-dom';
 import {Board} from '../../store/board/types';
 import {useImage} from '../../utils/hooks';
 import BoardItemEditForm from '../forms/BoardItemEditForm/BoardItemEditForm';
+import {useDispatch} from 'react-redux';
+import {removeBoard} from '../../store/board/actions';
 import './BoardItem.scss';
 
 interface IBoardItem {
-    board: Board,
-    remove: (board: Board) => void
+    board: Board
 }
 
-const BoardItem: FC<IBoardItem> = ({board, remove}) => {
+const BoardItem: FC<IBoardItem> = ({board}) => {
+    const dispatch = useDispatch();
     const [hasEditForm, setHasEditForm] = useState<boolean>(false);
     const openEditForm = (): void => setHasEditForm(true);
     const closeEditForm = (): void => setHasEditForm(false);
@@ -20,7 +22,7 @@ const BoardItem: FC<IBoardItem> = ({board, remove}) => {
     // Анимация при удаление Board
     const onclickHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.currentTarget.parentElement?.classList.add('animation_delete')
-        setTimeout(() => remove(board), 300);
+        setTimeout(() => dispatch(removeBoard(board)), 300);
     }
 
     return (
