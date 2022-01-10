@@ -8,6 +8,7 @@ import Confirm from '../modals/Confirm/Confirm';
 import {useImage} from '../../utils/hooks';
 import {getDateParts} from '../../utils/common';
 import './TaskPanel.scss';
+import TaskEditDateForm from "../forms/TaskEditDateForm/TaskEditDateForm";
 
 type TaskPanelProps = {
     task: Task,
@@ -41,6 +42,10 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
     const [hasTitleEdit, setHasTitleEdit] = useState<boolean>(false);
     const openEditTitleForm = (): void => setHasTitleEdit(true);
     const closeEditTitleForm = (): void => setHasTitleEdit(false);
+
+    const [hasDateEdit, setHasDateEdit] = useState<boolean>(false);
+    const openEditDateForm = (): void => setHasDateEdit(true);
+    const closeEditDateForm = (): void => setHasDateEdit(false);
 
     const [hasShowConfirmModal, setHasShowConfirmModal] = useState<boolean>(false);
     const openConfirmModal = (): void => setHasShowConfirmModal(true);
@@ -94,8 +99,8 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
                 acceptHandler={() => removeTaskHandler(task)}
             />}
 
-            {/* При редактировании элемента - убираем кнопку удаления таски */}
-            {!hasTitleEdit &&
+            {/* При редактировании люого элемента - убираем кнопку удаления таски */}
+            {(!hasTitleEdit && !hasDateEdit) &&
             <button className="taskPanel__btn_delete" onClick={openConfirmModal}>
                 <img
                     className="taskPanel__icon_delete"
@@ -119,9 +124,12 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
                     {IMPORTANCE_TEXT_SELECTOR[importance]}
                 </div>
             </p>
-            <p className="taskPanel__text_block">
+            <p className="taskPanel__text_block" onClick={openEditDateForm}>
                 <div>Срок</div>
-                <div>{getFormattedDate(deadline)}</div>
+                {hasDateEdit
+                    ? <TaskEditDateForm task={task} closeHandler={closeEditDateForm}/>
+                    : <div>{getFormattedDate(deadline)}</div>
+                }
             </p>
         </li>
     );

@@ -1,7 +1,7 @@
 @import '../../sass/import';
 
 .taskPanel {
-  @include block-format(relative, 200px, _, 10px auto 20px, 5px, $green-low-light);
+  @include block-format(relative, 270px, _, 10px auto 20px, 5px, $green-low-light);
   border-radius: 4px;
   box-shadow: 2px 2px 3px 3px $gray;
   transition-duration: 0.5s;

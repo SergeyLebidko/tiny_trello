@@ -2,7 +2,7 @@
 
 .cardPanel {
     @include flex(_, _, column);
-    @include block-format(relative, 222px, 222px, 10px 15px, 10px 5px 5px, $gray-light);    
+    @include block-format(relative, 290px, 222px, 10px 15px, 10px 5px 5px, $gray-light);
     height: fit-content;
     box-shadow: 3px 3px 6px 2px $gray;
     border-radius: 5px;
