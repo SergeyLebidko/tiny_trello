@@ -118,19 +118,19 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
             <p className={done ? "taskPanel__done" : "taskPanel__notDone"} onClick={changeDoneHandler}>
                 {done ? "Выполнено" : "Не выполнено"}
             </p>
-            <p className="taskPanel__text_block" onClick={changeImportanceHandler}>
+            <div className="taskPanel__text_block" onClick={changeImportanceHandler}>
                 <div>Важность</div>
                 <div>
                     {IMPORTANCE_TEXT_SELECTOR[importance]}
                 </div>
-            </p>
-            <p className="taskPanel__text_block" onClick={openEditDateForm}>
+            </div>
+            <div className="taskPanel__text_block" onClick={openEditDateForm}>
                 <div>Срок</div>
                 {hasDateEdit
                     ? <TaskEditDateForm task={task} closeHandler={closeEditDateForm}/>
                     : <div>{getFormattedDate(deadline)}</div>
                 }
-            </p>
+            </div>
         </li>
     );
 };
