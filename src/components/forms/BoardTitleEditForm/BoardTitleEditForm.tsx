@@ -2,14 +2,14 @@ import React, {useRef} from 'react';
 import {Board} from '../../../store/board/types';
 import {useDispatch} from 'react-redux';
 import {patchBoard} from '../../../store/board/actions';
-import './BoardItemEditForm.scss';
+import './BoardTitleEditForm.scss';
 
-type BoardItemEditFormProps = {
+type BoardTitleEditFormProps = {
     board: Board
     closeHandler: () => void
 }
 
-const BoardItemEditForm: React.FC<BoardItemEditFormProps> = ({board, closeHandler}) => {
+const BoardTitleEditForm: React.FC<BoardTitleEditFormProps> = ({board, closeHandler}) => {
     const dispatch = useDispatch();
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -54,4 +54,4 @@ const BoardItemEditForm: React.FC<BoardItemEditFormProps> = ({board, closeHandle
     );
 }
 
-export default BoardItemEditForm;
+export default BoardTitleEditForm;

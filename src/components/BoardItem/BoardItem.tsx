@@ -2,7 +2,7 @@ import React, {FC, useState} from 'react';
 import {Link} from 'react-router-dom';
 import {Board} from '../../store/board/types';
 import {useImage} from '../../utils/hooks';
-import BoardItemEditForm from '../forms/BoardItemEditForm/BoardItemEditForm';
+import BoardTitleEditForm from '../forms/BoardTitleEditForm/BoardTitleEditForm';
 import {useDispatch} from 'react-redux';
 import {removeBoard} from '../../store/board/actions';
 import './BoardItem.scss';
@@ -28,7 +28,7 @@ const BoardItem: FC<IBoardItem> = ({board}) => {
     return (
         <li className='boardItem'>
             {hasEditForm
-                ? <BoardItemEditForm board={board} closeHandler={closeEditForm}/>
+                ? <BoardTitleEditForm board={board} closeHandler={closeEditForm}/>
                 : <p className='boardItem__name' onClick={openEditForm}>{board.title}</p>
             }
             <button className='boardItem__btn_remove' onClick={onclickHandler}>
