@@ -28,15 +28,7 @@ const BoardItem: FC<IBoardItem> = ({board, remove, rename}) => {
         <li className='boardItem'>
             {hasEditForm
                 ? <BoardItemEditForm board={board} rename={rename} closeHandler={closeEditForm}/>
-                : <p className='boardItem__name'>
-                    {board.title}
-                    <img
-                        className='boardItem__btn_edit'
-                        onClick={openEditForm}
-                        src={icons.iconEdit}
-                        alt='edit'
-                    />
-                </p>
+                : <p className='boardItem__name' onClick={openEditForm}>{board.title}</p>
             }
             <button className='boardItem__btn_remove' onClick={onclickHandler}>
                 <img
