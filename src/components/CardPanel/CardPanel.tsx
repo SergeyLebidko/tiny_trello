@@ -147,16 +147,18 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
             onDrop={(e: React.DragEvent<HTMLDivElement>) => cardDropHandler(e)}
         >
             {hasEditTitle
-                ? <CardTitleEditForm card={card}/>
-                : <p className="cardPanel__name" onClick={openEditTitleForm}>{title}</p>
+                ? <CardTitleEditForm card={card} closeHandler={closeEditTitleForm}/>
+                : <>
+                    <button className="cardPanel__delete" onClick={openConfirmModal}>
+                        <img
+                            className="cardPanel__icon_delete"
+                            src={icons.iconRemove}
+                            alt="delete"
+                        />
+                    </button>
+                    <p className="cardPanel__name" onClick={openEditTitleForm}>{title}</p>
+                </>
             }
-            <button className="cardPanel__delete" onClick={openConfirmModal}>
-                <img
-                    className="cardPanel__icon_delete"
-                    src={icons.iconRemove}
-                    alt="delete"
-                />
-            </button>
 
             {hasConfirmModal &&
             <Confirm
