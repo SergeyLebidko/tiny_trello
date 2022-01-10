@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/tiny_trello/static/css/main.d94d174d.css",
-    "main.js": "/tiny_trello/static/js/main.4e68db02.js",
+    "main.css": "/tiny_trello/static/css/main.9e4ce1f9.css",
+    "main.js": "/tiny_trello/static/js/main.ada9b51d.js",
     "static/media/main-product-logo.png": "/tiny_trello/static/media/main-product-logo.c139c9af0290c96a9f24.png",
     "static/media/main-hero-logo.png": "/tiny_trello/static/media/main-hero-logo.3ccc35408e417ea9e949.png",
     "static/media/KaushanScript-Regular.ttf": "/tiny_trello/static/media/KaushanScript-Regular.b721b739d0ff7289db4f.ttf",
@@ -14,7 +14,6 @@
     "static/media/charlie-personal-use.ttf": "/tiny_trello/static/media/charlie-personal-use.196fd6c1204834cda1aa.ttf",
     "static/media/btn-remove-task.svg": "/tiny_trello/static/media/btn-remove-task.43abd16f54731d4913dce221c9e37631.svg",
     "static/media/btn-up.svg": "/tiny_trello/static/media/btn-up.603e441b5e2061f632d5aa56ca1b7188.svg",
-    "static/media/btn-edit.svg": "/tiny_trello/static/media/btn-edit.372bf1c0dffabd88fa68e0c399f2ed7c.svg",
     "index.html": "/tiny_trello/index.html",
     "static/media/btn-cancel.svg": "/tiny_trello/static/media/btn-cancel.bd4906d4f5c28e4d73214d1258d63a2e.svg",
     "static/media/btn-confirm.svg": "/tiny_trello/static/media/btn-confirm.6294639ee94bec2d5ce0d30f38cbe8fa.svg",
@@ -22,11 +21,11 @@
     "static/media/btn-back.svg": "/tiny_trello/static/media/btn-back.83aa775a65892efff8dd306eccced5ba.svg",
     "static/media/btn-add-task.svg": "/tiny_trello/static/media/btn-add-task.84478f1596d8d93aef242201a227b42b.svg",
     "static/media/btn-select.svg": "/tiny_trello/static/media/btn-select.27c49128156891d28b6305f401c30063.svg",
-    "main.d94d174d.css.map": "/tiny_trello/static/css/main.d94d174d.css.map",
-    "main.4e68db02.js.map": "/tiny_trello/static/js/main.4e68db02.js.map"
+    "main.9e4ce1f9.css.map": "/tiny_trello/static/css/main.9e4ce1f9.css.map",
+    "main.ada9b51d.js.map": "/tiny_trello/static/js/main.ada9b51d.js.map"
   },
   "entrypoints": [
-    "static/css/main.d94d174d.css",
-    "static/js/main.4e68db02.js"
+    "static/css/main.9e4ce1f9.css",
+    "static/js/main.ada9b51d.js"
   ]
 }
