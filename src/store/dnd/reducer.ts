@@ -1,14 +1,16 @@
-import {Card} from '../card/types';
-import {Task} from '../task/types';
-import {DNDAction, DNDActionTypes} from './types';
+import {DNDAction, DNDActionTypes, DndObjects} from './types';
 
-export function dndReducer(state: Card | Task | null = null, action: DNDAction): Card | Task | null {
+
+export function dndReducer(state: DndObjects = {dndTask: null, dndCard: null}, action: DNDAction): DndObjects {
     switch (action.type) {
-        case DNDActionTypes.SetDNDObject: {
-            return action.payload;
+        case DNDActionTypes.SetDNDTask: {
+            return {...state, dndTask: action.payload } ;
+        }
+        case DNDActionTypes.SetDNDCard: {
+            return {...state, dndCard: action.payload };
         }
         case DNDActionTypes.ClearDNDObject: {
-            return null;
+            return {dndTask: null, dndCard: null};
         }
         default: {
             return state

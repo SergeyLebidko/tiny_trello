@@ -15,7 +15,7 @@ const combinedReducer = combineReducers({
     boards: boardsReducer,
     cards: cardsReducer,
     tasks: tasksReducer,
-    dndObject: dndReducer
+    dndObjects: dndReducer
 });
 
 const store = createStore(combinedReducer, {}, composeWithDevTools(applyMiddleware(thunk)));
