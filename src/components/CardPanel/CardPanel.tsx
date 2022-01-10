@@ -10,6 +10,7 @@ import {patchTask} from '../../store/task/actions';
 import {useImage} from '../../utils/hooks';
 import {getNextOrder} from '../../utils/common';
 import './CardPanel.scss';
+import ObjectEditTitleForm from "../forms/ObjectEditTitleForm/ObjectEditTitleForm";
 
 type CardPaneProps = {
     card: Card,
@@ -22,11 +23,15 @@ type CardPaneProps = {
 const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart, currentCard, currentTask}) => {
     const dispatch = useDispatch();
     const tasks = useTypedSelector(getTasks);
-    
+
     const {icons} = useImage();
     const parentElem = useRef<HTMLDivElement>(null);
 
     const [newTask, setNewTask] = useState<Task | null>(null);
+
+    const [hasEditTitle, setHasEditTitle] = useState<boolean>(false);
+    const openEditTitleForm = (): void => setHasEditTitle(true);
+    const closeEditTitleForm = (): void => setHasEditTitle(false);
 
     const [hasConfirmModal, setHasConfirmModal] = useState<boolean>(false);
     const openConfirmModal = (): void => setHasConfirmModal(true);
@@ -141,14 +146,19 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
             onDragEnd={(e: React.DragEvent<HTMLDivElement>) => cardTaskEndHandler(e)}
             onDrop={(e: React.DragEvent<HTMLDivElement>) => cardDropHandler(e)}
         >
-            <p className="cardPanel__name">{title}</p>
-            <button className="cardPanel__delete" onClick={openConfirmModal}>
-                <img
-                    className="cardPanel__icon_delete"
-                    src={icons.iconRemove}
-                    alt="delete"
-                />
-            </button>
+            {hasEditTitle
+                ? <ObjectEditTitleForm object={card} closeHandler={closeEditTitleForm}/>
+                : <>
+                    <p className="cardPanel__name" onClick={openEditTitleForm}>{title}</p>
+                    <button className="cardPanel__delete" onClick={openConfirmModal}>
+                        <img
+                            className="cardPanel__icon_delete"
+                            src={icons.iconRemove}
+                            alt="delete"
+                        />
+                    </button>
+                </>
+            }
 
             {hasConfirmModal &&
             <Confirm

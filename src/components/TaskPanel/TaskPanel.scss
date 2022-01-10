@@ -1,7 +1,7 @@
 @import '../../sass/import';
 
 .taskPanel {
-  @include block-format(relative, 200px, _, 10px auto 20px, 5px, $green-low-light);
+  @include block-format(relative, 270px, _, 10px auto 20px, 5px, $green-low-light);
   border-radius: 4px;
   box-shadow: 2px 2px 3px 3px $gray;
   transition-duration: 0.5s;
@@ -32,6 +32,7 @@
   &__name {
     @include block-format(_, 80%, _, 6px auto);
     @include text-format(20px, 600, $satisfy-cursive);
+    cursor: pointer;
   } 
   
   &__area {
@@ -85,14 +86,14 @@
   &__done {
     width: 100%;
     @include text-format(35px/1.5, 600, $roboto, $blue-dark);
-    text-shadow: 0px 0px 3px $white;
+    text-shadow: 0 0 3px $white;
     cursor: pointer;
   }
 
   &__notDone {
     width: 100%;
     @include text-format(35px/1.5, 600, $roboto, $red-dark);
-    text-shadow: 0px 0px 2px $white;
+    text-shadow: 0 0 2px $white;
     cursor: pointer;
   }
 
@@ -102,6 +103,7 @@
     & > * {
       width: 50%;
       margin-top: 5px;
+      cursor: pointer;
       @include text-format(24px/1.5, 600, $satisfy-cursive, _, center, 0);
     }
   }

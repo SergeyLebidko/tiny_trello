@@ -12,12 +12,16 @@
     left: 10%;
     font: 30px/1.2 $satisfy-serif;
 
+    display: flex;
+    flex-direction: column;
+
     :nth-child(1) {
       font: bold 40px/1.2 $satisfy-serif;
     }
 
-    :nth-child(3) {
+    :nth-child(2) {
       font: italic 600 30px/2 $satisfy-serif;
+      border-bottom: 1px solid $black;
     }
   }
 }
