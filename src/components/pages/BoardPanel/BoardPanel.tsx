@@ -11,7 +11,7 @@ import {removeCard} from '../../../store/card/actions';
 import {Task} from '../../../store/task/types';
 import {useImage} from '../../../utils/hooks';
 import './BoardPanel.scss';
-import {clearDNDObject, setDNDCard, setDNDTask} from "../../../store/dnd/actions";
+import {setDNDCard, setDNDTask} from "../../../store/dnd/actions";
 
 const BoardPanel: React.FC = () => {
     const dispatch = useDispatch();
@@ -30,11 +30,9 @@ const BoardPanel: React.FC = () => {
     }
 
     function dragStartHandler(e: React.DragEvent<HTMLLIElement | HTMLDivElement>, card: Card, task?: Task) {
-        if (!task) {
-            dispatch(setDNDCard(card))
-        } else {
+        dispatch(setDNDCard(card))
+        if (task) {
             dispatch(setDNDTask(task))
-            dispatch(setDNDCard(card))
         }
     }
 
@@ -84,6 +82,7 @@ const BoardPanel: React.FC = () => {
                             dragStart={dragStartHandler}
                             key={card.id}
                             card={card}
+                            board={board}
                             removeCardHandler={removeCardHandler}
                             //Обработчики перетаскивания карты
 

@@ -14,15 +14,13 @@ type TaskPanelProps = {
     task: Task,
     card: Card,
     dragOver: (e: React.DragEvent<HTMLLIElement>) => void,
-    dragLeave: (e: React.DragEvent<HTMLLIElement>) => void,
-    dragEnd: (e: React.DragEvent<HTMLLIElement>) => void,
     dragStart: (e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) => void,
     drop: (e: React.DragEvent<HTMLLIElement>) => void,
     dragEnter: (e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) => void,
 }
 
 const TaskPanel: React.FC<TaskPanelProps> = (props) => {
-    const {task, card, dragOver, dragLeave, dragEnd, dragStart, drop, dragEnter} = props;
+    const {task, card, dragOver, dragStart, drop, dragEnter} = props;
     const dispatch = useDispatch();
     const {icons} = useImage();
     const parentElem = useRef<HTMLLIElement>(null);
@@ -85,8 +83,6 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
             ref={parentElem}
             draggable={true}
             onDragOver={dragOver}
-            onDragLeave={dragLeave}
-            onDragEnd={dragEnd}
             onDragStart={(e: React.DragEvent<HTMLLIElement>) => dragStart(e, card, task)}
             onDrop={drop}
             onDragEnter={(e: React.DragEvent<HTMLLIElement>) => dragEnter(e, card, task)}
