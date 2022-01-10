@@ -1,6 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {Importance, Task} from '../../store/task/types';
 import {Card} from '../../store/card/types';
+import ObjectEditTitleForm from '../forms/ObjectEditTitleForm/ObjectEditTitleForm';
 import {patchTask, removeTask} from '../../store/task/actions';
 import {useDispatch} from 'react-redux';
 import Confirm from '../modals/Confirm/Confirm';
@@ -36,6 +37,10 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
         [Importance.Medium]: Importance.High,
         [Importance.High]: Importance.Low
     }
+
+    const [hasTitleEdit, setHasTitleEdit] = useState<boolean>(false);
+    const openEditTitleForm = (): void => setHasTitleEdit(true);
+    const closeEditTitleForm = (): void => setHasTitleEdit(false);
 
     const [hasShowConfirmModal, setHasShowConfirmModal] = useState<boolean>(false);
     const openConfirmModal = (): void => setHasShowConfirmModal(true);
@@ -88,6 +93,9 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
                 cancelHandler={closeConfirmModal}
                 acceptHandler={() => removeTaskHandler(task)}
             />}
+
+            {/* При редактировании элемента - убираем кнопку удаления таски */}
+            {!hasTitleEdit &&
             <button className="taskPanel__btn_delete" onClick={openConfirmModal}>
                 <img
                     className="taskPanel__icon_delete"
@@ -95,7 +103,13 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
                     alt="delete"
                 />
             </button>
-            <p className="taskPanel__name">{title}</p>
+            }
+
+            {hasTitleEdit
+                ? <ObjectEditTitleForm object={task} closeHandler={closeEditTitleForm}/>
+                : <p className="taskPanel__name" onClick={openEditTitleForm}>{title}</p>
+            }
+
             <p className={done ? "taskPanel__done" : "taskPanel__notDone"} onClick={changeDoneHandler}>
                 {done ? "Выполнено" : "Не выполнено"}
             </p>

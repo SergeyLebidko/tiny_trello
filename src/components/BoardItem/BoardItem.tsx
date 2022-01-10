@@ -4,7 +4,7 @@ import {Board} from '../../store/board/types';
 import {useImage} from '../../utils/hooks';
 import {useDispatch} from 'react-redux';
 import {removeBoard} from '../../store/board/actions';
-import ObjectEditTitleForm from '../forms/ObjectTitleEditForm/ObjectEditTitleForm';
+import ObjectEditTitleForm from '../forms/ObjectEditTitleForm/ObjectEditTitleForm';
 import './BoardItem.scss';
 
 interface IBoardItem {

@@ -9,12 +9,12 @@ import {patchBoard} from '../../../store/board/actions';
 import {isBoard, isCard, isTask} from '../../../utils/common';
 import './ObjectEditTitleForm.scss';
 
-type BoardTitleEditFormProps = {
+type ObjectEditTitleFormProps = {
     object: Board | Card | Task
     closeHandler: () => void
 }
 
-const ObjectTitleForm: React.FC<BoardTitleEditFormProps> = ({object, closeHandler}) => {
+const ObjectEditTitleForm: React.FC<ObjectEditTitleFormProps> = ({object, closeHandler}) => {
     const dispatch = useDispatch();
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -65,4 +65,4 @@ const ObjectTitleForm: React.FC<BoardTitleEditFormProps> = ({object, closeHandle
     );
 }
 
-export default ObjectTitleForm;
+export default ObjectEditTitleForm;
