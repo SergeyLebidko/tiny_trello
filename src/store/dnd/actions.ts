@@ -1,11 +1,20 @@
-import {ClearDNDObjectAction, DNDActionTypes, SetDNDObjectAction} from './types';
+import {ClearDNDObjectAction, DNDActionTypes, SetDNDCardAction, SetDNDTaskAction,} from './types';
 import {Task} from '../task/types';
 import {Card} from '../card/types';
 import {Dispatch} from 'redux';
 
-export const setDNDObject = (object: Card | Task) => (dispatch: Dispatch<SetDNDObjectAction>) => {
+export const setDNDTask = (object: Task) => {
+    return (dispatch: Dispatch<SetDNDTaskAction>) => {
+        dispatch({
+            type: DNDActionTypes.SetDNDTask,
+            payload: object
+        });
+    };
+}
+
+export const setDNDCard = (object: Card) => (dispatch: Dispatch<SetDNDCardAction>) => {
     dispatch({
-        type: DNDActionTypes.SetDNDObject,
+        type: DNDActionTypes.SetDNDCard,
         payload: object
     });
 }

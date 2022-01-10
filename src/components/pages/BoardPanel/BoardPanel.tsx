@@ -11,14 +11,12 @@ import {removeCard} from '../../../store/card/actions';
 import {Task} from '../../../store/task/types';
 import {useImage} from '../../../utils/hooks';
 import './BoardPanel.scss';
+import {setDNDCard,setDNDTask} from "../../../store/dnd/actions";
 
 const BoardPanel: React.FC = () => {
     const dispatch = useDispatch();
     const boards: Array<Board> = useTypedSelector(getBoards);
     const cards: Array<Card> = useTypedSelector(getCards);
-
-    const [currentCard, setCurrentCard] = useState<Card | null>(null);
-    const [currentTask, setCurrentTask] = useState<Task | null>(null);
 
     const [hasCreateForm, setHasCreateForm] = useState<boolean>(false);
 
@@ -32,8 +30,8 @@ const BoardPanel: React.FC = () => {
     }
 
     function dragStartHandler(e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) {
-        setCurrentCard(card)
-        setCurrentTask(task)
+        dispatch(setDNDTask(task))
+        dispatch(setDNDCard(card))
     }
 
     // Ищем доску, по id из url. Если доски с таким id не нашлось - будет выведена страница NoMatch
@@ -79,8 +77,6 @@ const BoardPanel: React.FC = () => {
                     .sort((a, b) => a.order - b.order)
                     .map(card =>
                         <CardPanel
-                            currentCard={currentCard}
-                            currentTask={currentTask}
                             dragStart={dragStartHandler}
                             key={card.id}
                             card={card}

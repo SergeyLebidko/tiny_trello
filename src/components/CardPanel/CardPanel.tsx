@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {getTasks, useTypedSelector} from '../../store/selectors';
+import {getDndObjects, getTasks, useTypedSelector} from '../../store/selectors';
 import {Card} from '../../store/card/types';
 import TaskPanel from '../TaskPanel/TaskPanel';
 import TaskCreateForm from '../forms/TaskCreateForm/TaskCreateForm';
@@ -8,7 +8,7 @@ import {Task} from '../../store/task/types';
 import {useDispatch} from 'react-redux';
 import {patchTask} from '../../store/task/actions';
 import {useImage} from '../../utils/hooks';
-import {getNextOrder} from '../../utils/common';
+import {getNextOrder, isCard, isTask} from '../../utils/common';
 import './CardPanel.scss';
 import ObjectEditTitleForm from "../forms/ObjectEditTitleForm/ObjectEditTitleForm";
 
@@ -16,13 +16,12 @@ type CardPaneProps = {
     card: Card,
     removeCardHandler: (card: Card) => void,
     dragStart: (e: React.DragEvent<HTMLLIElement>, card: Card, task: Task) => void,
-    currentCard: Card | null,
-    currentTask: Task | null,
 }
 
-const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart, currentCard, currentTask}) => {
+const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart}) => {
     const dispatch = useDispatch();
     const tasks = useTypedSelector(getTasks);
+    const {dndTask,dndCard} = useTypedSelector(getDndObjects)
 
     const {icons} = useImage();
     const parentElem = useRef<HTMLDivElement>(null);
@@ -61,16 +60,16 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
         // Добавление эффектов при наведении на задачу
         e.currentTarget.className = "taskPanel shadowed"
         // Идет проверка условия, при котором будет определяться как перетасовываются карточки
-        if (!currentTask) return;
-        if (currentCard === card && task.order > currentTask.order) {
+        if (!isTask(dndTask)) return;
+        if (dndCard === card && task.order > dndTask.order) {
             dispatch(patchTask({
-                ...currentTask,
+                ...dndTask,
                 cardId: card.id as number,
                 order: task.order + 0.1,
             }))
         } else {
             dispatch(patchTask({
-                ...currentTask,
+                ...dndTask,
                 cardId: card.id as number,
                 order: task.order - 0.1,
             }))
@@ -86,10 +85,10 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
     const cardTaskEnterHandler = (e: React.DragEvent<HTMLDivElement>, card: Card): void => {
         e.preventDefault();
         e.currentTarget.className = "cardPanel"
-        if (!currentTask || !currentCard) return;
-        if (currentCard === card) return;
+        if (!isTask(dndTask) || !isCard(dndCard)) return;
+        if (dndCard === card) return;
         dispatch(patchTask({
-            ...currentTask,
+            ...dndTask,
             cardId: card.id as number,
             order: getNextOrder<Task>(tasks.filter(task => task.cardId === card.id)),
         }));
@@ -117,7 +116,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
 
     // Очередь обновляется при каждой новой замененной таске
     useEffect(() => {
-        if (!currentTask) return;
+        if (!isTask(dndTask)) return;
         tasks.filter(task => task.cardId === card.id).sort((a, b) => a.order - b.order).map((task, i) => {
             return dispatch(patchTask({
                 ...task,
