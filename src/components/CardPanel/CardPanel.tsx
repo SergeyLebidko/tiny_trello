@@ -4,6 +4,7 @@ import {Card} from '../../store/card/types';
 import TaskPanel from '../TaskPanel/TaskPanel';
 import TaskCreateForm from '../forms/TaskCreateForm/TaskCreateForm';
 import Confirm from '../modals/Confirm/Confirm';
+import CardTitleEditForm from '../forms/CardTitleEditForm/CardTitleEditForm';
 import {Task} from '../../store/task/types';
 import {useDispatch} from 'react-redux';
 import {patchTask} from '../../store/task/actions';
@@ -22,11 +23,15 @@ type CardPaneProps = {
 const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart, currentCard, currentTask}) => {
     const dispatch = useDispatch();
     const tasks = useTypedSelector(getTasks);
-    
+
     const {icons} = useImage();
     const parentElem = useRef<HTMLDivElement>(null);
 
     const [newTask, setNewTask] = useState<Task | null>(null);
+
+    const [hasEditTitle, setHasEditTitle] = useState<boolean>(false);
+    const openEditTitleForm = (): void => setHasEditTitle(true);
+    const closeEditTitleForm = (): void => setHasEditTitle(false);
 
     const [hasConfirmModal, setHasConfirmModal] = useState<boolean>(false);
     const openConfirmModal = (): void => setHasConfirmModal(true);
@@ -141,7 +146,10 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
             onDragEnd={(e: React.DragEvent<HTMLDivElement>) => cardTaskEndHandler(e)}
             onDrop={(e: React.DragEvent<HTMLDivElement>) => cardDropHandler(e)}
         >
-            <p className="cardPanel__name">{title}</p>
+            {hasEditTitle
+                ? <CardTitleEditForm card={card}/>
+                : <p className="cardPanel__name" onClick={openEditTitleForm}>{title}</p>
+            }
             <button className="cardPanel__delete" onClick={openConfirmModal}>
                 <img
                     className="cardPanel__icon_delete"
