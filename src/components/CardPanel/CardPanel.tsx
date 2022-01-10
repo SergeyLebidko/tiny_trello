@@ -4,13 +4,13 @@ import {Card} from '../../store/card/types';
 import TaskPanel from '../TaskPanel/TaskPanel';
 import TaskCreateForm from '../forms/TaskCreateForm/TaskCreateForm';
 import Confirm from '../modals/Confirm/Confirm';
-import CardTitleEditForm from '../forms/CardTitleEditForm/CardTitleEditForm';
 import {Task} from '../../store/task/types';
 import {useDispatch} from 'react-redux';
 import {patchTask} from '../../store/task/actions';
 import {useImage} from '../../utils/hooks';
 import {getNextOrder} from '../../utils/common';
 import './CardPanel.scss';
+import ObjectTitleForm from "../forms/ObjectTitleEditForm/ObjectEditTitleForm";
 
 type CardPaneProps = {
     card: Card,
@@ -147,8 +147,9 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
             onDrop={(e: React.DragEvent<HTMLDivElement>) => cardDropHandler(e)}
         >
             {hasEditTitle
-                ? <CardTitleEditForm card={card} closeHandler={closeEditTitleForm}/>
+                ? <ObjectTitleForm object={card} closeHandler={closeEditTitleForm}/>
                 : <>
+                    <p className="cardPanel__name" onClick={openEditTitleForm}>{title}</p>
                     <button className="cardPanel__delete" onClick={openConfirmModal}>
                         <img
                             className="cardPanel__icon_delete"
@@ -156,7 +157,6 @@ const CardPanel: React.FC<CardPaneProps> = ({card, removeCardHandler, dragStart,
                             alt="delete"
                         />
                     </button>
-                    <p className="cardPanel__name" onClick={openEditTitleForm}>{title}</p>
                 </>
             }
 

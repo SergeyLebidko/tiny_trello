@@ -7,7 +7,7 @@ export enum Importance {
 export type Task = {
     id?: number,
     cardId: number,
-    text: string,
+    title: string,
     done: boolean,
     importance: Importance
     deadline: number,

@@ -47,7 +47,7 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
     }
 
     // Анимация при удаление Task
-    const removeTaskHandler = (e: any, task: Task): void => {
+    const removeTaskHandler = (task: Task): void => {
         closeConfirmModal();
         parentElem.current?.classList.add('animation_delete');
         setTimeout(() => dispatch(removeTask(task)), 400);
@@ -69,7 +69,7 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
         }))
     }
 
-    const {text, done, importance, deadline} = task;
+    const {title, done, importance, deadline} = task;
     return (
         <li className="taskPanel"
             ref={parentElem}
@@ -83,10 +83,10 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
         >
             {hasShowConfirmModal &&
             <Confirm
-                text={`Удалить задачу "${text}"?`}
+                text={`Удалить задачу "${title}"?`}
                 buttonLabel={'Удалить'}
                 cancelHandler={closeConfirmModal}
-                acceptHandler={() => removeTaskHandler(event, task)}
+                acceptHandler={() => removeTaskHandler(task)}
             />}
             <button className="taskPanel__btn_delete" onClick={openConfirmModal}>
                 <img
@@ -95,7 +95,7 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
                     alt="delete"
                 />
             </button>
-            <p className="taskPanel__name">{text}</p>
+            <p className="taskPanel__name">{title}</p>
             <p className={done ? "taskPanel__done" : "taskPanel__notDone"} onClick={changeDoneHandler}>
                 {done ? "Выполнено" : "Не выполнено"}
             </p>

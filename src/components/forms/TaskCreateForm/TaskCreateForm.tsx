@@ -20,7 +20,7 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({card, closeHandler}) => 
     const {icons} = useImage();
 
     const [selected, setSelected] = useState<Importance>(Importance.Low);
-    const textRef = useRef<HTMLTextAreaElement>(null);
+    const titleRef = useRef<HTMLTextAreaElement>(null);
     const dateRef = useRef<HTMLInputElement>(null);
 
     // Получаем дату в текстовом формате, который требует форма
@@ -34,10 +34,10 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({card, closeHandler}) => 
     }
 
     const addTaskHandler = (): void => {
-        if (!textRef.current || !dateRef.current) return;
+        if (!titleRef.current || !dateRef.current) return;
         dispatch(createTask({
             cardId: card.id as number,
-            text: textRef.current.value,
+            title: titleRef.current.value,
             done: false,
             importance: selected,
             deadline: +new Date(dateRef.current.value),
@@ -49,7 +49,7 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({card, closeHandler}) => 
     return (
         <li className="taskPanel">
             <p className="taskPanel__name">Введите текст задачи</p>
-            <textarea className="taskPanel__area" ref={textRef} autoFocus/>
+            <textarea className="taskPanel__area" ref={titleRef} autoFocus/>
             <select className="taskPanel__select" value={selected} onChange={changeImportanceHandler}>
                 <option value={Importance.Low}>Низкая</option>
                 <option value={Importance.Medium}>Средняя</option>
