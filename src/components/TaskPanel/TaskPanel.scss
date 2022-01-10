@@ -103,6 +103,7 @@
     & > * {
       width: 50%;
       margin-top: 5px;
+      cursor: pointer;
       @include text-format(24px/1.5, 600, $satisfy-cursive, _, center, 0);
     }
   }

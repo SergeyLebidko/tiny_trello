@@ -113,9 +113,9 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
             <p className={done ? "taskPanel__done" : "taskPanel__notDone"} onClick={changeDoneHandler}>
                 {done ? "Выполнено" : "Не выполнено"}
             </p>
-            <p className="taskPanel__text_block">
+            <p className="taskPanel__text_block" onClick={changeImportanceHandler}>
                 <div>Важность</div>
-                <div onClick={changeImportanceHandler} style={{cursor: 'pointer'}}>
+                <div>
                     {IMPORTANCE_TEXT_SELECTOR[importance]}
                 </div>
             </p>
