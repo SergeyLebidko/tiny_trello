@@ -76,7 +76,7 @@ export const TASKS_PRESET: Array<Task> = [
     {
         id: 1,
         cardId: 1,
-        text: 'Прочитать общие сведения о React',
+        title: 'Прочитать общие сведения о React',
         done: true,
         importance: Importance.Medium,
         deadline: +new Date('08.15.2021'),
@@ -85,7 +85,7 @@ export const TASKS_PRESET: Array<Task> = [
     {
         id: 2,
         cardId: 1,
-        text: 'Разобраться с синтаксисом JSX',
+        title: 'Разобраться с синтаксисом JSX',
         done: true,
         importance: Importance.High,
         deadline: +new Date('08.25.2021'),
@@ -94,7 +94,7 @@ export const TASKS_PRESET: Array<Task> = [
     {
         id: 3,
         cardId: 1,
-        text: 'Узнать о классовых компонентах',
+        title: 'Узнать о классовых компонентах',
         done: true,
         importance: Importance.Medium,
         deadline: +new Date('08.18.2021'),
@@ -103,7 +103,7 @@ export const TASKS_PRESET: Array<Task> = [
     {
         id: 4,
         cardId: 2,
-        text: 'Изучить хуки',
+        title: 'Изучить хуки',
         done: false,
         importance: Importance.High,
         deadline: +new Date('09.01.2021'),
@@ -112,7 +112,7 @@ export const TASKS_PRESET: Array<Task> = [
     {
         id: 5,
         cardId: 2,
-        text: 'Разобраться с роутингом',
+        title: 'Разобраться с роутингом',
         done: false,
         importance: Importance.Low,
         deadline: +new Date('09.10.2021'),
@@ -121,7 +121,7 @@ export const TASKS_PRESET: Array<Task> = [
     {
         id: 6,
         cardId: 3,
-        text: 'Разобраться с render-props',
+        title: 'Разобраться с render-props',
         done: false,
         importance: Importance.High,
         deadline: +new Date('10.01.2021'),
@@ -130,7 +130,7 @@ export const TASKS_PRESET: Array<Task> = [
     {
         id: 7,
         cardId: 3,
-        text: 'Использование HOC',
+        title: 'Использование HOC',
         done: false,
         importance: Importance.Low,
         deadline: +new Date('10.05.2021'),
@@ -139,7 +139,7 @@ export const TASKS_PRESET: Array<Task> = [
     {
         id: 8,
         cardId: 4,
-        text: 'Что такое типы',
+        title: 'Что такое типы',
         done: true,
         importance: Importance.High,
         deadline: +new Date('10.10.2021'),
@@ -148,7 +148,7 @@ export const TASKS_PRESET: Array<Task> = [
     {
         id: 9,
         cardId: 4,
-        text: 'Что такое интерфейсы',
+        title: 'Что такое интерфейсы',
         done: true,
         importance: Importance.High,
         deadline: +new Date('10.10.2021'),
@@ -157,7 +157,7 @@ export const TASKS_PRESET: Array<Task> = [
     {
         id: 10,
         cardId: 4,
-        text: 'Что такое перечисления',
+        title: 'Что такое перечисления',
         done: true,
         importance: Importance.Low,
         deadline: +new Date('10.10.2021'),
@@ -166,7 +166,7 @@ export const TASKS_PRESET: Array<Task> = [
     {
         id: 11,
         cardId: 5,
-        text: 'Что такое класс',
+        title: 'Что такое класс',
         done: false,
         importance: Importance.Medium,
         deadline: +new Date('10.20.2021'),
@@ -175,7 +175,7 @@ export const TASKS_PRESET: Array<Task> = [
     {
         id: 12,
         cardId: 5,
-        text: 'Что такое обобщения и обощенные функции',
+        title: 'Что такое обобщения и обощенные функции',
         done: false,
         importance: Importance.Medium,
         deadline: +new Date('10.20.2021'),

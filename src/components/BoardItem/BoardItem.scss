@@ -45,14 +45,8 @@
     @include text-format(25px/1.2, bold);
     height: fit-content;
     border-bottom: 2px solid $gray;
-    border-radius: 5px 5px 0 0;   
-
-    &:hover {
-      padding-right: 25px;
-      .boardItem__btn_edit {
-        opacity: 1;
-      }
-    }
+    border-radius: 5px 5px 0 0;
+    cursor: pointer;
 
     &:focus {
       background: $blue-light;
