@@ -44,7 +44,8 @@ const TaskEditDateForm: React.FC<TaskEditDateFormProps> = ({task, closeHandler})
     }
 
     return (
-        <input
+        <input 
+            className="taskEditDateForm"
             autoFocus
             type="date"
             ref={inputRef}

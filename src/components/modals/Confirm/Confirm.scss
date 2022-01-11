@@ -12,19 +12,19 @@
 
   &__title {
     @include animation-logo;
-    @include text-format(20px, bold, $kaushan, $red);
+    @include text-format(16px, bold, $kaushan, $red);
     margin-bottom: 10px;
   }
 
   &__text {
-    @include text-format(18px, bold, $roboto-serif);
-    max-width: 190px;    
+    @include text-format(16px, bold, $roboto-serif);
+    max-width: 270px;    
     margin-bottom: 5px;
   }
 
   &__btn_block {
     @include flex(space-around);
-    @include block-format(_, 100%, 30px);
+    @include block-format(_, 100%, 30px, 10px 0 0);
   }
 
   &__btn_cancel {
@@ -38,7 +38,7 @@
   &__icon_cancel,
   &__icon_confirm {
     @include animation-icon;
-    width: 25px;   
+    width: 24px;   
   }
 }
 

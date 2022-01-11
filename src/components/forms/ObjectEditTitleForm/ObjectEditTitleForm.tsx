@@ -55,6 +55,7 @@ const ObjectEditTitleForm: React.FC<ObjectEditTitleFormProps> = ({object, closeH
 
     return (
         <input
+            className="objectEditTitleForm"
             ref={inputRef}
             autoFocus
             defaultValue={object.title}
