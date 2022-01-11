@@ -1,9 +1,10 @@
 import React, {useRef, useState} from 'react';
 import {createRandomString} from '../../../utils/common';
 import {ALL_LETTERS, DIGITS, PASSWORD_MIN_LEN} from '../../../constants/settings';
-import {useModalError} from '../../../utils/hooks';
+import {useImage, useModalError} from '../../../utils/hooks';
 import {useDispatch} from 'react-redux';
 import {registerUserAction} from '../../../store/user/actions';
+import './Register.scss';
 
 type RegisterProps = {
     closeHandler: () => void
@@ -12,6 +13,7 @@ type RegisterProps = {
 
 const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden}) => {
     const dispatch = useDispatch();
+    const { modalImg, icons } = useImage();
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -91,107 +93,97 @@ const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden})
     return (
         <div className="register">
         <button 
-            className="back" 
+            className="register__btn_return" 
             onClick={() => {closeHandler(); removeOverflowHidden()}}
         >
-            <img src="icons/back.svg" alt="back"/>
+            <img src={icons.iconReturn} alt="back"/>
         </button>                    
-        <img className="register-logo" src="img/login-logo.png" alt="logo" />
+        <img className="register__logo" src={modalImg.modalHeaderLogo} alt="logo" />
 
-        <div className="register-content">
-            {error && <p className="register-danger">{error}</p>}
-            <h1>Зарегистрировать аккаунт</h1>
-                <div className="register-form">
+        <div className="register__content">
+            {error && <p className="register__danger">{error}</p>}
+            <p className="register__content_logo">Зарегистрировать аккаунт</p>
+                <div className="register__form">
                     <input 
-                        className="inp-register" 
+                        className="register__inp" 
                         placeholder="Укажите Логин" 
                         id={loginId} ref={loginRef}
                     />                    
                     <input 
-                        className="inp-register"
+                        className="register__inp"
                         placeholder="Имя" 
                         id={firstNameId} 
                         ref={firstNameRef}
                     />
                     <input 
-                        className="inp-register"
+                        className="register__inp"
                         placeholder="Фамилия"
                         id={lastNameId} 
                         ref={lastNameRef}
                     />
-                    <button className="create-pass" onClick={createPasswordHandler}>Создать пароль</button>
-                    <div className="password-wrap">
-                        <input className="inp-password" 
+                    <button className="register__btn_create_pass" onClick={createPasswordHandler}>Создать пароль</button>
+                    <div className="register__password_block">
+                        <input className="register__password_inp" 
                             placeholder="Укажите пароль" 
                             id={password1Id} 
                             ref={password1Ref} 
                             type={showPassword ? 'text' : 'password'}
                         />
                         <img 
-                            className="show-hide-pass"
-                            src={showPassword ? 'icons/show-pass.png' : 'icons/hide-pass.png'} 
+                            className="register__password_look"
+                            src={showPassword ? icons.iconShow : icons.iconHide} 
                             alt="show/hide-pass" 
                             onClick={showPasswordHandler}
                         />                            
                     </div>
-                    <div className="password-wrap">
-                        <input className="inp-password" 
+                    <div className="register__password_block">
+                        <input className="register__password_inp" 
                             placeholder="Укажите пароль" 
                             id={password2Id} 
                             ref={password2Ref} 
                             type={showPassword ? 'text' : 'password'}
                         />
                         <img 
-                            className="show-hide-pass"
-                            src={showPassword ? 'icons/show-pass.png' : 'icons/hide-pass.png'} 
+                            className="register__password_look"
+                            src={showPassword ? icons.iconShow : icons.iconHide} 
                             alt="show/hide-pass" 
                             onClick={showPasswordHandler}
                         />                            
                     </div> 
-                    <div className="conditions">
+                    <div className="register__conditions">
                         <span>Регистрируясь, вы подтверждаете, что принимаете наши</span>
-                        <span><a href="">Условия использования</a> и <a href="">Политику конфиденциальности</a></span>                        
+                        <span>
+                            <a className="register__link" href="">Условия использования</a> и<br/> <a className="register__link" href="">Политику конфиденциальности</a>
+                        </span>                        
                     </div>                     
                     
                                         
-                    <button className="submit-register" onClick={registerHandler}>Регистрация</button>
+                    <button className="register__btn_submit" onClick={registerHandler}>Регистрация</button>
                 </div>                
                 
-            <p>ИЛИ</p>
+            <p className="register__or">ИЛИ</p>
 
-            <button className="btn-register-out">
-                <img src="icons/google-logo.png" alt="google" />
-                <span>Войти через Google</span>
+            <button className="register__btn_out">
+                <img className="register__btn_img" src={icons.iconGoogle} alt="google" />
+                <span className="register__btn_text">Войти через Google</span>
             </button>
-            <button className="btn-register-out">
-                <img src="icons/ms-logo.png" alt="ms" />
-                <span>Войти через Microsoft</span>
+            <button className="register__btn_out">
+                <img className="register__btn_img" src={icons.iconMs} alt="ms" />
+                <span className="register__btn_text">Войти через Microsoft</span>
             </button>
-            <button className="btn-register-out">
-                <img src="icons/apple-logo.png" alt="apple" />
-                <span>Войти через Apple</span>
-            </button>
-
-            <div className="sso">
-                <a href="#">Вход с помощью SSO</a>
-            </div>
-            
-            <div className="issue">
-                <a href="#">Не удается войти?</a> <span>·</span> <a href="#">Зарегистрировать аккаунт</a>
-            </div>
+            <button className="register__btn_out">
+                <img className="register__btn_img" src={icons.iconApple} alt="apple" />
+                <span className="register__btn_text">Войти через Apple</span>
+            </button>            
         </div>
 
-        <div className="policy">
-            <a href="#">Политика конфиденциальности</a> <span>·</span> <a href="#">Условия использования</a>
+        <div className="register__lang">
+            <img src={modalImg.input} alt="lang" />
         </div>
 
-        <div className="inp-lang">
-            <img src="img/input-img.png" alt="lang" />
-        </div>
-
-        <div className="register-footer">
-            <img src="img/login-footer-img.png" alt="Atlassian" />
-            <ul className="register-footer-links">
+        <div className="register__footer">
+            <img className="register__footer_img" src={modalImg.modalFooterLogo} alt="Atlassian" />
+            <ul className="register__footer_list">
                 <li><a href="#">Шаблоны</a></li>
                 <li><a href="#">Цены</a></li>
                 <li><a href="#">Приложения</a></li>
@@ -204,8 +196,8 @@ const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden})
             </ul>
         </div>
 
-        <img className="modal-img-l" src="img/modal-img-l.png" alt="bg-l" />
-        <img className="modal-img-r" src="img/modal-img-r.png" alt="bg-r" />
+        <img className="register__footer_img_left" src={modalImg.modalFooterLeft} alt="bg-l" />
+        <img className="register__footer_img_right" src={modalImg.modalFooterRight} alt="bg-r" />
         </div>
     );
 }

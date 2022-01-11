@@ -1,0 +1,9 @@
+@import '../../../sass/import';
+
+.objectEditTitleForm {
+  @include block-format(relative, 100%, 45px, 40px 0 0, 10px, $blue-light);
+  @include text-format(25px/1.2, bold);
+  height: fit-content;
+  border-bottom: 2px solid $gray;
+  border-radius: 5px 5px 0 0;
+}

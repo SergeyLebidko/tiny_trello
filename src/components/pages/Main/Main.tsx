@@ -4,6 +4,8 @@ import Register from '../../modals/Register/Register';
 import Login from '../../modals/Login/Login';
 import Logout from '../../modals/Logout/Logout';
 import {getLoggedUser, useTypedSelector} from '../../../store/selectors';
+import { useImage } from '../../../utils/hooks';
+import './Main.scss';
 
 enum ModalMode {
     NoModal,
@@ -14,6 +16,7 @@ enum ModalMode {
 
 const Main: React.FC = () => {
     const loggedUser = useTypedSelector(getLoggedUser);
+    const { mainImg } = useImage();
 
     const [modalMode, setModalMode] = useState<ModalMode>(ModalMode.NoModal);
 
@@ -37,66 +40,65 @@ const Main: React.FC = () => {
     useEffect(() => {
         const header = document.querySelector('header');
         window.addEventListener('scroll', () => {
-            pageYOffset >= 100 ? header?.classList.add('scroll') : header?.classList.remove('scroll');
+            pageYOffset >= 60 ? header?.classList.add('scroll') : header?.classList.remove('scroll');
         })
     }, [])
 
     return (
-        <div className="main">
-            <header>
-                <img className="header-logo" src="img/header-logo.png" alt="logo" />
+        <main className="main">
+            <header className="main__header">            
+                <img className="main__logo" src={mainImg.mainHeaderLogo} alt="logo" />
 
                 {modalMode === ModalMode.RegisterModal && <Register closeHandler={closeModal} removeOverflowHidden={removeOverflowHidden}/>}
                 {modalMode === ModalMode.LoginModal && <Login closeHandler={closeModal} removeOverflowHidden={removeOverflowHidden}/>}
-                {modalMode === ModalMode.LogoutModal && <Logout closeHandler={closeModal} firstName={loggedUser!.firstName} lastName={loggedUser!.lastName}/>}
+                {modalMode === ModalMode.LogoutModal && <Logout closeHandler={closeModal} removeOverflowHidden={removeOverflowHidden} firstName={loggedUser!.firstName} lastName={loggedUser!.lastName}/>}
 
-                {/* <h1>Tiny Trello (Главная страница)</h1> */}
                 {/*Проверка на залогиненного пользователя*/}
                 {loggedUser ?
-                    <div className="header-auth"> 
-                        <h3 className="header-names">
+                    <div className="main__stuck"> 
+                        <h3 className="main__user_names">
                         {loggedUser.firstName} {loggedUser.lastName}
                         </h3>
 
-                        <button className="btn-logout" onClick={showLogout}>Выход</button>
+                        <button className="main__btn_logout" onClick={ () => {showLogout(); setOverflowHidden()} }>Выход</button>
                         {/*Может тут ссылка сначала на страницу пользователя, а потом отдельная ссылка на список бордов?*/}
-                        <Link className="link-work" to="board_list">Мои пространства</Link>
+                        <Link className="main__link_board" to="board_list">Мои пространства</Link>
                     </div>
                     :
-                    <>  <div className="btn-wrap">
-                            <button className="btn-login" onClick={() => {showLogin(); setOverflowHidden()}}>Войти</button>
-                            <button className="btn-register" onClick={() => {showRegister(); setOverflowHidden()}}>Регистрация</button>
+                    <>  <div className="main__btn_block">
+                            <button className="main__btn_login" onClick={ () => {showLogin(); setOverflowHidden()} }>Войти</button>
+                            <button className="main__btn_register" onClick={ () => {showRegister(); setOverflowHidden()} }>Регистрация</button>
                         </div>
                         
                     </>
                 }
             </header>
 
-            <section id="hero">
-                <div className="container-hero">
-                    <div className="left-hero">
+            <section className="main__hero">
+                <div className="main__hero_container">
+                    <div className="main__hero_left">
                         <h1><span>Trello</span> помогает командам эффективно решать рабочие задачи.</h1>
-                        <p>Работайте в команде, управляйте проектами и выводите продуктивность на новый уровень собственным уникальным способом вместе с <span>Trello</span>.</p>
-                        <form className="form-hero">  
-                            <input className="inp-hero" type="email" placeholder="Электронная почта"></input>
-                            <button type="submit" className="btn-hero">Зарегистрируйтесь — это бесплатно!</button>
+                        <p className="main__hero_text">Работайте в команде, управляйте проектами и выводите продуктивность на новый уровень собственным уникальным способом вместе с <span>Trello</span>.</p>
+                        <form className="main__hero_form">  
+                            <input className="main__hero_inp" type="email" placeholder="Электронная почта"></input>
+                            <button type="submit" className="main__hero_btn">Зарегистрируйтесь — это бесплатно!</button>
                         </form>
                     </div>
-                    <div className="right-hero">
-                        <img src="img/hero-img.png" alt="E-mail" />
+                    <div className="main__hero_right">
+                        <img className="main__hero_img" src={mainImg.heroLogo} alt="hero-logo" />
                     </div>
                 </div>
             </section>
 
-            <section id="product">
+            <section className="main__product">
                 <h2>Это не просто работа. Это координация действий в команде.</h2>
-                <p>Начните с досок, колонок и карточек, а затем переходите к более сложным функциям. Управляйте проектами, упорядочивайте задачи и поддерживайте командный дух&nbsp;— все это в Trello.</p>
-                <button className="btn-product">Начать работу →</button>
-                <img src="img/product-img.png" alt="" />
+                <p className="main__product_text">Начните с досок, колонок и карточек, а затем переходите к более сложным функциям. Управляйте проектами, упорядочивайте задачи и поддерживайте командный дух&nbsp;— все это в Trello.</p>
+                <button className="main__product_btn">Начать работу →</button>
+                <img className="main__product_img" src={mainImg.productLogo} alt="" />
             </section>
 
-            <footer>
-                <ul className="footer-links"> 
+            <footer className="main__footer">
+                <ul className="main__footer_list"> 
                     <li><a href="#">Шаблоны</a></li>
                     <li><a href="#">Цены</a></li>
                     <li><a href="#">Приложения</a></li>
@@ -109,11 +111,11 @@ const Main: React.FC = () => {
                     <li><a href="#">Настройки файлов cookie</a></li>
                     <li><a href="#">Конфиденциальность</a></li>
                 </ul>
-                <img src="img/footer-img.png" alt="Atlassian" />
+                <img className="main__footer_img" src={mainImg.mainFooterLogo} alt="Atlassian" />
                 <p>© 2021. Все права защищены.</p>
             </footer>
 
-        </div>
+        </main>
     );
 }
 

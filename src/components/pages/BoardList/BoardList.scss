@@ -1,0 +1,120 @@
+@import '../../../sass/import';
+
+.boardList {
+  @include flex(_, center, column);
+  width: 100%;
+  min-height: 100vh;
+  background: $blue-gray;
+
+  &__header {
+    @include flex(center, center);
+    @include block-format(absolute, 100%, 120px, 0, 0, $gray-light);
+    box-shadow: 0px 0px 9px 3px $gray;
+  }
+
+  &__header_block {
+    @include block-format(_, calc(100% - 30px), 100px);
+    @include flex(center, center);
+  }
+
+  &__header_left {
+    @include block-format(relative, calc(30% - 150px), 100%, 0, 0, $blue-gray); 
+
+    @media (max-width: $md) {
+      width: calc(50% - 150px);
+    }
+  }
+
+  &__header_left_item {
+    @include triangle-right($gray-light);
+    z-index: 5;
+  }  
+
+  &__header_right {
+    @include block-format(relative, calc(70% - 150px), 100%, 0, 0, $blue-gray);
+
+    @media (max-width: $md) {
+      width: calc(50% - 150px);
+    }
+  }
+
+  &__header_right_item {
+    @include triangle-left($gray-light);
+    z-index: 5;
+  }
+
+  &__header_middle {
+    @include block-format(relative, 300px, 100%);
+    @include flex(space-around, center, column);
+  }
+
+  &__logo {
+    @include text-format(40px/1.2, bold, $kaushan, $black);
+    @include animation-logo;
+    text-shadow: 3px 3px 0px $blue-gray;
+  }
+
+  &__user{
+    max-width: 250px;
+    @include text-format(30px/1.2, bold, $satisfy-serif, $black, _, 0);
+    text-shadow: 2px 2px 2px $blue-gray;
+
+    :nth-child(1) {
+      position: relative;
+      left: -15px;
+      font-size: 22px;
+    }
+    :nth-child(2) {
+      position: relative;
+      left: 15px;
+    }
+  }
+
+  &__header__triangle_left {
+    @include triangle-right($blue-gray);
+  }
+
+  &__header__triangle_right {
+    @include triangle-left($blue-gray);
+  }  
+
+  &__content {
+    @include block-format(_, 80%, calc(100vh - 230px), 140px 0 10px, 0, $gray-light);
+    @include flex();
+    height: fit-content;
+    flex-wrap: wrap;
+    border-radius: 10px;
+    box-shadow: 0 0 9px 9px $gray;
+    
+    @media (max-width: $md) {
+      width: 96%;
+    }
+  }
+
+  &__list_btn_block {
+    @include block-format(_, 40px, 222px, 15px, $gray-light);
+    @include flex(center, center);
+    cursor: pointer;
+    border-radius: 8px;
+    box-shadow: 2px 2px 4px 4px $gray;
+    z-index: 5;
+
+    &:hover {
+      background: $blue-gray;
+      
+      .boardList__btn_add {
+        animation: move-right 0.8s infinite linear;
+      }
+    }
+  }
+
+  &__btn_add {
+    position: relative;
+    width: 24px;
+  }
+
+  &__footer {
+    @include text-format(18px, 400, $satisfy-cursive, $gray);
+    margin: 10px;
+  }
+}

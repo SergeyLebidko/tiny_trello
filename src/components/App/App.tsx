@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
-import {BrowserRouter, Route, Routes} from 'react-router-dom';
+import {HashRouter, Route, Routes} from 'react-router-dom';
 import Main from '../pages/Main/Main';
 import BoardList from '../pages/BoardList/BoardList';
 import BoardPanel from '../pages/BoardPanel/BoardPanel';
 import NoMatch from '../pages/NoMatch/NoMatch';
-import {ROUTE_PREFIX} from '../../constants/settings';
 import {getLoggedUser, useTypedSelector} from '../../store/selectors';
 import {DataKeys} from '../../backend/backend';
 import {User} from '../../store/user/types';
@@ -13,7 +12,6 @@ import {loadBoards, removeBoardsFromRedux} from '../../store/board/actions';
 import {loadCards, removeCardsFromRedux} from '../../store/card/actions';
 import {loadTasks, removeTasksFromRedux} from '../../store/task/actions';
 import {setUser} from '../../store/user/actions';
-import './App.scss';
 
 function App() {
     const dispatch = useDispatch();
@@ -53,19 +51,19 @@ function App() {
     if (!hasUserChecked || !hasDataLoad) return <div>Пожалуйста подождите...</div>;
 
     return (
-        <BrowserRouter>
+        <HashRouter>
             <Routes>
-                <Route path={`/${ROUTE_PREFIX}`} element={<Main/>}/>
+                <Route path="/" element={<Main/>}/>
                 {/* Пути к списку досок и отдельным доскам доступны только для залогинившихся пользователей */}
                 {loggedUser &&
                 <>
-                    <Route path={`/${ROUTE_PREFIX}/board_list`} element={<BoardList/>}/>
-                    <Route path={`/${ROUTE_PREFIX}/board/:boardId`} element={<BoardPanel/>}/>
+                    <Route path="/board_list" element={<BoardList/>}/>
+                    <Route path="/board/:boardId" element={<BoardPanel/>}/>
                 </>
                 }
                 <Route path="*" element={<NoMatch/>}/>
             </Routes>
-        </BrowserRouter>
+        </HashRouter>
     );
 }
 

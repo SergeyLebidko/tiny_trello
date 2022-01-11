@@ -1,0 +1,8 @@
+@import '../../../sass/import';
+
+.taskEditDateForm {
+  @include block-format(_, 60%, 35px, 0, 10px, $blue-ultra-light);
+    @include text-format(17px/1.2, 600, $satisfy-cursive);
+    border-radius: 4px;
+    box-shadow: 2px 2px 3px 3px $gray;
+}

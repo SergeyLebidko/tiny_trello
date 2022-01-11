@@ -1,0 +1,294 @@
+@import 'variables';
+
+@mixin flex($jc: flex-start, $ai: flex-start, $fd: row) {
+    display: flex;
+    justify-content: $jc;
+    align-items: $ai;
+    flex-direction: $fd;
+}
+
+@mixin block-format(
+    $position: relative,
+    $width: auto, 
+    $height: auto, 
+    $margin: 0, 
+    $padding: 0, 
+    $bg : inherit,
+) {
+    position: $position;
+    width: $width;
+    min-width: $width;
+    height: $height;
+    min-height: $height;
+    margin: $margin;
+    padding: $padding;
+    background: $bg;
+    box-sizing: border-box;
+    overflow: hidden;
+    outline: none;
+    border: none;
+}
+
+@mixin text-format(
+    $size, 
+    $weight,
+    $famaly: $public,
+    $color: $black,
+    $text-aligh: center,
+    $letter-spacing: 1px,
+) {
+    font: $weight $size $famaly;
+    color: $color;
+    text-align: $text-aligh;
+    letter-spacing: $letter-spacing;
+    overflow-wrap: break-word;
+    text-decoration: none;
+}
+
+@mixin animation-icon {
+    &:hover {
+        animation: jello-horizontal 0.3s 1 linear;
+    }
+}
+
+@mixin animation-logo {
+    &:hover {      
+        animation: jello-horizontal 0.5s 1 linear;
+    }
+}
+
+@mixin btn-reset() {
+    border: none;
+    background: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+@mixin btn-filled() {
+    text-align: center;
+    color: $white;
+    background-color: $blue;
+    font: 1rem/1.5 'Charlie Text', sans-serif;
+    border-radius: 3px;
+
+    &:hover {
+        background: $blue-dark;
+    }
+}
+
+@mixin btn-empty() {
+    text-align: center;
+    color: $blue;
+    font: 1rem/1.5 'Charlie Text', sans-serif;
+    border-radius: 3px;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+@mixin btn-return() {
+    @include btn-reset();
+    position: fixed;
+    top: 15px;
+    left: 25px;
+    border-radius: 6px;
+    z-index: 2;
+
+    &:hover {
+        opacity: 0.8;
+        background-color: $blue-light;
+    }
+}
+
+@mixin input() {
+    padding: .375rem .75rem;
+    font: 1.25rem/1.5 'PublicSans', sans-serif;
+    color: $gray;
+    background-color: $white;
+    border: 1px solid $gray-light;
+    border-radius: 6px;
+}
+
+@mixin modal() {
+    @include flex(_, center, column);    
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    min-height: 100vh;
+    background-color: $gray-ultra-light;
+    overflow-y: scroll;
+    z-index: 10;
+}
+
+@mixin modal-content() {
+    width: 400px;
+    padding: 25px 40px;
+    border-radius: 3px;
+    background-color: $white;
+    box-shadow: 0 0 10px $gray-light;
+
+    @media (max-width: $md) {
+        box-shadow: none;
+    }
+}
+
+@mixin modal-logo() {
+    width: 193px;
+    height: 38px;
+    margin: 40px auto;
+}
+
+@mixin modal-content-logo() {
+    margin: 10px 0 25px;
+    text-align: center;
+    color: $gray;
+    font: 20px/1.3 $public-serif;
+}
+
+@mixin modal-danger() {
+    width: 100%;
+    padding: .5em 1em;
+    background: $red;
+    text-align: center;
+    color: $white;
+    font: 16px/1.2 $charlie-serif;
+    border-radius: 6px;
+}
+
+@mixin modal-input() {
+    width: 100%;
+    height: 44px;
+    padding: 10px;
+    box-sizing: border-box;
+    color: $gray;
+    font: 15px/1 $public-serif;
+    background-color: $white;
+    border: 2px solid $gray-light;
+    border-radius: 6px;
+
+    &:focus {
+        outline: none;
+        border-color: $blue;
+    }  
+}
+
+@mixin modal-btn-out() {
+    @include btn-reset();
+    @include flex(center, center);
+    width: 100%;
+    height: 44px;    
+    padding: 3px;
+    background: #fff;
+    box-shadow: 1px 1px 5px 0 $gray-light;
+
+    &:hover {
+        background: $gray-light;
+    }    
+}
+
+@mixin modal-input-look() {
+    position: absolute;
+    width: 22px;
+    right: 13px;
+    top: calc(50% - 12px);
+    background-color: $white;
+    cursor: pointer;
+}
+
+@mixin modal-link() {
+    color: $blue;
+    line-height: 1.3;
+    font-size: 13px;
+    text-decoration: none;
+    
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+@mixin modal-footer-list() {
+    @include flex(center, center);
+    width: 58%;    
+
+    @media (max-width: $xxl) {  
+        width: 50%;      
+        display: block;
+        text-align: center;      
+    }
+
+    @media (max-width: $md) {
+        width: 90%;
+    }
+
+    li {
+        min-width: 45px;
+        margin: 5px 5px;
+        text-align: center;
+
+        @media (max-width: $xxl) {
+            display: inline-block;   
+        }
+
+        @media (max-width: $md) {
+            margin: 0 5px;
+        }
+
+        a {          
+            color: $gray;
+            font-size: 13px;
+            text-decoration: none;
+
+            &:hover {
+            text-decoration: underline;
+            }
+        }
+    }
+}
+
+@mixin modal-footer-img-left {
+    width: 25%;
+    max-width: 380px;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+
+    @media (max-width: $md) {
+        display: none;
+    }
+}
+
+@mixin modal-footer-img-right {
+    width: 25%;
+    max-width: 380px;
+    position: fixed;
+    right: 10px;
+    bottom: 0;
+
+    @media (max-width: $md) {
+        display: none;
+    }
+}
+
+@mixin triangle-left($color) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-style: solid;
+    border-width: 50px 50px 50px 0;
+    border-color: transparent $color transparent transparent;
+}
+
+@mixin triangle-right($color) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-style: solid;
+    border-width: 50px 0 50px 50px;
+    border-color: transparent transparent transparent $color;
+}

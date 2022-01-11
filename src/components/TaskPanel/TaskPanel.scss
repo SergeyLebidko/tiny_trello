@@ -1,10 +1,123 @@
-.task_panel {
-  background-color: gray;
-  margin: 0.5em;
-  padding: 0.5em;
-  color: white;
+@import '../../sass/import';
+
+.taskPanel {
+  @include block-format(relative, 270px, _, 10px auto 20px, 5px, $green-low-light);
+  border-radius: 4px;
+  box-shadow: 2px 2px 3px 3px $gray;
+  transition-duration: 0.5s;
+
+  &.animation_delete {
+    animation: fade-up-out 0.5s 1 linear;
+  }
+
+  &:hover {
+    .taskPanel__icon_delete {
+        opacity: 1;
+    }
+  }
+
+  &__btn_delete {
+    @include btn-reset();
+    position: absolute;
+    right: 5px;
+    top: 5px;
+  }
+
+  &__icon_delete {
+    @include animation-icon;
+      width: 18px;
+      opacity: 0;
+  }
+
+  &__name {
+    @include block-format(_, 80%, _, 6px auto);
+    @include text-format(20px, 600, $satisfy-cursive);
+    cursor: pointer;
+  } 
+  
+  &__area {
+    @include block-format(_, 100%, 40px, 6px auto, 10px, $blue-ultra-light);
+    max-width: 190px;
+    max-height: 150px;
+    @include text-format(20px/1.2, 600, $satisfy-cursive);
+    border-radius: 4px;
+    box-shadow: 2px 2px 3px 3px $gray;
+  }
+
+  &__select {
+    @include block-format(_, 100%, 35px, 6px auto, 5px 10px, $blue-ultra-light);
+    @include text-format(20px/1.2, 600, $satisfy-cursive);
+    cursor: pointer;
+    border-radius: 4px;
+    box-shadow: 2px 2px 3px 3px $gray;
+
+    & > * {
+      text-align: center;     
+    }
+  }
+
+  &__date {
+    @include block-format(_, 100%, 35px, 10px auto 50px, 10px, $blue-ultra-light);
+    @include text-format(17px/1.2, 600, $satisfy-cursive);
+    border-radius: 4px;
+    box-shadow: 2px 2px 3px 3px $gray;
+  }
+
+  &__btn_cancel {
+    @include btn-reset();
+    position: absolute;
+    bottom: 10px;
+    right: 45px;
+  }
+
+  &__btn_confirm {
+  @include btn-reset();
+      position: absolute;
+      bottom: 10px;
+      left: 45px;
+  }
+
+  &__icon_cancel,
+  &__icon_confirm {
+    @include animation-icon;
+    width: 25px;
+  }
+
+  &__done {
+    width: 100%;
+    @include text-format(35px/1.5, 600, $roboto, $blue-dark);
+    text-shadow: 0 0 3px $white;
+    cursor: pointer;
+  }
+
+  &__notDone {
+    width: 100%;
+    @include text-format(35px/1.5, 600, $roboto, $red-dark);
+    text-shadow: 0 0 2px $white;
+    cursor: pointer;
+  }
+
+  &__text_block {
+    @include flex(center, center);
+
+    & > * {
+      width: 50%;
+      margin-top: 5px;
+      cursor: pointer;
+      @include text-format(24px/1.5, 600, $satisfy-cursive, _, center, 0);
+    }
+  }
+
+  &__text_low {
+    color: yellow;
+  }
+
+  &__text_medium {
+    color: $green-dark;
+  }
+
+  &__text_high {
+    color: $red-dark;
+  }
 }
 
-.shadowed {
-  background-color: brown;
-}

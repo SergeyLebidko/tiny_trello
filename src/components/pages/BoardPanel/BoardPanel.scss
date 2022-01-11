@@ -1,6 +1,134 @@
-.board_panel {
+@import '../../../sass/import';
 
-  &__card_list {
-    display: flex;
+.boardPanel {
+  @include flex(_, center, column);
+  @include block-format(relative, 100%, 100vh,0, 0, linear-gradient($green-low-light, $gray-light));
+  height: fit-content;
+
+  &.animation_delete {
+    animation: fade-left-out 0.5s 1 linear;
+  }
+
+  &__back {
+    position: absolute;
+    top: 130px;
+    left: 15px;
+    z-index: 101;
+  }
+
+  &__icon_back {
+    width: 90px;
+    opacity: 0.7;
+
+    &:hover {
+      opacity: 1;
+      filter: brightness(80%)
+    }
+  }
+
+  &__header {
+    @include flex(center, center);
+    @include block-format(absolute, 100%, 120px, 0, 0, $blue-gray);
+    box-shadow: 0 0 9px 3px $gray;
+  }
+
+  &__header_block {
+    @include flex(center, center);
+    @include block-format(_, calc(100% - 30px), 100px);
+  }
+
+  &__header_left {
+    @include block-format(relative, calc(30% - 150px), 100%, 0, 0, $green-low-light);
+
+    @media (max-width: $md) {
+      width: calc(50% - 150px);
+    }
+  }
+
+  &__header_left_item {
+    @include triangle-right($blue-gray);
+    z-index: 5;
+  }  
+
+  &__header_right {
+    @include block-format(relative, calc(70% - 150px), 100%, 0, 0, $green-low-light);
+
+    @media (max-width: $md) {
+      width: calc(50% - 150px);
+    }
+  }
+
+  &__header_right_item {
+    @include triangle-left($blue-gray);
+    z-index: 5;
+  }
+
+  &__header_middle {
+    @include block-format(relative, 300px, 100%);
+    @include flex(space-around, center, column);
+  }
+
+  &__logo {
+    @include text-format(40px/1.2, bold, $kaushan, $black);
+    @include animation-logo;
+    text-shadow: 3px 3px 0 $gray-light;
+  }
+
+  &__title {
+    max-width: 250px;
+    @include text-format(26px/1.2, bold, $satisfy-serif, $black, _, 0);
+    text-shadow: 2px 2px 2px $gray-light;
+  }
+
+  &__header__triangle_left {
+    @include triangle-right($green-low-light);
+  }
+
+  &__header__triangle_right {
+    @include triangle-left($green-low-light);
+  } 
+
+  &__content {
+    @include block-format(_, 80%, calc(100vh - 230px), 170px 0 10px, 0, $blue-gray);
+    @include flex();
+    height: fit-content;
+    flex-wrap: wrap;    
+    border-radius: 10px;
+    box-shadow: 0 0 9px 2px $gray;
+    
+    @media (max-width: $md) {
+      width: 98%;
+    }
+  }
+
+  &__btn_addCard {
+    @include btn-reset();
+    @include block-format(_, 290px, 25px, 10px 15px, 0, $gray-low-light);
+    border-radius: 3px;
+    box-shadow: 2px 2px 5px 2px $gray;
+    animation: fade-up 0.5s 1 linear;
+
+    &:hover {
+      background: $gray-light;
+
+      .boardPanel__icon_addCard {
+        animation: move-down 0.8s infinite linear;
+      }
+    }
+
+    @media (max-width: $md) {
+      margin: 15px auto;
+    }
+  }
+
+  &__icon_addCard {
+    position: relative;
+    width: 20px;
+    top: 5px;
+  }
+
+  &__footer {
+    @include text-format(18px, 400, $satisfy-cursive, $gray);
+    margin: 10px;
   }
 }
