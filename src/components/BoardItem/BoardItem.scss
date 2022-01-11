@@ -47,10 +47,6 @@
     border-bottom: 2px solid $gray;
     border-radius: 5px 5px 0 0;
     cursor: pointer;
-
-    &:focus {
-      background: $blue-light;
-    }
   }
 
   &__btn_edit {
