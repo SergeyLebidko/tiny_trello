@@ -6,8 +6,11 @@ const NoMatch: React.FC = () => {
     const location = useLocation();
 
     return (
-        <div>
-            Страница {location.pathname} не найдена...
+        <div className="noMatch">
+            <p className="noMatch__text">
+                <span>Ошибка 404:</span>
+                <span>cтраница {`"https://${location.pathname}"`} не найдена...</span>
+            </p>
         </div>
     );
 }

@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {createRandomString} from '../../../utils/common';
 import {ALL_LETTERS, DIGITS, PASSWORD_MIN_LEN} from '../../../constants/settings';
-import {useModalError} from '../../../utils/hooks';
+import {useImage, useModalError} from '../../../utils/hooks';
 import {useDispatch} from 'react-redux';
 import {registerUserAction} from '../../../store/user/actions';
 import './Register.scss';
@@ -13,6 +13,7 @@ type RegisterProps = {
 
 const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden}) => {
     const dispatch = useDispatch();
+    const { modalImg, icons } = useImage();
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
@@ -95,9 +96,9 @@ const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden})
             className="register__btn_return" 
             onClick={() => {closeHandler(); removeOverflowHidden()}}
         >
-            <img src="icons/back.svg" alt="back"/>
+            <img src={icons.iconReturn} alt="back"/>
         </button>                    
-        <img className="register__logo" src="img/login-logo.png" alt="logo" />
+        <img className="register__logo" src={modalImg.modalHeaderLogo} alt="logo" />
 
         <div className="register__content">
             {error && <p className="register__danger">{error}</p>}
@@ -130,7 +131,7 @@ const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden})
                         />
                         <img 
                             className="register__password_look"
-                            src={showPassword ? 'icons/show-pass.png' : 'icons/hide-pass.png'} 
+                            src={showPassword ? icons.iconShow : icons.iconHide} 
                             alt="show/hide-pass" 
                             onClick={showPasswordHandler}
                         />                            
@@ -144,7 +145,7 @@ const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden})
                         />
                         <img 
                             className="register__password_look"
-                            src={showPassword ? 'icons/show-pass.png' : 'icons/hide-pass.png'} 
+                            src={showPassword ? icons.iconShow : icons.iconHide} 
                             alt="show/hide-pass" 
                             onClick={showPasswordHandler}
                         />                            
@@ -163,25 +164,25 @@ const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden})
             <p className="register__or">ИЛИ</p>
 
             <button className="register__btn_out">
-                <img className="register__btn_img" src="icons/google-logo.png" alt="google" />
+                <img className="register__btn_img" src={icons.iconGoogle} alt="google" />
                 <span className="register__btn_text">Войти через Google</span>
             </button>
             <button className="register__btn_out">
-                <img className="register__btn_img" src="icons/ms-logo.png" alt="ms" />
+                <img className="register__btn_img" src={icons.iconMs} alt="ms" />
                 <span className="register__btn_text">Войти через Microsoft</span>
             </button>
             <button className="register__btn_out">
-                <img className="register__btn_img" src="icons/apple-logo.png" alt="apple" />
+                <img className="register__btn_img" src={icons.iconApple} alt="apple" />
                 <span className="register__btn_text">Войти через Apple</span>
             </button>            
         </div>
 
         <div className="register__lang">
-            <img src="img/input-img.png" alt="lang" />
+            <img src={modalImg.input} alt="lang" />
         </div>
 
         <div className="register__footer">
-            <img className="register__footer_img" src="img/login-footer-img.png" alt="Atlassian" />
+            <img className="register__footer_img" src={modalImg.modalFooterLogo} alt="Atlassian" />
             <ul className="register__footer_list">
                 <li><a href="#">Шаблоны</a></li>
                 <li><a href="#">Цены</a></li>
@@ -195,8 +196,8 @@ const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden})
             </ul>
         </div>
 
-        <img className="register__footer_img_left" src="img/modal-img-l.png" alt="bg-l" />
-        <img className="register__footer_img_right" src="img/modal-img-r.png" alt="bg-r" />
+        <img className="register__footer_img_left" src={modalImg.modalFooterLeft} alt="bg-l" />
+        <img className="register__footer_img_right" src={modalImg.modalFooterRight} alt="bg-r" />
         </div>
     );
 }

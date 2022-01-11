@@ -4,6 +4,7 @@ import Register from '../../modals/Register/Register';
 import Login from '../../modals/Login/Login';
 import Logout from '../../modals/Logout/Logout';
 import {getLoggedUser, useTypedSelector} from '../../../store/selectors';
+import { useImage } from '../../../utils/hooks';
 import './Main.scss';
 
 enum ModalMode {
@@ -15,6 +16,7 @@ enum ModalMode {
 
 const Main: React.FC = () => {
     const loggedUser = useTypedSelector(getLoggedUser);
+    const { mainImg } = useImage();
 
     const [modalMode, setModalMode] = useState<ModalMode>(ModalMode.NoModal);
 
@@ -44,8 +46,8 @@ const Main: React.FC = () => {
 
     return (
         <main className="main">
-            <header className="main__header">
-                <img className="main__logo" src="img/header-logo.png" alt="logo" />
+            <header className="main__header">            
+                <img className="main__logo" src={mainImg.mainHeaderLogo} alt="logo" />
 
                 {modalMode === ModalMode.RegisterModal && <Register closeHandler={closeModal} removeOverflowHidden={removeOverflowHidden}/>}
                 {modalMode === ModalMode.LoginModal && <Login closeHandler={closeModal} removeOverflowHidden={removeOverflowHidden}/>}
@@ -83,7 +85,7 @@ const Main: React.FC = () => {
                         </form>
                     </div>
                     <div className="main__hero_right">
-                        <img className="main__hero_img" src="img/hero-img.png" alt="hero-logo" />
+                        <img className="main__hero_img" src={mainImg.heroLogo} alt="hero-logo" />
                     </div>
                 </div>
             </section>
@@ -92,7 +94,7 @@ const Main: React.FC = () => {
                 <h2>Это не просто работа. Это координация действий в команде.</h2>
                 <p className="main__product_text">Начните с досок, колонок и карточек, а затем переходите к более сложным функциям. Управляйте проектами, упорядочивайте задачи и поддерживайте командный дух&nbsp;— все это в Trello.</p>
                 <button className="main__product_btn">Начать работу →</button>
-                <img className="main__product_img" src="img/product-img.png" alt="" />
+                <img className="main__product_img" src={mainImg.productLogo} alt="" />
             </section>
 
             <footer className="main__footer">
@@ -109,7 +111,7 @@ const Main: React.FC = () => {
                     <li><a href="#">Настройки файлов cookie</a></li>
                     <li><a href="#">Конфиденциальность</a></li>
                 </ul>
-                <img className="main__footer_img" src="img/footer-img.png" alt="Atlassian" />
+                <img className="main__footer_img" src={mainImg.mainFooterLogo} alt="Atlassian" />
                 <p>© 2021. Все права защищены.</p>
             </footer>
 

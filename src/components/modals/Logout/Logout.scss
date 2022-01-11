@@ -35,16 +35,9 @@
 
   &__user_names {
     max-width: 300px;
-    color: $gray;
 
-    :nth-child(1) {
-      font-size: 20px;
-      line-height: 24px;      
-    }
-
-    :nth-child(2) {      
-      font-size: 18px;
-      line-height: 20px;      
+    & > * {
+      @include text-format(20px/1.2, 400, $public-serif, $gray)  
     }
   }    
 

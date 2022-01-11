@@ -1,0 +1,44 @@
+@import '../../../sass/import';
+
+.confirm {
+  @include flex(_, center, column);
+  @include block-format(absolute, 100%, 100%, 0, 5px, $blue-ultra-light);
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0.95;
+  z-index: 100;
+  animation: scale-in-center 0.3s 1 linear;
+
+  &__title {
+    @include animation-logo;
+    @include text-format(16px, bold, $kaushan, $red);
+    margin-bottom: 10px;
+  }
+
+  &__text {
+    @include text-format(16px, bold, $roboto-serif);
+    max-width: 270px;    
+    margin-bottom: 5px;
+  }
+
+  &__btn_block {
+    @include flex(space-around);
+    @include block-format(_, 100%, 30px, 10px 0 0);
+  }
+
+  &__btn_cancel {
+    @include btn-reset();
+  }
+
+  &__btn_confirm {
+    @include btn-reset();
+  }
+
+  &__icon_cancel,
+  &__icon_confirm {
+    @include animation-icon;
+    width: 24px;   
+  }
+}
+

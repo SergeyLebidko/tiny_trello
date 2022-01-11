@@ -1,16 +1,88 @@
-.card_panel {
-    width: 300px;
-    margin: 0.5em;
-    padding: 0.5em;
-    background-color: whitesmoke;
-    position: relative;
-}
-.card_delete {
-    position: absolute;
-    top: 0;
-    right: 0;
-    padding: 5px;
-}
-.shadow {
-    box-shadow: 0px 3px 3px gray;
+@import '../../sass/import';
+
+.cardPanel {
+    @include flex(_, _, column);
+    @include block-format(relative, 290px, 222px, 10px 15px, 10px 5px 5px, $gray-light);
+    height: fit-content;
+    box-shadow: 3px 3px 6px 2px $gray;
+    border-radius: 5px;
+    animation: swing-in-top-fwd 0.5s 1 linear;
+
+    &.animation_delete {
+        animation: scale-down 0.5s 1 linear;
+    }
+
+    &:hover {
+        .cardPanel__icon_delete {
+            opacity: 1;
+        }
+    }
+
+    @media (max-width: $md) {
+        margin: 15px auto;
+    }
+
+    &__name {
+        @include block-format(_, 170px, _, 10px 10px);
+        @include text-format(24px/1.2, 600, $satisfy-serif, _, left, 0);
+        border-bottom: 2px solid $blue-dark;
+        cursor: pointer;
+    }
+
+    &__inp_name {
+        @include block-format(_, 200px, 30px, 0 auto 10px , 10px, $blue-light);
+        @include text-format(20px/1.2, 600, $satisfy-serif);
+        border-radius: 5px;
+    }
+
+    &__btn_cancel {
+        @include btn-reset();
+        position: absolute;
+        bottom: 50px;
+        right: 40px;
+    }
+
+    &__btn_confirm {
+        @include btn-reset();
+        position: absolute;
+        bottom: 50px;
+        left: 40px;
+    }
+
+    &__icon_cancel,
+    &__icon_confirm {
+        @include animation-icon;
+        width: 30px;        
+    }
+
+    &__delete {
+        @include btn-reset();
+        position: absolute;
+        right: 10px;
+        top: 10px;
+    }
+
+    &__icon_delete {
+        @include animation-icon;
+        width: 18px;
+        opacity: 0;
+    }
+
+    &__btn_add {
+        @include btn-reset();
+        @include flex(center, center);
+        @include block-format(_, 40px, 25px, 10px auto);
+        box-shadow: 0 2px 6px 2px $gray;
+        border-radius: 3px;
+        animation: fade-up 0.5s 1 linear;
+
+        &:hover {
+            width: 200px;
+            background: $green-low-light;
+        }
+    }
+
+    &__icon_add {
+        width: 20px;
+    }
 }

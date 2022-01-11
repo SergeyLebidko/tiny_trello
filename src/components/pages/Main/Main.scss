@@ -8,11 +8,11 @@
   width: 100%;
   min-height: 100vh;
   padding-top: 68px;
-  background: linear-gradient(0deg, $white, #eae6ff 100%);
+  background: linear-gradient(0deg, $white, $purple-ultra-light 100%);
   font-family: 'Charlie Text', sans-serif;
 
   @media (max-width: $md) {
-    background: linear-gradient(0deg, $white, #edebfd 100%)     
+    background: linear-gradient(0deg, $white, $gray-ultra-light 100%)     
   }
 
   &__header {

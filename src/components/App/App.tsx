@@ -12,7 +12,6 @@ import {loadBoards, removeBoardsFromRedux} from '../../store/board/actions';
 import {loadCards, removeCardsFromRedux} from '../../store/card/actions';
 import {loadTasks, removeTasksFromRedux} from '../../store/task/actions';
 import {setUser} from '../../store/user/actions';
-import './App.scss';
 
 function App() {
     const dispatch = useDispatch();
