@@ -43,7 +43,9 @@ const BoardList: React.FC = () => {
                     <ul className="boardList__content" style={{display: 'inline-flex'}}>
                         {boards.map((board) => <BoardItem key={board.id} board={board}/>)}
                         {hasCreateForm ?
-                            <BoardCreateForm closeHandler={closeCreateForm}/>
+                            <li>
+                                <BoardCreateForm closeHandler={closeCreateForm}/>
+                            </li>
                             :
                             <li className="boardList__list_btn_block" onClick={openCreateForm}>
                                 <img
