@@ -21,7 +21,8 @@ const CardCreateForm: React.FC<CardCreateForm> = ({board, closeHandler}) => {
 
     const {icons} = useImage();
 
-    const addCardHandler = (): void => {
+    const addCardHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
+        e.preventDefault();
         if (!inputRef.current) return;
         dispatch(createCard(
             {
@@ -33,8 +34,13 @@ const CardCreateForm: React.FC<CardCreateForm> = ({board, closeHandler}) => {
         closeHandler();
     }
 
+    const closeFormHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
+        e.preventDefault();
+        closeHandler();
+    }
+
     return (
-        <li className="cardPanel">
+        <form className="cardPanel">
             <p className="cardPanel__name">Введите название списка</p>
             <input
                 className="cardPanel__inp_name"
@@ -48,14 +54,14 @@ const CardCreateForm: React.FC<CardCreateForm> = ({board, closeHandler}) => {
                     alt="confirm"
                 />
             </button>
-            <button className="cardPanel__btn_cancel" onClick={closeHandler}>
+            <button className="cardPanel__btn_cancel" onClick={closeFormHandler}>
                 <img
                     className="cardPanel__icon_cancel"
                     src={icons.iconRemove}
                     alt="cancel"
                 />
             </button>
-        </li>
+        </form>
     );
 }
 
