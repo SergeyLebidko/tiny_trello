@@ -79,7 +79,7 @@ export const TASKS_PRESET: Array<Task> = [
         title: 'Прочитать общие сведения о React',
         done: true,
         importance: Importance.Medium,
-        deadline: +new Date('08.15.2021'),
+        deadline: new Date('08.15.2021').getTime(),
         order: 0
     },
     {
@@ -88,7 +88,7 @@ export const TASKS_PRESET: Array<Task> = [
         title: 'Разобраться с синтаксисом JSX',
         done: true,
         importance: Importance.High,
-        deadline: +new Date('08.25.2021'),
+        deadline: new Date('08.25.2021').getTime(),
         order: 1
     },
     {
@@ -97,7 +97,7 @@ export const TASKS_PRESET: Array<Task> = [
         title: 'Узнать о классовых компонентах',
         done: true,
         importance: Importance.Medium,
-        deadline: +new Date('08.18.2021'),
+        deadline: new Date('08.18.2021').getTime(),
         order: 2
     },
     {
@@ -106,7 +106,7 @@ export const TASKS_PRESET: Array<Task> = [
         title: 'Изучить хуки',
         done: false,
         importance: Importance.High,
-        deadline: +new Date('09.01.2021'),
+        deadline: new Date('09.01.2021').getTime(),
         order: 0
     },
     {
@@ -115,7 +115,7 @@ export const TASKS_PRESET: Array<Task> = [
         title: 'Разобраться с роутингом',
         done: false,
         importance: Importance.Low,
-        deadline: +new Date('09.10.2021'),
+        deadline: new Date('09.10.2021').getTime(),
         order: 1
     },
     {
@@ -124,7 +124,7 @@ export const TASKS_PRESET: Array<Task> = [
         title: 'Разобраться с render-props',
         done: false,
         importance: Importance.High,
-        deadline: +new Date('10.01.2021'),
+        deadline: new Date('10.01.2021').getTime(),
         order: 0
     },
     {
@@ -133,7 +133,7 @@ export const TASKS_PRESET: Array<Task> = [
         title: 'Использование HOC',
         done: false,
         importance: Importance.Low,
-        deadline: +new Date('10.05.2021'),
+        deadline: new Date('10.05.2021').getTime(),
         order: 1
     },
     {
@@ -142,7 +142,7 @@ export const TASKS_PRESET: Array<Task> = [
         title: 'Что такое типы',
         done: true,
         importance: Importance.High,
-        deadline: +new Date('10.10.2021'),
+        deadline: new Date('10.10.2021').getTime(),
         order: 0
     },
     {
@@ -151,7 +151,7 @@ export const TASKS_PRESET: Array<Task> = [
         title: 'Что такое интерфейсы',
         done: true,
         importance: Importance.High,
-        deadline: +new Date('10.10.2021'),
+        deadline: new Date('10.10.2021').getTime(),
         order: 1
     },
     {
@@ -160,7 +160,7 @@ export const TASKS_PRESET: Array<Task> = [
         title: 'Что такое перечисления',
         done: true,
         importance: Importance.Low,
-        deadline: +new Date('10.10.2021'),
+        deadline: new Date('10.10.2021').getTime(),
         order: 2
     },
     {
@@ -169,7 +169,7 @@ export const TASKS_PRESET: Array<Task> = [
         title: 'Что такое класс',
         done: false,
         importance: Importance.Medium,
-        deadline: +new Date('10.20.2021'),
+        deadline: new Date('10.20.2021').getTime(),
         order: 0
     },
     {
@@ -178,7 +178,7 @@ export const TASKS_PRESET: Array<Task> = [
         title: 'Что такое обобщения и обощенные функции',
         done: false,
         importance: Importance.Medium,
-        deadline: +new Date('10.20.2021'),
+        deadline: new Date('10.20.2021').getTime(),
         order: 1
     },
 ];

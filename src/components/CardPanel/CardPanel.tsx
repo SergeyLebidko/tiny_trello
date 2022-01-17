@@ -207,7 +207,9 @@ const CardPanel: React.FC<CardPaneProps> = ({card, board, removeCardHandler, dra
                     )
                 }
                 {hasCreateForm ?
-                    <TaskCreateForm card={card} closeHandler={closeCreateForm}/>
+                    <li>
+                        <TaskCreateForm card={card} closeHandler={closeCreateForm}/>
+                    </li>
                     :
                     <li className="cardPanel__btn_add" onClick={openCreateFrom}>
                         <img

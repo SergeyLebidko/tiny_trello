@@ -17,33 +17,30 @@ const BoardCreateForm: React.FC<BoardCreateFormProps> = ({closeHandler}) => {
 
     const inputRef = useRef<HTMLInputElement>(null);
 
-    const addBoardHandler = (): void => {
+    const addBoardHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
+        e.preventDefault();
         if (!loggedUser || !inputRef.current) return;
         if (loggedUser.id) {
             dispatch(createBoard({
                 userId: loggedUser.id,
                 title: inputRef.current.value,
             }));
-            closeHandler();
         }
+        closeHandler();
     }
 
-    // Захват события нажатия Enter
-    const getTitleEnter = (e: React.KeyboardEvent<HTMLInputElement>): void => {
-        if (e.code === 'Enter') {
-            addBoardHandler();
-        }
+    const closeFormHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
+        e.preventDefault();
+        closeHandler();
     }
 
     return (
-        <li className="boardItem">
+        <form className="boardItem">
             <p className="boardItem__logo">Введите название доски</p>
             <input
                 className="boardItem__name"
-                type="text"
                 ref={inputRef}
                 autoFocus
-                onKeyDown={getTitleEnter}
             />
             <button className="boardItem__btn_confirm" onClick={addBoardHandler}>
                 <img
@@ -52,14 +49,14 @@ const BoardCreateForm: React.FC<BoardCreateFormProps> = ({closeHandler}) => {
                     alt="confirm"
                 />
             </button>
-            <button onClick={closeHandler} className="boardItem__btn_cancel">
+            <button onClick={closeFormHandler} className="boardItem__btn_cancel">
                 <img
                     className="boardItem__icon_cancel"
                     src={icons.iconRemove}
                     alt="cancel"
                 />
             </button>
-        </li>
+        </form>
     );
 }
 

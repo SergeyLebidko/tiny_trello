@@ -89,7 +89,9 @@ const BoardPanel: React.FC = () => {
                         />)
                 }
                 {hasCreateForm ?
-                    <CardCreateForm board={board} closeHandler={closeCreateFrom}/>
+                    <li>
+                        <CardCreateForm board={board} closeHandler={closeCreateFrom}/>
+                    </li>
                     :
                     <button className="boardPanel__btn_addCard" onClick={openCreateForm}>
                         <img

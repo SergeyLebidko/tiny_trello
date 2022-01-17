@@ -20,7 +20,7 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({card, closeHandler}) => 
     const {icons} = useImage();
 
     const [selected, setSelected] = useState<Importance>(Importance.Low);
-    const titleRef = useRef<HTMLTextAreaElement>(null);
+    const titleRef = useRef<HTMLInputElement>(null);
     const dateRef = useRef<HTMLInputElement>(null);
 
     // Получаем дату в текстовом формате, который требует форма
@@ -33,23 +33,29 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({card, closeHandler}) => 
         setSelected(e.currentTarget.value as Importance);
     }
 
-    const addTaskHandler = (): void => {
+    const addTaskHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
+        e.preventDefault();
         if (!titleRef.current || !dateRef.current) return;
         dispatch(createTask({
             cardId: card.id as number,
             title: titleRef.current.value,
             done: false,
             importance: selected,
-            deadline: +new Date(dateRef.current.value),
+            deadline: new Date(dateRef.current.value).getTime(),
             order: getNextOrder<Task>(tasks.filter(task => task.cardId === card.id)),
         }))
         closeHandler();
     }
 
+    const closeFormHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
+        e.preventDefault();
+        closeHandler();
+    }
+
     return (
-        <li className="taskPanel">
+        <form className="taskPanel">
             <p className="taskPanel__name">Введите текст задачи</p>
-            <textarea className="taskPanel__area" ref={titleRef} autoFocus/>
+            <input className="taskPanel__area" ref={titleRef} autoFocus/>
             <select className="taskPanel__select" value={selected} onChange={changeImportanceHandler}>
                 <option value={Importance.Low}>Низкая</option>
                 <option value={Importance.Medium}>Средняя</option>
@@ -68,14 +74,14 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({card, closeHandler}) => 
                     alt="confirm"
                 />
             </button>
-            <button className="taskPanel__btn_cancel" onClick={closeHandler}>
+            <button className="taskPanel__btn_cancel" onClick={closeFormHandler}>
                 <img
                     className="taskPanel__icon_cancel"
                     src={icons.iconCancel}
                     alt="cancel"
                 />
             </button>
-        </li>
+        </form>
     );
 }
 
