@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/tiny_trello/static/css/main.5e175c58.css",
-    "main.js": "/tiny_trello/static/js/main.ebdd20eb.js",
+    "main.css": "/tiny_trello/static/css/main.a8ca9bfe.css",
+    "main.js": "/tiny_trello/static/js/main.e6d0b091.js",
     "static/media/main-product-logo.png": "/tiny_trello/static/media/main-product-logo.c139c9af0290c96a9f24.png",
     "static/media/main-hero-logo.png": "/tiny_trello/static/media/main-hero-logo.3ccc35408e417ea9e949.png",
     "static/media/KaushanScript-Regular.ttf": "/tiny_trello/static/media/KaushanScript-Regular.b721b739d0ff7289db4f.ttf",
@@ -13,7 +13,6 @@
     "static/media/btn-add.png": "/tiny_trello/static/media/btn-add.b6104b3bb85ecaf95b2b.png",
     "static/media/charlie-personal-use.ttf": "/tiny_trello/static/media/charlie-personal-use.196fd6c1204834cda1aa.ttf",
     "static/media/btn-remove-task.svg": "/tiny_trello/static/media/btn-remove-task.43abd16f54731d4913dce221c9e37631.svg",
-    "static/media/btn-up.svg": "/tiny_trello/static/media/btn-up.603e441b5e2061f632d5aa56ca1b7188.svg",
     "index.html": "/tiny_trello/index.html",
     "static/media/btn-cancel.svg": "/tiny_trello/static/media/btn-cancel.bd4906d4f5c28e4d73214d1258d63a2e.svg",
     "static/media/btn-confirm.svg": "/tiny_trello/static/media/btn-confirm.6294639ee94bec2d5ce0d30f38cbe8fa.svg",
@@ -21,11 +20,11 @@
     "static/media/btn-back.svg": "/tiny_trello/static/media/btn-back.83aa775a65892efff8dd306eccced5ba.svg",
     "static/media/btn-add-task.svg": "/tiny_trello/static/media/btn-add-task.84478f1596d8d93aef242201a227b42b.svg",
     "static/media/btn-select.svg": "/tiny_trello/static/media/btn-select.27c49128156891d28b6305f401c30063.svg",
-    "main.5e175c58.css.map": "/tiny_trello/static/css/main.5e175c58.css.map",
-    "main.ebdd20eb.js.map": "/tiny_trello/static/js/main.ebdd20eb.js.map"
+    "main.a8ca9bfe.css.map": "/tiny_trello/static/css/main.a8ca9bfe.css.map",
+    "main.e6d0b091.js.map": "/tiny_trello/static/js/main.e6d0b091.js.map"
   },
   "entrypoints": [
-    "static/css/main.5e175c58.css",
-    "static/js/main.ebdd20eb.js"
+    "static/css/main.a8ca9bfe.css",
+    "static/js/main.e6d0b091.js"
   ]
 }
