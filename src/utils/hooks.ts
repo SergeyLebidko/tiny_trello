@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 
-export function useModalError(): [string | null, (text: string) => void]{
+export function useError(): [string | null, (text: string) => void]{
     const [error, setError] = useState<string | null>(null);
     const errorTimer: { current: NodeJS.Timeout | undefined } = useRef();
 

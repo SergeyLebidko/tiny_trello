@@ -1,6 +1,6 @@
 import React, {useRef, useState} from 'react';
 import {createRandomString} from '../../../utils/common';
-import {useImage, useModalError} from '../../../utils/hooks';
+import {useImage, useError} from '../../../utils/hooks';
 import {useDispatch} from 'react-redux';
 import {loginUserAction} from '../../../store/user/actions';
 import './Login.scss';
@@ -16,7 +16,7 @@ const Login: React.FC<LoginProps> = ({closeHandler, removeOverflowHidden}) => {
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
-    const [error, setErrorText] = useModalError();
+    const [error, setErrorText] = useError();
 
     const loginRef = useRef<HTMLInputElement>(null);
     const passwordRef = useRef<HTMLInputElement>(null);
