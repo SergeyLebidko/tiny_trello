@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
 import {Link, useParams} from 'react-router-dom';
 import {Board} from '../../../store/board/types';
-import CardPanel from '../../CardPanel/CardPanel';
+import CardPanel from '../../entities/CardPanel/CardPanel';
 import CardCreateForm from '../../forms/CardCreateForm/CardCreateForm';
-import NoMatch from '../NoMatch/NoMatch';
+import NoMatch from '../../errors/NoMatch/NoMatch';
 import {getBoards, getCards, useTypedSelector} from '../../../store/selectors';
 import {Card} from '../../../store/card/types';
 import {useDispatch} from 'react-redux';

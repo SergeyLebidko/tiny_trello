@@ -1,14 +1,14 @@
 import React, {useRef, useState} from 'react';
-import {Importance, Task} from '../../store/task/types';
-import {Card} from '../../store/card/types';
-import ObjectEditTitleForm from '../forms/ObjectEditTitleForm/ObjectEditTitleForm';
-import {patchTask, removeTask} from '../../store/task/actions';
+import {Importance, Task} from '../../../store/task/types';
+import {Card} from '../../../store/card/types';
+import ObjectEditTitleForm from '../../forms/ObjectEditTitleForm/ObjectEditTitleForm';
+import {patchTask, removeTask} from '../../../store/task/actions';
 import {useDispatch} from 'react-redux';
-import Confirm from '../modals/Confirm/Confirm';
-import {useImage} from '../../utils/hooks';
-import {getDateParts} from '../../utils/common';
+import Confirm from '../../modals/Confirm/Confirm';
+import {useImage} from '../../../utils/hooks';
+import {getDateParts} from '../../../utils/common';
 import './TaskPanel.scss';
-import TaskEditDateForm from "../forms/TaskEditDateForm/TaskEditDateForm";
+import TaskEditDateForm from "../../forms/TaskEditDateForm/TaskEditDateForm";
 
 type TaskPanelProps = {
     task: Task,

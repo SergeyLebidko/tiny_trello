@@ -1,4 +1,4 @@
-@import '../../sass/import';
+@import '../../../sass/import';
 
 .boardItem {
   @include flex(_, center, column);

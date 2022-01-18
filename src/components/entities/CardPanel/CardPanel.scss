@@ -1,4 +1,4 @@
-@import '../../sass/import';
+@import '../../../sass/import';
 
 .cardPanel {
     @include flex(_, _, column);
