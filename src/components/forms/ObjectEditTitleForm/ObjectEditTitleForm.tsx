@@ -7,20 +7,34 @@ import {patchTask} from '../../../store/task/actions';
 import {patchCard} from '../../../store/card/actions';
 import {patchBoard} from '../../../store/board/actions';
 import {isBoard, isCard, isTask} from '../../../utils/common';
+import {useError} from '../../../utils/hooks';
 import './ObjectEditTitleForm.scss';
 
 type ObjectEditTitleFormProps = {
-    object: Board | Card | Task
+    object: Board | Card | Task,
+    maxLen: number,
     closeHandler: () => void
 }
 
-const ObjectEditTitleForm: React.FC<ObjectEditTitleFormProps> = ({object, closeHandler}) => {
+const ObjectEditTitleForm: React.FC<ObjectEditTitleFormProps> = ({object, maxLen, closeHandler}) => {
     const dispatch = useDispatch();
+
+    const [error, setErrorText] = useError();
     const inputRef = useRef<HTMLInputElement>(null);
 
     const rename = (): void => {
         if (inputRef.current === null) return;
-        const title = inputRef.current.value;
+
+        const title = inputRef.current.value.trim();
+        if (!title) {
+            setErrorText('Название не может быть пустым');
+            return;
+        }
+        if (title.length > maxLen) {
+            setErrorText(`Максимальная длина названия ${maxLen} символов`);
+            return;
+        }
+
         if (isBoard(object)) {
             dispatch(patchBoard({...object, title}));
         }
@@ -32,6 +46,9 @@ const ObjectEditTitleForm: React.FC<ObjectEditTitleFormProps> = ({object, closeH
         }
         closeHandler();
     }
+
+    // При клике - подавляем распространение события, чтобы не срабатывали обработчики мыши за пределами формы
+    const clickHandler = (e: React.MouseEvent<HTMLFormElement>) => e.stopPropagation();
 
     // При получении фокуса - выделяем текст в поле ввода
     const focusHandler = (): void => {
@@ -54,15 +71,18 @@ const ObjectEditTitleForm: React.FC<ObjectEditTitleFormProps> = ({object, closeH
     }
 
     return (
-        <input
-            className="objectEditTitleForm"
-            ref={inputRef}
-            autoFocus
-            defaultValue={object.title}
-            onFocus={focusHandler}
-            onBlur={blurHandler}
-            onKeyDown={keyDownHandler}
-        />
+        <form onClick={clickHandler}>
+            <input
+                className="objectEditTitleForm"
+                ref={inputRef}
+                autoFocus
+                defaultValue={object.title}
+                onFocus={focusHandler}
+                onBlur={blurHandler}
+                onKeyDown={keyDownHandler}
+            />
+            {error && <span>{error}</span>}
+        </form>
     );
 }
 

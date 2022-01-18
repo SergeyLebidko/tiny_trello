@@ -1,7 +1,7 @@
 import React, {useRef, useState} from 'react';
 import {createRandomString} from '../../../utils/common';
 import {ALL_LETTERS, DIGITS, PASSWORD_MIN_LEN} from '../../../constants/settings';
-import {useImage, useModalError} from '../../../utils/hooks';
+import {useImage, useError} from '../../../utils/hooks';
 import {useDispatch} from 'react-redux';
 import {registerUserAction} from '../../../store/user/actions';
 import './Register.scss';
@@ -17,7 +17,7 @@ const Register: React.FC<RegisterProps> = ({closeHandler, removeOverflowHidden})
 
     const [showPassword, setShowPassword] = useState<boolean>(false);
 
-    const [error, setErrorText] = useModalError();
+    const [error, setErrorText] = useError();
 
     const loginRef = useRef<HTMLInputElement>(null);
     const firstNameRef = useRef<HTMLInputElement>(null);

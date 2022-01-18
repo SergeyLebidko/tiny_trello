@@ -2,7 +2,8 @@ import React, {useRef} from 'react';
 import {createBoard} from '../../../store/board/actions';
 import {useDispatch} from 'react-redux';
 import {getLoggedUser, useTypedSelector} from '../../../store/selectors';
-import {useImage} from '../../../utils/hooks';
+import {useError, useImage} from '../../../utils/hooks';
+import {BOARD_TITLE_MAX_LEN} from '../../../constants/settings';
 import './BoardCreateForm.scss';
 
 type BoardCreateFormProps = {
@@ -11,6 +12,8 @@ type BoardCreateFormProps = {
 
 const BoardCreateForm: React.FC<BoardCreateFormProps> = ({closeHandler}) => {
     const dispatch = useDispatch();
+
+    const [error, setErrorText] = useError();
     const loggedUser = useTypedSelector(getLoggedUser);
 
     const {icons} = useImage();
@@ -20,10 +23,21 @@ const BoardCreateForm: React.FC<BoardCreateFormProps> = ({closeHandler}) => {
     const addBoardHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault();
         if (!loggedUser || !inputRef.current) return;
+
+        const title = inputRef.current.value.trim();
+        if (!title) {
+            setErrorText('Название не может быть пустым');
+            return;
+        }
+        if(title.length > BOARD_TITLE_MAX_LEN) {
+            setErrorText(`Максимальная длина названия ${BOARD_TITLE_MAX_LEN} символов`);
+            return;
+        }
+
         if (loggedUser.id) {
             dispatch(createBoard({
                 userId: loggedUser.id,
-                title: inputRef.current.value,
+                title
             }));
         }
         closeHandler();
@@ -42,6 +56,7 @@ const BoardCreateForm: React.FC<BoardCreateFormProps> = ({closeHandler}) => {
                 ref={inputRef}
                 autoFocus
             />
+            {error && <span>{error}</span>}
             <button className="boardItem__btn_confirm" onClick={addBoardHandler}>
                 <img
                     className="boardItem__icon_confirm"

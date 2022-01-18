@@ -1,11 +1,12 @@
 import React, {useRef} from 'react';
-import {useImage} from '../../../utils/hooks';
+import {useError, useImage} from '../../../utils/hooks';
 import {Board} from '../../../store/board/types';
 import {createCard} from '../../../store/card/actions';
 import {useDispatch} from 'react-redux';
 import {getCards, useTypedSelector} from '../../../store/selectors';
 import {getNextOrder} from '../../../utils/common';
 import {Card} from '../../../store/card/types';
+import {CARD_TITLE_MAX_LEN} from '../../../constants/settings';
 import './CardCreateForm.scss';
 
 type CardCreateForm = {
@@ -15,6 +16,8 @@ type CardCreateForm = {
 
 const CardCreateForm: React.FC<CardCreateForm> = ({board, closeHandler}) => {
     const dispatch = useDispatch();
+
+    const [error, setErrorText] = useError();
     const cards = useTypedSelector(getCards);
 
     const inputRef = useRef<HTMLInputElement>(null);
@@ -24,11 +27,22 @@ const CardCreateForm: React.FC<CardCreateForm> = ({board, closeHandler}) => {
     const addCardHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault();
         if (!inputRef.current) return;
+
+        const title = inputRef.current.value.trim();
+        if (!title) {
+            setErrorText('Название не может быть пустым');
+            return;
+        }
+        if(title.length > CARD_TITLE_MAX_LEN) {
+            setErrorText(`Максимальная длина названия ${CARD_TITLE_MAX_LEN} символов`);
+            return;
+        }
+
         dispatch(createCard(
             {
                 boardId: board.id as number,
-                title: inputRef.current.value,
                 order: getNextOrder<Card>(cards.filter(card => card.boardId === board.id)),
+                title
             }
         ))
         closeHandler();
@@ -47,6 +61,7 @@ const CardCreateForm: React.FC<CardCreateForm> = ({board, closeHandler}) => {
                 ref={inputRef}
                 autoFocus
             />
+            {error && <span>{error}</span>}
             <button className="cardPanel__btn_confirm" onClick={addCardHandler}>
                 <img
                     className="cardPanel__icon_confirm"
