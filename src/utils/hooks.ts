@@ -1,6 +1,6 @@
 import {useEffect, useRef, useState} from 'react';
 
-export function useModalError(): [string | null, (text: string) => void]{
+export function useError(): [string | null, (text: string) => void]{
     const [error, setError] = useState<string | null>(null);
     const errorTimer: { current: NodeJS.Timeout | undefined } = useRef();
 
@@ -41,7 +41,6 @@ import iconAddTask from '../content/icons/btn-add-task.svg';
 import iconAddCard from '../content/icons/btn-add-card.png';
 import iconRemove from '../content/icons/btn-remove.svg';
 import iconRemoveTask from '../content/icons/btn-remove-task.svg';
-import iconUp from '../content/icons/btn-up.svg';
 import iconConfirm from '../content/icons/btn-confirm.svg';
 import iconBack from '../content/icons/btn-back.png';
 import iconCancel from '../content/icons/btn-cancel.svg';
@@ -78,7 +77,6 @@ export function useImage(): useImage {
     const icons = {
         iconAdd,
         iconRemove,
-        iconUp,
         iconConfirm,
         iconAddTask,
         iconBack,

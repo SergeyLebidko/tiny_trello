@@ -3,6 +3,7 @@ import {Task} from '../../../store/task/types';
 import {getDateParts} from '../../../utils/common';
 import {useDispatch} from 'react-redux';
 import {patchTask} from '../../../store/task/actions';
+import {useError} from '../../../utils/hooks';
 import './TaskEditDateForm.scss';
 
 type TaskEditDateFormProps = {
@@ -12,13 +13,22 @@ type TaskEditDateFormProps = {
 
 const TaskEditDateForm: React.FC<TaskEditDateFormProps> = ({task, closeHandler}) => {
     const dispatch = useDispatch();
+
+    const [error, setErrorText] = useError();
     const inputRef = useRef<HTMLInputElement>(null);
 
     const changeTaskDate = (): void => {
         if (inputRef.current === null) return;
+
+        const deadline = new Date(inputRef.current.value).getTime();
+        if (isNaN(deadline)) {
+            setErrorText('Недопустимая дата');
+            return;
+        }
+
         dispatch(patchTask({
             ...task,
-            deadline: Date.parse(inputRef.current.value)
+            deadline
         }));
         closeHandler();
     }
@@ -44,15 +54,18 @@ const TaskEditDateForm: React.FC<TaskEditDateFormProps> = ({task, closeHandler})
     }
 
     return (
-        <input 
-            className="taskEditDateForm"
-            autoFocus
-            type="date"
-            ref={inputRef}
-            defaultValue={getDefaultValue()}
-            onKeyDown={keyDownHandler}
-            onBlur={blurHandler}
-        />
+        <form>
+            <input
+                className="taskEditDateForm"
+                autoFocus
+                type="date"
+                ref={inputRef}
+                defaultValue={getDefaultValue()}
+                onKeyDown={keyDownHandler}
+                onBlur={blurHandler}
+            />
+            {error && <span>{error}</span>}
+        </form>
     );
 }
 

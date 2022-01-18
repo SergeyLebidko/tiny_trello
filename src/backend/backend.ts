@@ -12,7 +12,6 @@ export enum DataKeys {
     Tasks = 'TASKS'
 }
 
-// Класс реализует бэкенд на основе localStorage
 class Backend {
 
     constructor() {
@@ -31,11 +30,6 @@ class Backend {
         }
     }
 
-    /* ********** Блок вспомогательных приватных методов ********** */
-
-    // Метод получает свободный идентификатор для переданного списка объектов
-    // Например мы создаем нового пользователя и должны присвоить ему такой id, которого еще нет в базе.
-    // Этот метод вернет его, если передать список пользователей
     private getNextId(dataSet: Array<User | Board | Card | Task>): number {
         let result = 1;
         if (dataSet.length) {
@@ -44,7 +38,6 @@ class Backend {
         return result;
     }
 
-    // Метод получает из localStorage текущего залогиненного пользователя
     private getLoggedUser(): User {
         const user: User = JSON.parse(localStorage.getItem(DataKeys.LoggedUser) || '{}');
 
@@ -53,7 +46,6 @@ class Backend {
         return user;
     }
 
-    // Метод для получения списков сущностей
     private get<T extends Board | Card | Task>(dataKey: DataKeys): Array<T> {
         const user = this.getLoggedUser();
         const entityList: Array<T> = JSON.parse(localStorage.getItem(dataKey) || '[]');
@@ -71,7 +63,6 @@ class Backend {
         throw new Error('Неизвестный тип сущности');
     }
 
-    // Метод для создания сущностей
     private create<T extends Board | Card | Task>(element: T, dataKey: DataKeys): T {
         // Извлекаем текущего залогиненного пользователя.
         // Если такого нет - будет сразу же выброшено исключение.
@@ -91,7 +82,6 @@ class Backend {
         return createdElement;
     }
 
-    // Метод для изменения сущностей
     private patch<T extends Board | Card | Task>(element: T, dataKey: DataKeys): T {
         this.getLoggedUser();
         const elementsInBase: Array<T> = JSON.parse(localStorage.getItem(dataKey) || '[]');
@@ -100,7 +90,6 @@ class Backend {
         return element;
     }
 
-    // Метод для удаления сущностей
     private remove<T extends Board | Card | Task>(element: T, dataKey: DataKeys): T {
         this.getLoggedUser();
         const elementsInBase: Array<T> = JSON.parse(localStorage.getItem(dataKey) || '[]');
@@ -130,7 +119,7 @@ class Backend {
     /* ********** Блок методов для работы с пользователями (сущность User) ********** */
 
     // Метод регистрирует нового пользователя, выполняет логин, и сразу же возвращает его
-    registerUser(userData: User): User {
+    public registerUser(userData: User): User {
         const users: Array<User> = JSON.parse(localStorage.getItem(DataKeys.Users) || '[]');
         if (users.some(user => user.login === userData.login)) {
             throw new Error('Пользователь с таким логином уже существует');
@@ -146,7 +135,7 @@ class Backend {
     }
 
     // Метод выполняет логин: проверят переданные логин и пароль, находит по этим данным пользователя и возвращает его
-    loginUser(login: string, password: string): User {
+    public loginUser(login: string, password: string): User {
         const users: Array<User> = JSON.parse(localStorage.getItem(DataKeys.Users) || '[]');
         const user = users.find(user => user.login === login && user.password === password);
         if (user) {
@@ -157,61 +146,61 @@ class Backend {
     }
 
     // Метод выполняет logout: убирает из localStorage данные по выполнившему вход пользователю
-    logoutUser(): void {
+    public logoutUser(): void {
         localStorage.removeItem(DataKeys.LoggedUser)
     }
 
     /* ********** Блок методов для работы с досками (сущность Board) ********** */
 
-    getBoards(): Array<Board> {
+    public getBoards(): Array<Board> {
         return this.get<Board>(DataKeys.Boards);
     }
 
-    createBoard(board: Board): Board {
+    public createBoard(board: Board): Board {
         return this.create<Board>(board, DataKeys.Boards);
     }
 
-    patchBoard(board: Board): Board {
+    public patchBoard(board: Board): Board {
         return this.patch<Board>(board, DataKeys.Boards);
     }
 
-    removeBoard(board: Board) {
+    public removeBoard(board: Board) {
         return this.remove<Board>(board, DataKeys.Boards);
     }
 
     /* ********** Блок методов для работы с карточками (сущность Card) ********** */
 
-    getCards(): Array<Card> {
+    public getCards(): Array<Card> {
         return this.get<Card>(DataKeys.Cards);
     }
 
-    createCard(card: Card): Card {
+    public createCard(card: Card): Card {
         return this.create<Card>(card, DataKeys.Cards);
     }
 
-    patchCard(card: Card): Card {
+    public patchCard(card: Card): Card {
         return this.patch<Card>(card, DataKeys.Cards);
     }
 
-    removeCard(card: Card): Card {
+    public removeCard(card: Card): Card {
         return this.remove<Card>(card, DataKeys.Cards);
     }
 
     /* ********** Блок методов для работы с задачами (сущность Task) ********** */
 
-    getTasks(): Array<Task> {
+    public getTasks(): Array<Task> {
         return this.get<Task>(DataKeys.Tasks);
     }
 
-    createTask(task: Task): Task {
+    public createTask(task: Task): Task {
         return this.create<Task>(task, DataKeys.Tasks);
     }
 
-    patchTask(task: Task): Task {
+    public patchTask(task: Task): Task {
         return this.patch<Task>(task, DataKeys.Tasks);
     }
 
-    removeTask(task: Task): Task {
+    public removeTask(task: Task): Task {
         return this.remove<Task>(task, DataKeys.Tasks);
     }
 }
