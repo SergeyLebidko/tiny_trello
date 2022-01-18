@@ -1,4 +1,4 @@
-@import '../../sass/import';
+@import '../../../sass/import';
 
 .taskPanel {
   @include block-format(relative, 270px, _, 10px auto 20px, 5px, $green-low-light);

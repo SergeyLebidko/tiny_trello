@@ -1,17 +1,17 @@
 import React, {FC, useState} from 'react';
 import {Link} from 'react-router-dom';
-import {Board} from '../../store/board/types';
-import {useImage} from '../../utils/hooks';
+import {Board} from '../../../store/board/types';
+import {useImage} from '../../../utils/hooks';
 import {useDispatch} from 'react-redux';
-import {removeBoard} from '../../store/board/actions';
-import ObjectEditTitleForm from '../forms/ObjectEditTitleForm/ObjectEditTitleForm';
-import './BoardItem.scss';
+import {removeBoard} from '../../../store/board/actions';
+import ObjectEditTitleForm from '../../forms/ObjectEditTitleForm/ObjectEditTitleForm';
+import './BoardPanel.scss';
 
-interface IBoardItem {
+interface IBoardPanel {
     board: Board
 }
 
-const BoardItem: FC<IBoardItem> = ({board}) => {
+const BoardPanel: FC<IBoardPanel> = ({board}) => {
     const dispatch = useDispatch();
     const [hasEditForm, setHasEditForm] = useState<boolean>(false);
     const openEditForm = (): void => setHasEditForm(true);
@@ -52,4 +52,4 @@ const BoardItem: FC<IBoardItem> = ({board}) => {
     );
 };
 
-export default BoardItem;
+export default BoardPanel;

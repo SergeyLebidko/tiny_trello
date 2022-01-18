@@ -1,19 +1,19 @@
 import React, {useEffect, useRef, useState} from 'react';
-import {getCards, getDndObjects, getTasks, useTypedSelector} from '../../store/selectors';
-import {Card} from '../../store/card/types';
+import {getCards, getDndObjects, getTasks, useTypedSelector} from '../../../store/selectors';
+import {Card} from '../../../store/card/types';
 import TaskPanel from '../TaskPanel/TaskPanel';
-import TaskCreateForm from '../forms/TaskCreateForm/TaskCreateForm';
-import Confirm from '../modals/Confirm/Confirm';
-import {Task} from '../../store/task/types';
+import TaskCreateForm from '../../forms/TaskCreateForm/TaskCreateForm';
+import Confirm from '../../modals/Confirm/Confirm';
+import {Task} from '../../../store/task/types';
 import {useDispatch} from 'react-redux';
-import {patchTask} from '../../store/task/actions';
-import {useImage} from '../../utils/hooks';
-import {getNextOrder, isCard, isTask} from '../../utils/common';
+import {patchTask} from '../../../store/task/actions';
+import {useImage} from '../../../utils/hooks';
+import {getNextOrder, isCard, isTask} from '../../../utils/common';
 import './CardPanel.scss';
-import ObjectEditTitleForm from "../forms/ObjectEditTitleForm/ObjectEditTitleForm";
-import {clearDNDObject, setDNDCard} from "../../store/dnd/actions";
-import {patchCard} from "../../store/card/actions";
-import {Board} from "../../store/board/types";
+import ObjectEditTitleForm from "../../forms/ObjectEditTitleForm/ObjectEditTitleForm";
+import {clearDNDObject, setDNDCard} from "../../../store/dnd/actions";
+import {patchCard} from "../../../store/card/actions";
+import {Board} from "../../../store/board/types";
 
 type CardPaneProps = {
     card: Card,

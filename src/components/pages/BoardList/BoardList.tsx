@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import {getBoards, getLoggedUser, useTypedSelector} from '../../../store/selectors';
 import BoardCreateForm from '../../forms/BoardCreateForm/BoardCreateForm';
-import BoardItem from '../../BoardItem/BoardItem';
+import BoardPanel from '../../entities/BoardPanel/BoardPanel';
 import {useImage} from '../../../utils/hooks';
 import {Link} from 'react-router-dom';
 import './BoardList.scss';
@@ -41,7 +41,7 @@ const BoardList: React.FC = () => {
                     </div>
 
                     <ul className="boardList__content" style={{display: 'inline-flex'}}>
-                        {boards.map((board) => <BoardItem key={board.id} board={board}/>)}
+                        {boards.map((board) => <BoardPanel key={board.id} board={board}/>)}
                         {hasCreateForm ?
                             <li>
                                 <BoardCreateForm closeHandler={closeCreateForm}/>

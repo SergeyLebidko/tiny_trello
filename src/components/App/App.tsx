@@ -3,7 +3,7 @@ import {HashRouter, Route, Routes} from 'react-router-dom';
 import Main from '../pages/Main/Main';
 import BoardList from '../pages/BoardList/BoardList';
 import BoardPanel from '../pages/BoardPanel/BoardPanel';
-import NoMatch from '../pages/NoMatch/NoMatch';
+import NoMatch from '../errors/NoMatch/NoMatch';
 import {getLoggedUser, useTypedSelector} from '../../store/selectors';
 import {DataKeys} from '../../backend/backend';
 import {User} from '../../store/user/types';
