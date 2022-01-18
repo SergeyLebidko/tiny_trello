@@ -1,5 +1,5 @@
 import React, {FC, useState} from 'react';
-import {Link} from 'react-router-dom';
+import {useNavigate} from 'react-router-dom';
 import {Board} from '../../../store/board/types';
 import {useImage} from '../../../utils/hooks';
 import {useDispatch} from 'react-redux';
@@ -12,39 +12,39 @@ interface IBoardPanel {
 }
 
 const BoardPanel: FC<IBoardPanel> = ({board}) => {
+    const navigate = useNavigate();
     const dispatch = useDispatch();
+
     const [hasEditForm, setHasEditForm] = useState<boolean>(false);
-    const openEditForm = (): void => setHasEditForm(true);
     const closeEditForm = (): void => setHasEditForm(false);
+    const openEditForm = (e: React.MouseEvent<HTMLParagraphElement>): void => {
+        e.stopPropagation();
+        setHasEditForm(true);
+    }
 
     const {icons} = useImage();
 
-    // Анимация при удаление Board
-    const onclickHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
+    const removeBoardHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
+        e.stopPropagation();
         e.currentTarget.parentElement?.classList.add('animation_delete')
         setTimeout(() => dispatch(removeBoard(board)), 300);
     }
 
+    const panelClickHandler = (): void => navigate(`/board/${board.id}`);
+
     return (
-        <li className='boardItem'>
+        <li className='boardItem' onClick={panelClickHandler}>
             {hasEditForm
                 ? <ObjectEditTitleForm object={board} closeHandler={closeEditForm}/>
                 :
                 <>
-                    <button className='boardItem__btn_remove' onClick={onclickHandler}>
+                    <button className='boardItem__btn_remove' onClick={removeBoardHandler}>
                         <img
                             className='boardItem__icon_remove'
                             src={icons.iconRemove}
                             alt='remove'
                         />
                     </button>
-                    <Link className='boardItem__link' to={`/board/${board.id}`}>
-                        <img
-                            className='boardItem__icon_up'
-                            src={icons.iconUp}
-                            alt='go'
-                        />
-                    </Link>
                     <p className='boardItem__name' onClick={openEditForm}>{board.title}</p>
                 </>
             }
