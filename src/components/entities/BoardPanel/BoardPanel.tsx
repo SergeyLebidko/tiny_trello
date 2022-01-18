@@ -6,6 +6,7 @@ import {useDispatch} from 'react-redux';
 import {removeBoard} from '../../../store/board/actions';
 import ObjectEditTitleForm from '../../forms/ObjectEditTitleForm/ObjectEditTitleForm';
 import './BoardPanel.scss';
+import {BOARD_TITLE_MAX_LEN} from "../../../constants/settings";
 
 interface IBoardPanel {
     board: Board
@@ -35,7 +36,7 @@ const BoardPanel: FC<IBoardPanel> = ({board}) => {
     return (
         <li className='boardItem' onClick={panelClickHandler}>
             {hasEditForm
-                ? <ObjectEditTitleForm object={board} closeHandler={closeEditForm}/>
+                ? <ObjectEditTitleForm object={board} maxLen={BOARD_TITLE_MAX_LEN} closeHandler={closeEditForm}/>
                 :
                 <>
                     <button className='boardItem__btn_remove' onClick={removeBoardHandler}>

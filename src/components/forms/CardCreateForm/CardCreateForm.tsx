@@ -35,6 +35,7 @@ const CardCreateForm: React.FC<CardCreateForm> = ({board, closeHandler}) => {
         }
         if(title.length > CARD_TITLE_MAX_LEN) {
             setErrorText(`Максимальная длина названия ${CARD_TITLE_MAX_LEN} символов`);
+            return;
         }
 
         dispatch(createCard(

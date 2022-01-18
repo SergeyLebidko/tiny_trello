@@ -14,6 +14,7 @@ import ObjectEditTitleForm from "../../forms/ObjectEditTitleForm/ObjectEditTitle
 import {clearDNDObject, setDNDCard} from "../../../store/dnd/actions";
 import {patchCard} from "../../../store/card/actions";
 import {Board} from "../../../store/board/types";
+import {CARD_TITLE_MAX_LEN} from "../../../constants/settings";
 
 type CardPaneProps = {
     card: Card,
@@ -168,7 +169,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, board, removeCardHandler, dra
             draggable={true}
         >
             {hasEditTitle
-                ? <ObjectEditTitleForm object={card} closeHandler={closeEditTitleForm}/>
+                ? <ObjectEditTitleForm object={card} maxLen={CARD_TITLE_MAX_LEN} closeHandler={closeEditTitleForm}/>
                 : <>
                     <p className="cardPanel__name" onClick={openEditTitleForm}>{title}</p>
                     <button className="cardPanel__delete" onClick={openConfirmModal}>

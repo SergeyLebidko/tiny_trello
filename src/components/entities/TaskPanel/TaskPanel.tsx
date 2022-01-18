@@ -9,6 +9,7 @@ import {useImage} from '../../../utils/hooks';
 import {getDateParts} from '../../../utils/common';
 import './TaskPanel.scss';
 import TaskEditDateForm from "../../forms/TaskEditDateForm/TaskEditDateForm";
+import {TASK_TITLE_MAX_LEN} from "../../../constants/settings";
 
 type TaskPanelProps = {
     task: Task,
@@ -107,7 +108,7 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
             }
 
             {hasTitleEdit
-                ? <ObjectEditTitleForm object={task} closeHandler={closeEditTitleForm}/>
+                ? <ObjectEditTitleForm object={task} maxLen={TASK_TITLE_MAX_LEN} closeHandler={closeEditTitleForm}/>
                 : <p className="taskPanel__name" onClick={openEditTitleForm}>{title}</p>
             }
 

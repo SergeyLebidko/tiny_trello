@@ -31,6 +31,7 @@ const BoardCreateForm: React.FC<BoardCreateFormProps> = ({closeHandler}) => {
         }
         if(title.length > BOARD_TITLE_MAX_LEN) {
             setErrorText(`Максимальная длина названия ${BOARD_TITLE_MAX_LEN} символов`);
+            return;
         }
 
         if (loggedUser.id) {
