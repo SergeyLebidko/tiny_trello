@@ -27,8 +27,8 @@
 }
 
 @mixin modal-danger() {
-  @include block-format(_, 100%, _, 5px 0, .5em 1em, $red);
-  @include text-format(16px/1.2, normal, $charlie-serif, $white);
+  @include block-format(relative, 100%, _, 5px 0, .5em 1em, $red);
+  @include text-format(14px, normal, $roboto, $white);
   border-radius: 6px;
 }
 

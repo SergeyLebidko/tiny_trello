@@ -11,5 +11,9 @@
   &__danger {
     display: block;
     @include modal-danger();
+    width: 260px;
+    margin-top: 10px;
+    top: 0;
+    right: 130px;
   }
 }
