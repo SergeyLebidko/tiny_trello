@@ -1,7 +1,7 @@
 @import "../../entities/TaskPanel/TaskPanel";
 
-.taskPanel__danger {
+.taskPanel__danger_date {
   display: block;
   @include modal-danger();
-  position: relative;
+  bottom: 40px;
 }
