@@ -91,7 +91,7 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({card, closeHandler}) => 
                 ref={dateRef}
                 defaultValue={getToday()}
             />
-            {deadlineError && <span>{deadlineError}</span>}
+            {deadlineError && <span className="taskPanel__danger">{deadlineError}</span>}
             <button className="taskPanel__btn_confirm" onClick={addTaskHandler}>
                 <img
                     className="taskPanel__icon_confirm"

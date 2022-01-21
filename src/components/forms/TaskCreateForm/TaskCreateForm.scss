@@ -1,1 +1,7 @@
 @import "../../entities/TaskPanel/TaskPanel";
+
+.taskPanel__danger {
+  display: block;
+  @include modal-danger();
+  position: relative;
+}

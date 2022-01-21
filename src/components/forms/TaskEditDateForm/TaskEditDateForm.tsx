@@ -64,7 +64,7 @@ const TaskEditDateForm: React.FC<TaskEditDateFormProps> = ({task, closeHandler})
                 onKeyDown={keyDownHandler}
                 onBlur={blurHandler}
             />
-            {error && <span>{error}</span>}
+            {error && <span className="taskEditDateForm__danger">{error}</span>}
         </form>
     );
 }
