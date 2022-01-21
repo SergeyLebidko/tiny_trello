@@ -2,15 +2,15 @@ import React, {useState} from 'react';
 import {getBoards, getLoggedUser, useTypedSelector} from '../../../store/selectors';
 import BoardCreateForm from '../../forms/BoardCreateForm/BoardCreateForm';
 import BoardPanel from '../../entities/BoardPanel/BoardPanel';
-import {useImage} from '../../../utils/hooks';
 import {Link} from 'react-router-dom';
 import './BoardList.scss';
+
+// images
+import iconAdd from '../../../content/icons/btn-add.png';
 
 const BoardList: React.FC = () => {
     const loggedUser = useTypedSelector(getLoggedUser);
     const boards = useTypedSelector(getBoards);
-
-    const {icons} = useImage();
 
     const [hasCreateForm, setHasCreateForm] = useState<boolean>(false)
 
@@ -40,7 +40,8 @@ const BoardList: React.FC = () => {
                         </div>
                     </div>
 
-                    <ul className="boardList__content" style={{display: 'inline-flex'}}>
+                    <ul className="boardList__content">
+                        {boards.length == 0 && <div className="boardList__text_empty">Список досок пуст.</div>}
                         {boards.map((board) => <BoardPanel key={board.id} board={board}/>)}
                         {hasCreateForm ?
                             <li>
@@ -50,7 +51,7 @@ const BoardList: React.FC = () => {
                             <li className="boardList__list_btn_block" onClick={openCreateForm}>
                                 <img
                                     className="boardList__btn_add"
-                                    src={icons.iconAdd}
+                                    src={iconAdd}
                                     alt="add"
                                 />
                             </li>

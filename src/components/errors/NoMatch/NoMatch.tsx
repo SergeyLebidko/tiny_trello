@@ -7,7 +7,7 @@ const NoMatch: React.FC = () => {
 
     return (
         <div className="noMatch">
-            <p className="noMatch__text">
+            <p className="noMatch_text">
                 <span>Ошибка 404:</span>
                 <span>cтраница {`"https://${location.pathname}"`} не найдена...</span>
             </p>

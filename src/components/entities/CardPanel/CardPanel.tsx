@@ -7,7 +7,6 @@ import Confirm from '../../modals/Confirm/Confirm';
 import {Task} from '../../../store/task/types';
 import {useDispatch} from 'react-redux';
 import {patchTask} from '../../../store/task/actions';
-import {useImage} from '../../../utils/hooks';
 import {getNextOrder, isCard, isTask} from '../../../utils/common';
 import './CardPanel.scss';
 import ObjectEditTitleForm from "../../forms/ObjectEditTitleForm/ObjectEditTitleForm";
@@ -16,20 +15,23 @@ import {patchCard} from "../../../store/card/actions";
 import {Board} from "../../../store/board/types";
 import {CARD_TITLE_MAX_LEN} from "../../../constants/settings";
 
-type CardPaneProps = {
+// images
+import iconRemove from '../../../content/icons/btn-remove.svg';
+import iconAddTask from '../../../content/icons/btn-add-task.svg';
+
+type CardPanelProps = {
     card: Card,
     board: Board,
     removeCardHandler: (card: Card) => void,
     dragStart: (e: React.DragEvent<HTMLLIElement | HTMLDivElement>, card: Card, task?: Task) => void,
 }
 
-const CardPanel: React.FC<CardPaneProps> = ({card, board, removeCardHandler, dragStart}) => {
+const CardPanel: React.FC<CardPanelProps> = ({card, board, removeCardHandler, dragStart}) => {
     const dispatch = useDispatch();
     const tasks = useTypedSelector(getTasks);
     const cards = useTypedSelector(getCards);
     const {dndTask, dndCard} = useTypedSelector(getDndObjects)
 
-    const {icons} = useImage();
     const parentElem = useRef<HTMLDivElement>(null);
 
     // нужны для правильной обработки useEffect
@@ -175,7 +177,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, board, removeCardHandler, dra
                     <button className="cardPanel__delete" onClick={openConfirmModal}>
                         <img
                             className="cardPanel__icon_delete"
-                            src={icons.iconRemove}
+                            src={iconRemove}
                             alt="delete"
                         />
                     </button>
@@ -215,7 +217,7 @@ const CardPanel: React.FC<CardPaneProps> = ({card, board, removeCardHandler, dra
                     <li className="cardPanel__btn_add" onClick={openCreateFrom}>
                         <img
                             className="cardPanel__icon_add"
-                            src={icons.iconAddTask}
+                            src={iconAddTask}
                             alt="add"
                         />
                     </li>

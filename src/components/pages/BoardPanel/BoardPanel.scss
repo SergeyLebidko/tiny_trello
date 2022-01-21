@@ -1,9 +1,9 @@
-@import '../../../sass/import';
+@import '../../../sass/main';
 
 .boardPanel {
   @include flex(_, center, column);
-  @include block-format(relative, 100%, 100vh,0, 0, linear-gradient($green-low-light, $gray-light));
-  height: fit-content;
+  @include block-format(relative, 100%, fit-content,0, 0, linear-gradient($green-low-light, $gray-light));
+  min-height: 100vh;
 
   &.animation_delete {
     animation: fade-left-out 0.5s 1 linear;
@@ -89,16 +89,22 @@
   } 
 
   &__content {
-    @include block-format(_, 80%, calc(100vh - 230px), 170px 0 10px, 0, $blue-gray);
+    @include block-format(relative, 80%, fit-content, 170px 0 10px, 0, $blue-gray);
     @include flex();
-    height: fit-content;
-    flex-wrap: wrap;    
+    min-height: calc(100vh - 250px);
+    flex-wrap: wrap;
     border-radius: 10px;
-    box-shadow: 0 0 9px 2px $gray;
-    
+    box-shadow: 0 0 9px 2px $gray;    
     @media (max-width: $md) {
       width: 98%;
     }
+  }
+
+  &__text_empty {
+    @include block-format(absolute, 250px, 30px);
+    top: 100px;
+    left: calc(50% - 125px);
+    @include text-format(22px, normal, $satisfy-cursive)
   }
 
   &__btn_addCard {
@@ -106,8 +112,8 @@
     @include block-format(_, 290px, 25px, 10px 15px, 0, $gray-low-light);
     border-radius: 3px;
     box-shadow: 2px 2px 5px 2px $gray;
+    overflow: hidden;
     animation: fade-up 0.5s 1 linear;
-
     &:hover {
       background: $gray-light;
 
@@ -115,7 +121,6 @@
         animation: move-down 0.8s infinite linear;
       }
     }
-
     @media (max-width: $md) {
       margin: 15px auto;
     }

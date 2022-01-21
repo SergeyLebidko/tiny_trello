@@ -1,5 +1,5 @@
 import React, {useRef} from 'react';
-import {useError, useImage} from '../../../utils/hooks';
+import {useError} from '../../../utils/hooks';
 import {Board} from '../../../store/board/types';
 import {createCard} from '../../../store/card/actions';
 import {useDispatch} from 'react-redux';
@@ -8,6 +8,10 @@ import {getNextOrder} from '../../../utils/common';
 import {Card} from '../../../store/card/types';
 import {CARD_TITLE_MAX_LEN} from '../../../constants/settings';
 import './CardCreateForm.scss';
+
+// images
+import iconConfirm from '../../../content/icons/btn-confirm.svg';
+import iconRemove from '../../../content/icons/btn-remove.svg';
 
 type CardCreateForm = {
     board: Board,
@@ -21,8 +25,6 @@ const CardCreateForm: React.FC<CardCreateForm> = ({board, closeHandler}) => {
     const cards = useTypedSelector(getCards);
 
     const inputRef = useRef<HTMLInputElement>(null);
-
-    const {icons} = useImage();
 
     const addCardHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault();
@@ -61,18 +63,18 @@ const CardCreateForm: React.FC<CardCreateForm> = ({board, closeHandler}) => {
                 ref={inputRef}
                 autoFocus
             />
-            {error && <span>{error}</span>}
+            {error && <span className="cardPanel__danger">{error}</span>}
             <button className="cardPanel__btn_confirm" onClick={addCardHandler}>
                 <img
                     className="cardPanel__icon_confirm"
-                    src={icons.iconConfirm}
+                    src={iconConfirm}
                     alt="confirm"
                 />
             </button>
             <button className="cardPanel__btn_cancel" onClick={closeFormHandler}>
                 <img
                     className="cardPanel__icon_cancel"
-                    src={icons.iconRemove}
+                    src={iconRemove}
                     alt="cancel"
                 />
             </button>

@@ -1,4 +1,4 @@
-@import '../../../sass/import';
+@import '../../../sass/main';
 
 .boardList {
   @include flex(_, center, column);
@@ -79,16 +79,22 @@
   }  
 
   &__content {
-    @include block-format(_, 80%, calc(100vh - 230px), 140px 0 10px, 0, $gray-light);
+    @include block-format(relative, 80%, fit-content, 140px 0 10px, 0, $gray-light);
     @include flex();
-    height: fit-content;
+    min-height: calc(100vh - 230px);
     flex-wrap: wrap;
     border-radius: 10px;
-    box-shadow: 0 0 9px 9px $gray;
-    
+    box-shadow: 0 0 9px 9px $gray;    
     @media (max-width: $md) {
       width: 96%;
     }
+  }
+
+  &__text_empty {
+    @include block-format(absolute, 250px, 30px);
+    top: 100px;
+    left: calc(50% - 125px);
+    @include text-format(26px, normal, $satisfy-cursive)
   }
 
   &__list_btn_block {
@@ -97,6 +103,7 @@
     cursor: pointer;
     border-radius: 8px;
     box-shadow: 2px 2px 4px 4px $gray;
+    overflow: hidden;
     z-index: 5;
 
     &:hover {
