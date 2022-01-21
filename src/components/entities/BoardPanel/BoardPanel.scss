@@ -23,7 +23,7 @@
   }
 
   &__logo {
-    @include text-format(20px, normal);
+    @include text-format(18px, normal, $public-serif);
     line-height: 22px
   }
 
