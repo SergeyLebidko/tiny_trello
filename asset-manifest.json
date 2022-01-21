@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/tiny_trello/static/css/main.78a62dfc.css",
+    "main.css": "/tiny_trello/static/css/main.67213f5c.css",
     "main.js": "/tiny_trello/static/js/main.16919742.js",
     "static/media/main-product-logo.png": "/tiny_trello/static/media/main-product-logo.c139c9af0290c96a9f24.png",
     "static/media/main-hero-logo.png": "/tiny_trello/static/media/main-hero-logo.3ccc35408e417ea9e949.png",
@@ -19,11 +19,11 @@
     "static/media/btn-remove.svg": "/tiny_trello/static/media/btn-remove.3c42a9be8cd154800de3cbb3f4c51988.svg",
     "static/media/return.svg": "/tiny_trello/static/media/return.1afbf28630fa389e191a564e24f23834.svg",
     "static/media/btn-add-task.svg": "/tiny_trello/static/media/btn-add-task.84478f1596d8d93aef242201a227b42b.svg",
-    "main.78a62dfc.css.map": "/tiny_trello/static/css/main.78a62dfc.css.map",
+    "main.67213f5c.css.map": "/tiny_trello/static/css/main.67213f5c.css.map",
     "main.16919742.js.map": "/tiny_trello/static/js/main.16919742.js.map"
   },
   "entrypoints": [
-    "static/css/main.78a62dfc.css",
+    "static/css/main.67213f5c.css",
     "static/js/main.16919742.js"
   ]
 }
