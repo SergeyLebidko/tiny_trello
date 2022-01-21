@@ -111,6 +111,7 @@
   &__btn_addCard {
     @include btn-reset();
     @include block-format(_, 290px, 25px, 10px 15px, 0, $gray-low-light);
+    min-width: 70px;
     border-radius: 3px;
     box-shadow: 2px 2px 5px 2px $gray;
     overflow: hidden;
