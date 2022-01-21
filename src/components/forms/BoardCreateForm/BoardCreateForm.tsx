@@ -2,9 +2,13 @@ import React, {useRef} from 'react';
 import {createBoard} from '../../../store/board/actions';
 import {useDispatch} from 'react-redux';
 import {getLoggedUser, useTypedSelector} from '../../../store/selectors';
-import {useError, useImage} from '../../../utils/hooks';
+import {useError} from '../../../utils/hooks';
 import {BOARD_TITLE_MAX_LEN} from '../../../constants/settings';
 import './BoardCreateForm.scss';
+
+// images
+import iconConfirm from '../../../content/icons/btn-confirm.svg';
+import iconRemove from '../../../content/icons/btn-remove.svg';
 
 type BoardCreateFormProps = {
     closeHandler: () => void
@@ -15,8 +19,6 @@ const BoardCreateForm: React.FC<BoardCreateFormProps> = ({closeHandler}) => {
 
     const [error, setErrorText] = useError();
     const loggedUser = useTypedSelector(getLoggedUser);
-
-    const {icons} = useImage();
 
     const inputRef = useRef<HTMLInputElement>(null);
 
@@ -56,18 +58,18 @@ const BoardCreateForm: React.FC<BoardCreateFormProps> = ({closeHandler}) => {
                 ref={inputRef}
                 autoFocus
             />
-            {error && <span>{error}</span>}
+            {error && <span className="boardItem__danger">{error}</span>}
             <button className="boardItem__btn_confirm" onClick={addBoardHandler}>
                 <img
                     className="boardItem__icon_confirm"
-                    src={icons.iconConfirm}
+                    src={iconConfirm}
                     alt="confirm"
                 />
             </button>
             <button onClick={closeFormHandler} className="boardItem__btn_cancel">
                 <img
                     className="boardItem__icon_cancel"
-                    src={icons.iconRemove}
+                    src={iconRemove}
                     alt="cancel"
                 />
             </button>

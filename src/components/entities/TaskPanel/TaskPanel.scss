@@ -1,10 +1,10 @@
-@import '../../../sass/import';
+@import '../../../sass/main';
 
 .taskPanel {
   @include block-format(relative, 270px, _, 10px auto 20px, 5px, $green-low-light);
   border-radius: 4px;
   box-shadow: 2px 2px 3px 3px $gray;
-  transition-duration: 0.5s;
+  transition-duration: 0.3s;
 
   &.animation_delete {
     animation: fade-up-out 0.5s 1 linear;
@@ -12,7 +12,7 @@
 
   &:hover {
     .taskPanel__icon_delete {
-        opacity: 1;
+      opacity: 1;
     }
   }
 
@@ -30,15 +30,18 @@
   }
 
   &__name {
-    @include block-format(_, 80%, _, 6px auto);
+    @include block-format(_, 100%, _, 10px auto);
     @include text-format(20px, 600, $satisfy-cursive);
     cursor: pointer;
   } 
+
+  &__danger {
+    display: block;
+    @include modal-danger();
+  }
   
   &__area {
     @include block-format(_, 100%, 40px, 6px auto, 10px, $blue-ultra-light);
-    max-width: 190px;
-    max-height: 150px;
     @include text-format(20px/1.2, 600, $satisfy-cursive);
     border-radius: 4px;
     box-shadow: 2px 2px 3px 3px $gray;

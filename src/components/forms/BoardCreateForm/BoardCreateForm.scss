@@ -1,1 +1,8 @@
 @import "../../entities/BoardPanel/BoardPanel";
+
+.boardItem__danger {
+  display: block;
+  @include modal-danger();
+  position: relative;
+  top: 30px;
+}

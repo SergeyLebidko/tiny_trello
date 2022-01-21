@@ -1,4 +1,4 @@
-@import '../../../sass/import';
+@import '../../../sass/main';
 
 .confirm {
   @include flex(_, center, column);
@@ -29,10 +29,16 @@
 
   &__btn_cancel {
     @include btn-reset();
+    position: relative;
+    top: 15px;
+    right: 20px;
   }
 
   &__btn_confirm {
     @include btn-reset();
+    position: relative;
+    top: 15px;
+    left: 20px;
   }
 
   &__icon_cancel,

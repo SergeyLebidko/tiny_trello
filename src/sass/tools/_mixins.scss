@@ -1,0 +1,118 @@
+@mixin flex($jc: flex-start, $ai: flex-start, $fd: row) {
+    display: flex;
+    justify-content: $jc;
+    align-items: $ai;
+    flex-direction: $fd;
+}
+
+@mixin block-format(
+    $position: relative,
+    $width: auto, 
+    $height: auto, 
+    $margin: 0, 
+    $padding: 0, 
+    $bg : transparent,
+) {
+    position: $position;
+    width: $width;
+    height: $height;
+    margin: $margin;
+    padding: $padding;
+    background: $bg;
+    box-sizing: border-box;
+    outline: none;
+    border: none;
+}
+
+@mixin text-format(
+    $size, 
+    $weight,
+    $famaly: $public,
+    $color: $black,
+    $text-aligh: center,
+    $letter-spacing: 0.04px,
+) {
+    font: $weight $size $famaly;
+    color: $color;
+    text-align: $text-aligh;
+    letter-spacing: $letter-spacing;
+    overflow-wrap: break-word;
+    text-decoration: none;
+}
+
+@mixin animation-icon {
+    &:hover {
+        animation: jello-horizontal 0.3s 1 linear;
+    }
+}
+
+@mixin animation-logo {
+    &:hover {      
+        animation: jello-horizontal 0.5s 1 linear;
+    }
+}
+
+@mixin btn-reset() {
+    border: none;
+    background: none;
+    outline: none;
+    margin: 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+@mixin btn-filled() {
+    background-color: $blue;
+    @include text-format(1rem, normal, $charlie-serif, $white);
+    border-radius: 3px;
+    &:hover {
+        background: $blue-dark;
+    }
+}
+
+@mixin btn-empty() {
+    @include text-format(1rem, normal, $charlie-serif, $blue);
+    border-radius: 3px;
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+@mixin btn-return() {
+    @include btn-reset();
+    position: fixed;
+    top: 15px;
+    left: 25px;
+    border-radius: 6px;
+    z-index: 5;
+    &:hover {
+        opacity: 0.8;
+        background-color: $blue-light;
+    }
+}
+
+@mixin input() {
+    padding: .375rem .75rem;
+    background-color: $white;
+    @include text-format(1rem, normal, $public-serif, $gray);
+    border: 1px solid $gray-light;
+    border-radius: 6px;
+}
+
+@mixin triangle-left($color) {
+    position: absolute;
+    top: 0;
+    right: 0;
+    border-style: solid;
+    border-width: 50px 50px 50px 0;
+    border-color: transparent $color transparent transparent;
+}
+
+@mixin triangle-right($color) {
+    position: absolute;
+    top: 0;
+    left: 0;
+    border-style: solid;
+    border-width: 50px 0 50px 50px;
+    border-color: transparent transparent transparent $color;
+}

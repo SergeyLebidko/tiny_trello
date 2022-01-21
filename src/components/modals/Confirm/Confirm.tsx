@@ -1,5 +1,9 @@
 import React, {FC} from 'react';
-import { useImage } from '../../../utils/hooks';
+
+// images
+import iconConfirm from '../../../content/icons/btn-confirm.svg';
+import iconCancel from '../../../content/icons/btn-cancel.svg';
+
 import './Confirm.scss';
 
 interface IConfirm {
@@ -10,7 +14,6 @@ interface IConfirm {
 }
 
 const Confirm: FC<IConfirm> = ({text, buttonLabel, cancelHandler, acceptHandler}) => {
-    const { icons } = useImage();
 
     return (
         <div className="confirm">
@@ -21,14 +24,14 @@ const Confirm: FC<IConfirm> = ({text, buttonLabel, cancelHandler, acceptHandler}
                 <button className="confirm__btn_confirm" onClick={acceptHandler}>
                 <img 
                     className="confirm__icon_confirm"
-                    src={icons.iconConfirm} 
+                    src={iconConfirm} 
                     alt="confirm" 
                 />
                 </button>
                 <button className="confirm__btn_cancel" onClick={cancelHandler}>
                 <img 
                     className="confirm__icon_cancel"
-                    src={icons.iconCancel} 
+                    src={iconCancel} 
                     alt="cancel" 
                 />
                 </button>
