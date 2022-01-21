@@ -1,4 +1,4 @@
-@import '../../../sass/import';
+@import '../../../sass/main';
 
 .register {
   @include modal();
@@ -119,12 +119,11 @@
   }
 
   &__btn_text {
-    font: bold .9rem/1 'Charlie Display',sans-serif;
-    color: $gray;
+    @include text-format(16px, bold, $public-serif, gray, left);
   }
 
   &__link {
-    @include modal-link();  
+    @include modal-link();
   }
 
   &__lang {

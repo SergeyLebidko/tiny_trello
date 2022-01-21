@@ -1,12 +1,14 @@
 import React, {FC, useState} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Board} from '../../../store/board/types';
-import {useImage} from '../../../utils/hooks';
 import {useDispatch} from 'react-redux';
 import {removeBoard} from '../../../store/board/actions';
 import ObjectEditTitleForm from '../../forms/ObjectEditTitleForm/ObjectEditTitleForm';
 import './BoardPanel.scss';
 import {BOARD_TITLE_MAX_LEN} from "../../../constants/settings";
+
+// images
+import iconRemove from '../../../content/icons/btn-remove.svg';
 
 interface IBoardPanel {
     board: Board
@@ -22,8 +24,6 @@ const BoardPanel: FC<IBoardPanel> = ({board}) => {
         e.stopPropagation();
         setHasEditForm(true);
     }
-
-    const {icons} = useImage();
 
     const removeBoardHandler = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.stopPropagation();
@@ -42,7 +42,7 @@ const BoardPanel: FC<IBoardPanel> = ({board}) => {
                     <button className='boardItem__btn_remove' onClick={removeBoardHandler}>
                         <img
                             className='boardItem__icon_remove'
-                            src={icons.iconRemove}
+                            src={iconRemove}
                             alt='remove'
                         />
                     </button>

@@ -1,11 +1,12 @@
-@import '../../../sass/import';
+@import '../../../sass/main';
 
 .cardPanel {
     @include flex(_, _, column);
-    @include block-format(relative, 290px, 222px, 10px 15px, 10px 5px 5px, $gray-light);
-    height: fit-content;
+    @include block-format(relative, 290px, fit-content, 10px 15px, 10px 5px 5px, $gray-light);
+    min-height: 222px;
     box-shadow: 3px 3px 6px 2px $gray;
     border-radius: 5px;
+    transition: all 0.3;
     animation: swing-in-top-fwd 0.5s 1 linear;
 
     &.animation_delete {
@@ -30,23 +31,30 @@
     }
 
     &__inp_name {
-        @include block-format(_, 200px, 30px, 0 auto 10px , 10px, $blue-light);
+        @include block-format(_, 90%, 30px, 0 auto 10px , 10px, $blue-light);
         @include text-format(20px/1.2, 600, $satisfy-serif);
         border-radius: 5px;
+    }
+    
+    &__danger {
+    display: block;
+    @include modal-danger();
+    width: 90%;
+    margin: 0 auto;
     }
 
     &__btn_cancel {
         @include btn-reset();
         position: absolute;
-        bottom: 50px;
-        right: 40px;
+        bottom: 20px;
+        right: 50px;
     }
 
     &__btn_confirm {
         @include btn-reset();
         position: absolute;
-        bottom: 50px;
-        left: 40px;
+        bottom: 20px;
+        left: 50px;
     }
 
     &__icon_cancel,
@@ -74,10 +82,11 @@
         @include block-format(_, 40px, 25px, 10px auto);
         box-shadow: 0 2px 6px 2px $gray;
         border-radius: 3px;
+        transition: all 0.3;
         animation: fade-up 0.5s 1 linear;
 
         &:hover {
-            width: 200px;
+            width: 90%;
             background: $green-low-light;
         }
     }

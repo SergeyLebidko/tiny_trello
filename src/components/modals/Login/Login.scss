@@ -1,4 +1,4 @@
-@import '../../../sass/import';
+@import '../../../sass/main';
 
 .login {
   @include modal();
@@ -52,7 +52,6 @@
     @include modal-input-look();
   }
       
-      
   &__btn {
     @include btn-reset();
     @include btn-filled();
@@ -85,9 +84,8 @@
   }
 
   &__btn_text {
-    font: bold .9rem/1 'Charlie Display',sans-serif;
-    color: $gray;
-  }    
+    @include text-format(16px, bold, $public-serif, gray, left);
+  }
 
   &__sso {
     width: 100%;

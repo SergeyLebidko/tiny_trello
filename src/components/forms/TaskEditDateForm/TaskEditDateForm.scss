@@ -1,4 +1,4 @@
-@import '../../../sass/import';
+@import '../../../sass/main';
 
 .taskEditDateForm {
   @include block-format(_, 60%, 35px, 0, 10px, $blue-ultra-light);
