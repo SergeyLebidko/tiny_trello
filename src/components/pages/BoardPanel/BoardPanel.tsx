@@ -9,9 +9,12 @@ import {Card} from '../../../store/card/types';
 import {useDispatch} from 'react-redux';
 import {removeCard} from '../../../store/card/actions';
 import {Task} from '../../../store/task/types';
-import {useImage} from '../../../utils/hooks';
 import './BoardPanel.scss';
 import {setDNDCard, setDNDTask} from "../../../store/dnd/actions";
+
+// images
+import iconAddCard from '../../../content/icons/btn-add-card.png';
+import iconBack from '../../../content/icons/btn-back.png';
 
 const BoardPanel: React.FC = () => {
     const dispatch = useDispatch();
@@ -22,8 +25,6 @@ const BoardPanel: React.FC = () => {
 
     const openCreateForm = (): void => setHasCreateForm(true);
     const closeCreateFrom = (): void => setHasCreateForm(false);
-
-    const {icons} = useImage();
 
     const removeCardHandler = (card: Card): void => {
         dispatch(removeCard(card));
@@ -48,7 +49,7 @@ const BoardPanel: React.FC = () => {
                 <Link to="/board_list">
                     <img
                         className="boardPanel__icon_back"
-                        src={icons.iconBack}
+                        src={iconBack}
                         alt="back"
                     />
                 </Link>
@@ -74,6 +75,7 @@ const BoardPanel: React.FC = () => {
             </div>
 
             <ul className="boardPanel__content">
+                {cards.length == 0 && <div className="boardPanel__text_empty">Список карточек пуст.</div>}
                 {cards
                     .filter(card => card.boardId === board.id)
                     .sort((a, b) => a.order - b.order)
@@ -85,7 +87,6 @@ const BoardPanel: React.FC = () => {
                             board={board}
                             removeCardHandler={removeCardHandler}
                             //Обработчики перетаскивания карты
-
                         />)
                 }
                 {hasCreateForm ?
@@ -96,7 +97,7 @@ const BoardPanel: React.FC = () => {
                     <button className="boardPanel__btn_addCard" onClick={openCreateForm}>
                         <img
                             className="boardPanel__icon_addCard"
-                            src={icons.iconAddCard}
+                            src={iconAddCard}
                             alt="addCard"
                         />
                     </button>

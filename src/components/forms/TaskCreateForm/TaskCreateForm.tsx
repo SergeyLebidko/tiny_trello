@@ -3,11 +3,15 @@ import {Importance, Task} from '../../../store/task/types';
 import {createTask} from '../../../store/task/actions';
 import {useDispatch} from 'react-redux';
 import {Card} from '../../../store/card/types';
-import {useError, useImage} from '../../../utils/hooks';
+import {useError} from '../../../utils/hooks';
 import {getDateParts, getNextOrder} from '../../../utils/common';
 import {getTasks, useTypedSelector} from '../../../store/selectors';
 import './TaskCreateForm.scss';
 import {TASK_TITLE_MAX_LEN} from "../../../constants/settings";
+
+// images
+import iconConfirm from '../../../content/icons/btn-confirm.svg';
+import iconCancel from '../../../content/icons/btn-cancel.svg';
 
 type TaskCreateFormProps = {
     card: Card,
@@ -20,8 +24,6 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({card, closeHandler}) => 
     const [titleError, setTitleErrorText] = useError();
     const [deadlineError, setDeadlineErrorText] = useError();
     const tasks = useTypedSelector(getTasks);
-
-    const {icons} = useImage();
 
     const [selected, setSelected] = useState<Importance>(Importance.Low);
     const titleRef = useRef<HTMLInputElement>(null);
@@ -77,7 +79,7 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({card, closeHandler}) => 
         <form className="taskPanel">
             <p className="taskPanel__name">Введите текст задачи</p>
             <input className="taskPanel__area" ref={titleRef} autoFocus/>
-            {titleError && <span>{titleError}</span>}
+            {titleError && <span className="taskPanel__danger">{titleError}</span>}
             <select className="taskPanel__select" value={selected} onChange={changeImportanceHandler}>
                 <option value={Importance.Low}>Низкая</option>
                 <option value={Importance.Medium}>Средняя</option>
@@ -93,14 +95,14 @@ const TaskCreateForm: React.FC<TaskCreateFormProps> = ({card, closeHandler}) => 
             <button className="taskPanel__btn_confirm" onClick={addTaskHandler}>
                 <img
                     className="taskPanel__icon_confirm"
-                    src={icons.iconConfirm}
+                    src={iconConfirm}
                     alt="confirm"
                 />
             </button>
             <button className="taskPanel__btn_cancel" onClick={closeFormHandler}>
                 <img
                     className="taskPanel__icon_cancel"
-                    src={icons.iconCancel}
+                    src={iconCancel}
                     alt="cancel"
                 />
             </button>

@@ -5,11 +5,13 @@ import ObjectEditTitleForm from '../../forms/ObjectEditTitleForm/ObjectEditTitle
 import {patchTask, removeTask} from '../../../store/task/actions';
 import {useDispatch} from 'react-redux';
 import Confirm from '../../modals/Confirm/Confirm';
-import {useImage} from '../../../utils/hooks';
 import {getDateParts} from '../../../utils/common';
 import './TaskPanel.scss';
 import TaskEditDateForm from "../../forms/TaskEditDateForm/TaskEditDateForm";
 import {TASK_TITLE_MAX_LEN} from "../../../constants/settings";
+
+// images
+import iconRemoveTask from '../../../content/icons/btn-remove-task.svg';
 
 type TaskPanelProps = {
     task: Task,
@@ -23,7 +25,6 @@ type TaskPanelProps = {
 const TaskPanel: React.FC<TaskPanelProps> = (props) => {
     const {task, card, dragOver, dragStart, drop, dragEnter} = props;
     const dispatch = useDispatch();
-    const {icons} = useImage();
     const parentElem = useRef<HTMLLIElement>(null);
 
     const IMPORTANCE_TEXT_SELECTOR = {
@@ -101,7 +102,7 @@ const TaskPanel: React.FC<TaskPanelProps> = (props) => {
             <button className="taskPanel__btn_delete" onClick={openConfirmModal}>
                 <img
                     className="taskPanel__icon_delete"
-                    src={icons.iconRemoveTask}
+                    src={iconRemoveTask}
                     alt="delete"
                 />
             </button>

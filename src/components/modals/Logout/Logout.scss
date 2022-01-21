@@ -1,4 +1,4 @@
-@import '../../../sass/import';
+@import '../../../sass/main';
 
 .logout {
   @include modal();
@@ -39,7 +39,7 @@
     & > * {
       @include text-format(20px/1.2, 400, $public-serif, $gray)  
     }
-  }    
+  }
 
   &__btn_submit {
     @include btn-reset();
@@ -68,7 +68,6 @@
 
   &__link {
     @include modal-link();
-    font-size: 12px;
   }
 
   &__point {
