@@ -60,7 +60,7 @@
   }
 
   &__date {
-    @include block-format(_, 100%, 35px, 10px auto 50px, 10px, $blue-ultra-light);
+    @include block-format(_, 260px, 35px, 10px auto 50px, 10px, $blue-ultra-light);
     @include text-format(17px/1.2, 600, $satisfy-cursive);
     border-radius: 4px;
     box-shadow: 2px 2px 3px 3px $gray;

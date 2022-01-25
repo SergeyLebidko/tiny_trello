@@ -12,6 +12,7 @@ import {loadBoards, removeBoardsFromRedux} from '../../store/board/actions';
 import {loadCards, removeCardsFromRedux} from '../../store/card/actions';
 import {loadTasks, removeTasksFromRedux} from '../../store/task/actions';
 import {setUser} from '../../store/user/actions';
+import GuardRoute from '../supports/GuardRoute/GuardRoute';
 
 function App() {
     const dispatch = useDispatch();
@@ -54,13 +55,8 @@ function App() {
         <HashRouter>
             <Routes>
                 <Route path="/" element={<Main/>}/>
-                {/* Пути к списку досок и отдельным доскам доступны только для залогинившихся пользователей */}
-                {loggedUser &&
-                <>
-                    <Route path="/board_list" element={<BoardList/>}/>
-                    <Route path="/board/:boardId" element={<BoardPanel/>}/>
-                </>
-                }
+                <Route path="/board_list" element={<GuardRoute><BoardList/></GuardRoute>}/>
+                <Route path="/board/:boardId" element={<GuardRoute><BoardPanel/></GuardRoute>}/>
                 <Route path="*" element={<NoMatch/>}/>
             </Routes>
         </HashRouter>

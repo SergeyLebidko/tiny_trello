@@ -1,1 +1,7 @@
 @import "../../entities/TaskPanel/TaskPanel";
+
+.taskPanel__danger_date {
+  display: block;
+  @include modal-danger();
+  bottom: 40px;
+}

@@ -81,7 +81,7 @@ const ObjectEditTitleForm: React.FC<ObjectEditTitleFormProps> = ({object, maxLen
                 onBlur={blurHandler}
                 onKeyDown={keyDownHandler}
             />
-            {error && <span>{error}</span>}
+            {error && <span className="objectEditTitleForm__danger">{error}</span>}
         </form>
     );
 }
